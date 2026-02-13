@@ -141,5 +141,49 @@ At the end of a session, users can download their performance data as a CSV file
 ## Browser Support
 Designed for modern browsers (Chrome, Firefox, Safari, Edge). Optimized for both desktop and tablet interactions.
 
+## Game Type Explainers: Code-to-Visual Guide
+
+This section explains how specific lines of code control the visual elements on the screen.
+
+### 1. Anomaly ("What Does Not Belong?")
+**Visual Layout**: One large box (Main Pen) and one small box (Out Pen).
+*   **Grid layout**: Controlled by `js/renderers/AnomalyRenderer.js`.
+    *   *Code*: `gridClass` logic toggles between `.animal-grid--4col` and `.animal-grid--anomaly`.
+*   **Main Pen Size**: Controlled in `css/game-modes/anomaly.css`.
+    *   *Code*: `.anomaly-layout .pen-surface--main` sets the `width` and `aspect-ratio`.
+*   **Out Pen**: The small box on the right.
+    *   *Code*: Defined as `.pen--out` in `css/game-modes/anomaly.css`.
+
+### 2. Analogy ("Complete the Pattern")
+**Visual Layout**: Top box (Question), Gate/Arrow, Bottom box (Answers).
+*   **The Gate & Arrow**: The image between the two pens.
+    *   *Code*: Created in `js/renderers/AnalogyRenderer.js` as `.gate-container`.
+    *   *Image Source*: `Config.images.elements.gateRight` in `js/config.js`.
+*   **Question Box**: The top container.
+    *   *Code*: `.analogy-layout .pen-surface--question` in `css/game-modes/analogy.css`.
+*   **Answer Choices**: The bottom container.
+    *   *Code*: `.analogy-layout .pen-surface--answer` in `css/game-modes/analogy.css`.
+
+### 3. Antithesis ("Find the Middle")
+**Visual Layout**: A sequence `[Box 1] -> [?] -> [Box 3]` with a `[Options]` pen below.
+*   **The Arrows**: The `→` symbols between boxes.
+    *   *Code*: Created in `js/renderers/AntithesisRenderer.js` as elements with class `.arrow-indicator`.
+    *   *Style*: Look for `.arrow-indicator` in `css/game-modes/antithesis.css` to change size/color.
+*   **The Middle Box (?)**: Explicitly created as a "Question Mark Box".
+    *   *Code*: `createQuestionMarkBox('?', 2)` inside `AntithesisRenderer.js`.
+*   **Box Dimensions**: All three top boxes share styles.
+    *   *Code*: `.antithesis-layout .pen-surface--sequence` in `css/game-modes/antithesis.css`.
+
+### 4. Antinomy ("Sort by Rule")
+**Visual Layout**: Green Box (Left), Red Box (Right), Choices Box (Bottom).
+*   **Green vs Red Styling**: The specific themes for the top boxes.
+    *   *Code*: `css/game-modes/antinomy.css` defines `.pen-surface--green` and `.pen-surface--red`.
+    *   *Gradients*: The colored backgrounds are set here (e.g., `linear-gradient(...)`).
+*   **The "VS" Text**: The text between the green and red boxes.
+    *   *Code*: Created in `js/renderers/AntinomyRenderer.js` as `.vs-indicator`.
+    *   *Hidden?*: It might be set to `opacity: 0` or `display: none` in the CSS if not visible.
+*   **Choices Pen Positioning**:
+    *   *Code*: `.antinomy-layout .pen--choices` in the CSS handles its fixed position at the bottom.
+
 ## Contributors
 *   **Muhammad Fusenig** - Lead Developer. Designed and implemented the core game logic, UI interactions, and responsive layouts.
