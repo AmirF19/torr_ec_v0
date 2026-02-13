@@ -127,7 +127,7 @@ To make animations faster or slower:
 
 ### Adding New Problems
 Modifying `js/problems.js` is the primary way to change content.
-Use the helper functions `a()` (animal) and `makeChoice()` to construct new items easily.
+Use the helper functions `a()` (animal) and `makeChoice()` to construct new items.
 
 ### Changing Styles
 *   **Global Layout**: `css/layout.css`
@@ -136,7 +136,7 @@ Use the helper functions `a()` (animal) and `makeChoice()` to construct new item
 
 ## Data & Logging
 Data is saved locally via `localStorage` (handled in `js/data/storage.js`).
-At the end of a session, users can download their performance data as a CSV file (`js/data/export.js`).
+At the end of a session, users can download their unique session data as a CSV file (`js/data/export.js`).
 
 ## Browser Support
 Designed for modern browsers (Chrome, Firefox, Safari, Edge). Optimized for both desktop and tablet interactions.
