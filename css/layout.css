@@ -1,0 +1,185 @@
+.game-container {
+    max-width: 100%;
+    width: 100%;
+    background: transparent;
+    padding: var(--space-sm) var(--space-md);
+    margin: 0;
+    position: relative;
+    z-index: var(--z-background);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+
+    min-height: 95vh;
+}
+
+.start-container {
+    width: 100%;
+    max-width: 700px;
+    padding: var(--space-xl);
+    background: var(--panel-bg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    text-align: center;
+    position: relative;
+    z-index: var(--z-background);
+}
+
+.report-container {
+    width: 100%;
+    max-width: 900px;
+    margin: var(--space-xl) auto;
+    padding: var(--space-xl);
+    background: var(--panel-bg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    text-align: center;
+}
+
+.problem-area {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: 0 var(--space-md) var(--space-lg);
+    width: 100%;
+    overflow: visible;
+    flex: 1;
+    justify-content: flex-start;
+    padding-top: 5vh;
+}
+
+.anomaly-layout,
+.analogy-layout {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 10vw;
+    width: 90%;
+    max-width: 90vw;
+    margin-left: 5%;
+    margin-right: 5%;
+    overflow: visible;
+    min-height: 65vh;
+    padding: 0;
+    flex: 1;
+    align-content: center;
+}
+
+.problem-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    overflow: visible;
+}
+
+.animal-grid {
+    display: -ms-grid;
+    display: grid;
+    gap: var(--slot-gap);
+    width: 100%;
+    height: 100%;
+    justify-items: stretch;
+    align-items: end;
+}
+
+.animal-grid--main {
+    grid-template-columns: repeat(auto-fit, minmax(var(--slot-size), 1fr));
+    max-width: 100%;
+}
+
+.animal-grid--out {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    place-items: stretch;
+}
+
+.animal-grid--question {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--slot-gap);
+}
+
+.animal-grid--answers {
+    grid-template-columns: repeat(auto-fit, minmax(var(--slot-size-small), 1fr));
+    gap: var(--slot-gap);
+}
+
+.animal-grid--anomaly {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+}
+
+.animal-grid--4col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.gap-sm {
+    gap: var(--space-sm);
+}
+
+.gap-md {
+    gap: var(--space-md);
+}
+
+.gap-lg {
+    gap: var(--space-lg);
+}
+
+.pen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    overflow: visible;
+}
+
+.gate-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15vh;
+}
+
+.gate-image {
+    width: clamp(120px, 15vw, 220px);
+    height: auto;
+    pointer-events: none;
+}
+
+.bucket-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+}

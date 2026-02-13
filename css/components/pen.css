@@ -1,0 +1,69 @@
+.pen-surface {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    border-radius: var(--radius-sm);
+}
+
+.pen-ground {
+    position: absolute;
+    z-index: var(--z-ground);
+    background-image: url('../../images/elements/ground_1.svg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.pen-content {
+    position: absolute;
+    z-index: var(--z-animals);
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    overflow: visible;
+    padding: 0;
+}
+
+.pen-fence {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: var(--z-fence);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pen-fence img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+.pen-fence img[src$=".svg"] {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill;
+    max-width: none;
+    max-height: none;
+}
+
+.pen-shadow {
+    position: absolute;
+    bottom: -8px;
+    left: 5%;
+    right: 5%;
+    height: 16px;
+    background: radial-gradient(ellipse at center,
+            rgba(0, 0, 0, 0.25) 0%,
+            rgba(0, 0, 0, 0.1) 50%,
+            transparent 80%);
+    z-index: calc(var(--z-ground) - 1);
+    filter: blur(4px);
+}

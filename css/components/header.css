@@ -1,0 +1,73 @@
+.game-header {
+    text-align: center;
+    background: transparent;
+    padding: var(--space-sm) var(--space-lg);
+    width: fit-content;
+    max-width: 90%;
+    margin: 0 auto var(--space-xs);
+}
+
+.game-title {
+    font-size: var(--title-size);
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    font-weight: 800;
+    color: #FF9800;
+    margin-bottom: var(--space-xs);
+    text-shadow:
+        2px 2px 0px #fff,
+        4px 4px 0px rgba(0, 0, 0, 0.15);
+    letter-spacing: 1px;
+}
+
+.game-title::before,
+.game-title::after {
+    color: var(--text-header);
+}
+
+.game-header .problem-counter {
+    display: none;
+}
+
+.game-instruction {
+    font-size: var(--instruction-size);
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+    line-height: 1.4;
+}
+
+.problem-label {
+    font-size: var(--label-size);
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+    background: var(--panel-bg);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: var(--z-labels);
+    white-space: nowrap;
+}
+
+.problem-label::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--dirt-secondary),
+            transparent);
+    border-radius: 1px;
+}
+
+.start-container .game-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    margin-bottom: var(--space-lg);
+}
+
+.start-container .game-instruction {
+    margin-bottom: var(--space-xl);
+}

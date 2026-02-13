@@ -1,0 +1,328 @@
+.antithesis-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    width: 100%;
+    padding: var(--space-md) 0;
+    margin-top: 5vh;
+    overflow: visible;
+}
+
+.antithesis-layout .box-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(60px, 9vw, 150px);
+    margin-top: 5vh;
+    width: 100%;
+}
+
+.antithesis-layout .pen--box1,
+.antithesis-layout .pen--box2,
+.antithesis-layout .pen--box3 {
+    flex: 0 0 auto;
+}
+
+.antithesis-layout .pen-surface--box {
+    width: clamp(140px, 22vw, 400px);
+    height: auto;
+    aspect-ratio: 0.8;
+    overflow: visible;
+    position: relative;
+}
+
+.antithesis-layout .pen-surface--box .pen-fence {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.antithesis-layout .pen-surface--box .pen-fence img {
+    position: absolute !important;
+    max-width: none !important;
+    max-height: none !important;
+    width: 155% !important;
+    height: 165% !important;
+    left: -27.5% !important;
+    top: -52% !important;
+    transform: none !important;
+    object-fit: fill !important;
+}
+
+.antithesis-layout .pen-surface--box .pen-ground {
+    top: 29%;
+    left: 5%;
+    right: 5%;
+    bottom: 15%;
+    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+    transform-origin: center bottom;
+    z-index: 9;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+.antithesis-layout .pen-surface--box .pen-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: block;
+    pointer-events: none;
+}
+
+.antithesis-layout .pen-surface--box .animal-slot {
+    width: 100%;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    bottom: 45% !important;
+    left: 0;
+    z-index: 40;
+}
+
+.antithesis-layout .animal-group {
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.antithesis-layout .pen-surface--box .animal-slot .animal-image {
+    position: relative !important;
+    bottom: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 -5% !important;
+    top: auto !important;
+    display: block !important;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.antithesis-layout .pen-surface--box .animal-image--small {
+    height: auto !important;
+    width: auto !important;
+}
+
+.antithesis-layout .pen-surface--box .animal-image--medium {
+    height: auto !important;
+    width: auto !important;
+}
+
+.antithesis-layout .pen-surface--box .animal-image--large {
+    height: auto !important;
+    width: auto !important;
+    transform: scale(1.25);
+    transform-origin: bottom center;
+}
+
+.antithesis-layout .question-mark-slot {
+    font-size: clamp(80px, 14vw, 140px);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+    position: absolute;
+    bottom: 45% !important;
+    left: 0;
+    z-index: 45;
+    cursor: default;
+}
+
+.antithesis-layout .question-mark-text {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    transform: translateY(-20%);
+    display: block;
+}
+
+.antithesis-layout .arrow-indicator {
+    font-size: clamp(3rem, 5vw, 5rem);
+    color: var(--dirt-secondary);
+    z-index: 100;
+    transform: translateY(-100%);
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.antithesis-layout .pen--options {
+    margin-top: calc(var(--space-md) + 2vh);
+}
+
+.antithesis-layout .pen-surface--choices {
+    width: clamp(530px, 86vw, 1200px);
+    height: auto;
+    aspect-ratio: 4.8;
+    position: relative;
+    overflow: visible;
+}
+
+.antithesis-layout .pen-surface--choices .pen-fence {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.antithesis-layout .pen-surface--choices .pen-fence img {
+    position: absolute !important;
+    max-width: none !important;
+    max-height: none !important;
+    transform: scale(2.65, 0.98) !important;
+    left: 0% !important;
+    top: 15% !important;
+    transform-origin: center bottom !important;
+}
+
+.antithesis-layout .pen-surface--choices .pen-ground {
+    top: 45%;
+    left: 5%;
+    right: 5%;
+    bottom: -5%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+    z-index: 10;
+}
+
+.antithesis-layout .pen-surface--choices .pen-content {
+    position: absolute !important;
+    top: 40% !important;
+    left: 5% !important;
+    right: 5% !important;
+    bottom: 8% !important;
+    padding: 0 !important;
+    z-index: 200 !important;
+    pointer-events: none;
+}
+
+.antithesis-layout .pen-surface--choices .animal-grid {
+    display: grid !important;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+    grid-template-rows: 1fr;
+    gap: 3.5vw;
+    justify-items: center;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    pointer-events: auto !important;
+    z-index: 210;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image {
+    position: relative !important;
+    bottom: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    display: block !important;
+    margin: 0 -5% !important;
+    pointer-events: auto !important;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.antithesis-layout .pen-surface--choices .animal-image--small {
+    height: 90% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-image--medium {
+    height: 120% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-image--large {
+    height: 150% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-group--single .animal-image {
+    margin: 0 !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot:nth-child(even) .animal-image {
+    transform: translateY(-35%) !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot:nth-child(even) {
+    transform: translateY(-15%);
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot--selected {
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    z-index: 100;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot--selected:hover {
+    transform: none;
+}
+
+.antithesis-layout .pen--options .problem-label {
+    display: none !important;
+}
+
+.antinomy-flying-animal {
+    display: flex !important;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 99999;
+}
+
+.antinomy-flying-animal .animal-image {
+    position: relative !important;
+    bottom: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 -5% !important;
+    display: block !important;
+    flex-shrink: 0;
+    width: auto;
+}
+
+.antinomy-flying-animal.animal-group--single .animal-image {
+    margin: 0 !important;
+}
+
+.antinomy-flying-animal .animal-image--small {
+    height: 50% !important;
+}
+
+.antinomy-flying-animal .animal-image--medium {
+    height: 65% !important;
+}
+
+.antinomy-flying-animal .animal-image--large {
+    height: 80% !important;
+}

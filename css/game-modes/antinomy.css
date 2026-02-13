@@ -1,0 +1,352 @@
+.antinomy-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    width: 100%;
+    padding: var(--space-md) 0;
+    margin-top: 6.5vh;
+    overflow: visible;
+}
+
+.antinomy-layout .category-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: clamp(30px, 6vw, 100px);
+    width: 100%;
+}
+
+.antinomy-layout .pen-surface {
+    position: relative;
+    overflow: visible;
+}
+
+.antinomy-layout .pen-fence {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.antinomy-layout .pen-fence img {
+    position: absolute !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: fill !important;
+}
+
+.antinomy-layout .pen--green {
+    flex: 0 0 auto;
+}
+
+.antinomy-layout .pen-surface--green {
+    width: clamp(400px, 53vw, 1200px);
+    height: auto;
+    aspect-ratio: 3.75;
+}
+
+.antinomy-layout .pen-surface--green .pen-fence img {
+    transform: scale(2.1, 1.2) !important;
+    left: 0% !important;
+    top: 20% !important;
+    transform-origin: center center !important;
+}
+
+.antinomy-layout .pen-surface--green .pen-ground::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+            rgba(20, 90, 30, 0.75) 0%,
+            rgba(10, 70, 20, 0.65) 100%);
+    pointer-events: none;
+}
+
+.antinomy-layout .pen-surface--red .pen-ground::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+            rgba(160, 20, 20, 0.75) 0%,
+            rgba(130, 10, 10, 0.65) 100%);
+    pointer-events: none;
+}
+
+.antinomy-layout .pen-surface--green .pen-content {
+    z-index: 50 !important;
+}
+
+.antinomy-layout .pen-surface--green .pen-fence {
+    filter: drop-shadow(0 0 6px rgba(76, 175, 80, 0.6));
+}
+
+.antinomy-layout .pen--green .problem-label {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+}
+
+.antinomy-layout .pen--red {
+    flex: 0 0 auto;
+}
+
+.antinomy-layout .pen-surface--red {
+    width: clamp(400px, 53vw, 1200px);
+    height: auto;
+    aspect-ratio: 3.75;
+}
+
+.antinomy-layout .pen-surface--red .pen-fence img {
+    transform: scale(2.1, 1.2) !important;
+    left: 0% !important;
+    top: 20% !important;
+    transform-origin: center center !important;
+}
+
+.antinomy-layout .pen-surface--red .pen-fence {
+    filter: drop-shadow(0 0 6px rgba(229, 115, 115, 0.6));
+}
+
+.antinomy-layout .pen-surface--red .pen-content {
+    z-index: 50 !important;
+}
+
+.antinomy-layout .pen--red .problem-label {
+    background: linear-gradient(135deg, #E57373, #EF5350);
+    color: white;
+}
+
+.antinomy-layout .pen-surface--green .animal-grid,
+.antinomy-layout .pen-surface--red .animal-grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.5vw;
+    justify-items: center;
+    align-items: end;
+    justify-content: center;
+}
+
+.antinomy-layout .question-mark-slot {
+    font-size: clamp(80px, 16vw, 160px);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+    cursor: default;
+}
+
+.antinomy-layout .question-mark-slot .question-mark-text {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    transform: translateY(-20%);
+    display: block;
+}
+
+.antinomy-layout .pen-surface--green .animal-slot,
+.antinomy-layout .pen-surface--red .animal-slot {
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    pointer-events: none;
+}
+
+.antinomy-layout .pen-surface--green .animal-slot:nth-child(even) .animal-image,
+.antinomy-layout .pen-surface--red .animal-slot:nth-child(even) .animal-image,
+.antinomy-layout .pen-surface--choices .animal-slot:nth-child(even) .animal-image {
+    margin-bottom: 35% !important;
+}
+
+.antinomy-layout .pen--choices {
+    margin-top: calc(var(--space-md) + 5vh);
+}
+
+.antinomy-layout .pen--choices .problem-label {
+    display: none !important;
+}
+
+.antinomy-layout .pen-surface--choices {
+    width: clamp(530px, 86vw, 1200px);
+    height: auto;
+    aspect-ratio: 4.8;
+}
+
+.antinomy-layout .pen-surface--choices .pen-content {
+    position: absolute !important;
+    top: 40% !important;
+    left: 5% !important;
+    right: 5% !important;
+    bottom: 8% !important;
+    padding: 0 !important;
+    z-index: 200 !important;
+    pointer-events: none;
+}
+
+.antinomy-layout .pen-surface--choices .pen-fence img {
+    transform: scale(2.65, 0.98) !important;
+    left: 0% !important;
+    top: 15% !important;
+    transform-origin: center bottom !important;
+}
+
+.antinomy-layout .pen-surface--choices .animal-grid {
+    display: grid !important;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+    grid-template-rows: 1fr;
+    gap: 3.5vw;
+    justify-items: center;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.antinomy-layout .pen-surface--choices .animal-slot {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    pointer-events: auto !important;
+    z-index: 210;
+}
+
+.antinomy-layout .pen-surface--choices .animal-group {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--choices .animal-slot .animal-image {
+    position: absolute !important;
+    bottom: 0% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: block !important;
+    margin: 0 !important;
+    pointer-events: auto !important;
+}
+
+.antinomy-layout .pen-surface--green .animal-slot .animal-image--large {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -15% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--red .animal-slot .animal-image--large {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -15% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--green .animal-slot .animal-image--medium {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 5% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--green .animal-slot .animal-image--small {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 13% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--red .animal-slot .animal-image--medium {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 5% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--red .animal-slot .animal-image--small {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 10% !important;
+    display: block !important;
+}
+
+.antinomy-layout .pen-surface--choices .animal-slot .animal-image--large {
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -15% !important;
+}
+
+.antinomy-layout .pen-surface--choices .animal-slot--selected {
+    box-shadow: none !important;
+    background: transparent !important;
+    border: none !important;
+    z-index: 100;
+}
+
+.antinomy-layout .pen-surface--choices .animal-slot--selected:hover {
+    transform: none;
+}
+
+.antinomy-layout .vs-indicator {
+    display: none !important;
+}
+
+.antinomy-layout .pen-surface--green .pen-ground {
+    top: 42%;
+    left: 5%;
+    right: 5%;
+    bottom: -15%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+}
+
+.antinomy-layout .pen-surface--red .pen-ground {
+    top: 42%;
+    left: 5%;
+    right: 5%;
+    bottom: -15%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+}
+
+.antinomy-layout .pen-surface--choices .pen-ground {
+    top: 45%;
+    left: 5%;
+    right: 5%;
+    bottom: -5%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+}
+
+.antinomy-layout .pen-surface--green .pen-content,
+.antinomy-layout .pen-surface--red .pen-content {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    right: 10%;
+    bottom: 11%;
+}

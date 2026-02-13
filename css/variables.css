@@ -1,0 +1,116 @@
+:root {
+    /* Colors */
+    --dirt-primary: #C4956A;
+    --dirt-secondary: #A67B52;
+    --dirt-highlight: #D4A574;
+    --dirt-dark: #8B6914;
+
+    --fence-white: #F5F5F0;
+    --fence-shadow: rgba(0, 0, 0, 0.1);
+    --fence-highlight: rgba(255, 255, 255, 0.3);
+
+    --bg-sky: #87CEEB;
+    --bg-grass: #7CBA3D;
+
+    --accent-green: #4CAF50;
+    --accent-green-hover: #45a049;
+    --accent-green-light: rgba(76, 175, 80, 0.5);
+    --accent-red: #E57373;
+    --accent-gold: #FFD700;
+    --accent-gold-light: rgba(255, 215, 0, 0.3);
+
+    --text-primary: #5A3E1B;
+    --text-header: #DF453F;
+    --text-secondary: #555555;
+    --text-dark: #333333;
+    --text-light: #FFFFFF;
+
+    --panel-bg: rgba(255, 255, 255, 0.9);
+    --panel-bg-solid: #FFFFFF;
+    --panel-shadow: rgba(0, 0, 0, 0.1);
+    --panel-shadow-strong: rgba(0, 0, 0, 0.2);
+
+    --selected-glow: rgba(76, 175, 80, 0.5);
+    --selected-border: #4CAF50;
+    --hover-glow: rgba(255, 215, 0, 0.3);
+    --hover-border: #8B4513;
+
+    --disabled-bg: #CCCCCC;
+    --disabled-text: #888888;
+
+    /* Typography */
+    --font-primary: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+
+    --title-size: clamp(1.5rem, 4vw, 2.5rem);
+    --subtitle-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    --instruction-size: clamp(1rem, 2.2vw, 1.4rem);
+    --label-size: clamp(0.9rem, 2vw, 1.3rem);
+    --body-size: clamp(0.85rem, 1.8vw, 1.1rem);
+    --small-size: clamp(0.75rem, 1.5vw, 0.9rem);
+
+    --weight-normal: 400;
+    --weight-bold: 700;
+
+    /* Spacing */
+    --space-xs: clamp(4px, 0.5vw, 8px);
+    --space-sm: clamp(8px, 1vw, 12px);
+    --space-md: clamp(12px, 1.5vw, 20px);
+    --space-lg: clamp(16px, 2vw, 30px);
+    --space-xl: clamp(24px, 3vw, 50px);
+
+    /* Pen Dimensions */
+    --slot-size: 13vw;
+    --main-pen-width: 70vw;
+    --out-pen-size: 28vw;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+    --shadow-inset-sm: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-inset-md: inset 0 4px 8px rgba(0, 0, 0, 0.15);
+
+    --glow-selection: 0 0 0 4px var(--selected-border), 0 8px 20px var(--selected-glow);
+    --glow-hover: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-out;
+    --transition-normal: 250ms ease-in-out;
+    --transition-slow: 400ms ease-in-out;
+    --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Z-Index Layers */
+    --z-background: 0;
+    --z-ground: 1;
+    --z-animals: 5;
+    --z-fence: 10;
+    --z-labels: 15;
+    --z-controls: 100;
+    --z-modal: 500;
+    --z-animation: 1000;
+
+    /* Safe Areas (iOS) */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+
+    --controls-bottom: max(20px, calc(20px + var(--safe-bottom)));
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {}
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --transition-fast: 0ms;
+        --transition-normal: 0ms;
+        --transition-slow: 0ms;
+        --transition-bounce: 0ms;
+        --transition-smooth: 0ms;
+    }
+}

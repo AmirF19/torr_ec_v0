@@ -1,0 +1,286 @@
+/* Large Desktop */
+@media (min-width: 1440px) {
+    :root {
+        --main-pen-width: 50vw;
+        --main-pen-height: 48vh;
+        --out-pen-size: 16vw;
+        --slot-size: 8vw;
+        --animal-size-large: 100%;
+        --animal-size-medium: 70%;
+        --animal-size-small: 50%;
+    }
+}
+
+/* Standard Desktop */
+@media (min-width: 1025px) and (max-width: 1439px) {
+    :root {
+        --main-pen-width: 55vw;
+        --main-pen-height: 50vh;
+        --out-pen-size: 28vw;
+        --slot-size: 9vw;
+    }
+}
+
+/* Tablet Landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    :root {
+        --main-pen-width: 52vw;
+        --main-pen-height: 48vh;
+        --out-pen-size: 20vw;
+        --slot-size: 8vw;
+        --min-touch-target: 60px;
+        --animal-size-large: 100%;
+        --animal-size-medium: 70%;
+        --animal-size-small: 50%;
+    }
+
+    .game-container {
+        padding: var(--space-sm);
+        margin: var(--space-xs);
+    }
+
+    .game-header {
+        padding: var(--space-xs) var(--space-md);
+        margin-bottom: var(--space-xs);
+    }
+
+    .problem-area {
+        padding-bottom: 90px;
+    }
+
+    .controls {
+        padding: var(--space-sm) var(--space-lg);
+    }
+
+    .arrow-btn {
+        min-width: 130px;
+        min-height: 60px;
+    }
+}
+
+/* Tablet Portrait */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    :root {
+        --main-pen-width: 80vw;
+        --main-pen-height: 30vh;
+        --out-pen-size: 35vw;
+        --slot-size: 8vw;
+    }
+
+    .anomaly-layout,
+    .analogy-layout {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 3vw;
+        width: 98%;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+
+    .anomaly-layout .pen--out,
+    .analogy-layout .pen--answer {
+        margin-top: 0;
+    }
+}
+
+/* iPad (10.2") and iPad Air */
+@media only screen and (min-device-width: 810px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+        --min-touch-target: 60px;
+    }
+
+    .animal-slot {
+        min-width: 60px;
+        min-height: 60px;
+    }
+
+    .arrow-btn {
+        min-width: 130px;
+        min-height: 60px;
+    }
+}
+
+/* iPad Pro 11" */
+@media only screen and (min-device-width: 834px) and (max-device-width: 1194px) and (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+        --main-pen-width: 52vw;
+        --main-pen-height: 45vh;
+        --out-pen-size: 18vw;
+    }
+}
+
+/* iPad Pro 12.9" */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+        --main-pen-width: 50vw;
+        --main-pen-height: 42vh;
+        --out-pen-size: 17vw;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-width: 767px) and (orientation: landscape) {
+    :root {
+        --main-pen-width: 55vw;
+        --main-pen-height: 60vh;
+        --out-pen-size: 30vw;
+        --slot-size: clamp(50px, 8vh, 80px);
+    }
+
+    .game-header {
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .game-title {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .problem-area {
+        padding: var(--space-sm);
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 767px) and (orientation: portrait) {
+    :root {
+        --main-pen-width: 88vw;
+        --main-pen-height: 32vh;
+        --out-pen-size: 40vw;
+        --slot-size: 12vw;
+    }
+
+    body {
+        padding-top: var(--safe-top);
+    }
+
+    .game-container {
+        padding: var(--space-sm);
+        margin: var(--space-xs);
+    }
+
+    .game-header {
+        padding: var(--space-sm);
+        max-width: 95%;
+    }
+
+    .anomaly-layout,
+    .analogy-layout {
+        flex-direction: column;
+        align-items: center;
+        min-height: auto;
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+
+    .anomaly-layout .pen--out,
+    .analogy-layout .pen--answer {
+        margin-top: var(--space-md);
+    }
+
+    .controls {
+        width: calc(100% - 2 * var(--space-md));
+        max-width: 300px;
+    }
+}
+
+/* Small Phones */
+@media (max-width: 375px) {
+    :root {
+        --main-pen-width: 95vw;
+        --out-pen-size: 55vw;
+        --slot-size: clamp(50px, 18vw, 70px);
+    }
+
+    .game-title {
+        font-size: 1.3rem;
+    }
+
+    .game-instruction {
+        font-size: 0.9rem;
+    }
+}
+
+/* iOS Safe Areas */
+@supports (padding: max(0px)) {
+    .controls {
+        padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+        bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    .data-panel {
+        top: max(var(--space-md), env(safe-area-inset-top));
+        right: max(var(--space-md), env(safe-area-inset-right));
+    }
+}
+
+/* Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    .animal-slot--selectable:hover {
+        transform: none;
+        box-shadow: none;
+        background: transparent;
+        border-color: transparent;
+    }
+
+    .animal-slot--selectable:active {
+        transform: scale(0.95);
+        background: var(--hover-glow);
+    }
+
+    .animal-slot {
+        min-width: 56px;
+        min-height: 56px;
+    }
+
+    .arrow-btn {
+        min-width: 120px;
+        min-height: 56px;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .animal-slot--selected {
+        border-width: 2px;
+    }
+
+    .pen-fence img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .animal-slot--selected::before {
+        animation: none;
+    }
+}
+
+/* Print */
+@media print {
+
+    .controls,
+    .data-panel {
+        display: none;
+    }
+
+    body {
+        background: white;
+    }
+
+    .game-container {
+        max-width: 100%;
+    }
+}

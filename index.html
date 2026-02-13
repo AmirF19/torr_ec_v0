@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#87CEEB">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <title>Relational Reasoning Study</title>
+
+    <link rel="preload" href="images/background_images/background.png" as="image">
+    <link rel="preload" href="images/background_images/opening_page.png" as="image">
+    <link rel="preload" href="images/elements/pen_1.svg" as="image">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/pen.css">
+    <link rel="stylesheet" href="css/components/animal-slot.css">
+    <link rel="stylesheet" href="css/components/controls.css">
+    <link rel="stylesheet" href="css/components/data-panel.css">
+    <link rel="stylesheet" href="css/components/report.css">
+    <link rel="stylesheet" href="css/components/game-switcher.css">
+    <link rel="stylesheet" href="css/game-modes/anomaly.css">
+    <link rel="stylesheet" href="css/game-modes/analogy.css">
+    <link rel="stylesheet" href="css/game-modes/antithesis.css">
+    <link rel="stylesheet" href="css/game-modes/antinomy.css">
+
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="icon" type="image/png" href="images/background_images/barn.png">
+</head>
+
+<body class="welcome">
+    <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
+
+    <!-- Welcome Screen -->
+    <div class="start-container" id="start-container">
+        <h1 class="game-title">Test of Relational Reasoning - EC</h1>
+        <p class="game-instruction">Click the start button to begin!</p>
+        <button class="arrow-btn start-btn" aria-label="Start the game">►</button>
+    </div>
+
+    <!-- Game Screen -->
+    <main class="game-container hidden" id="game-container" role="main">
+        <header class="game-header">
+            <h1 class="game-title">"What Goes" Game</h1>
+            <p class="problem-counter" id="problem-counter" aria-live="polite"></p>
+        </header>
+
+        <div class="problem-area" id="problem-area" id="main-content">
+            <!-- Problem content rendered dynamically -->
+        </div>
+
+        <nav class="controls" aria-label="Game controls">
+            <button class="arrow-btn" id="next-btn" disabled aria-label="Go to next problem">➤</button>
+        </nav>
+
+        <aside class="bottom-left-panel" id="bottom-left-panel">
+            <div class="problem-counter" id="problem-counter-bottom" aria-live="polite"></div>
+            <div class="game-switcher" id="game-switcher">
+                <button class="game-type-btn game-type-btn--active" data-game="anomaly">Anomaly</button>
+                <button class="game-type-btn" data-game="analogy">Analogy</button>
+                <button class="game-type-btn" data-game="antithesis">Antithesis</button>
+                <button class="game-type-btn" data-game="antinomy">Antinomy</button>
+
+            </div>
+        </aside>
+    </main>
+
+    <!-- Report Screen -->
+    <div class="report-container hidden" id="report-container">
+        <h1 class="report-title">Experiment Complete!</h1>
+        <p class="report-summary" id="report-summary" aria-live="polite"></p>
+
+        <table class="report-table" id="report-table">
+            <thead>
+                <tr>
+                    <th scope="col">Problem #</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Time (s)</th>
+                    <th scope="col">Correct?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Results populated dynamically -->
+            </tbody>
+        </table>
+
+        <div class="report-actions">
+            <button class="download-btn" onclick="App.downloadData()">
+                Download Data (CSV)
+            </button>
+            <button class="restart-btn" onclick="App.restartExperiment()">
+                Start Over
+            </button>
+        </div>
+    </div>
+
+    <!-- Data Panel -->
+    <aside class="data-panel" id="data-panel" aria-label="Session statistics">
+        <h4>Current Session:</h4>
+        <div id="current-data" class="data-panel__content">
+            <p><strong>Problems completed:</strong> 0</p>
+            <p><strong>Current selections:</strong> 0</p>
+            <p><strong>Current time:</strong> 0s</p>
+        </div>
+    </aside>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/problems.js"></script>
+    <script src="js/components/AnimalSlot.js"></script>
+    <script src="js/components/Pen.js"></script>
+    <script src="js/interactions/animation.js"></script>
+    <script src="js/interactions/selection.js"></script>
+    <script src="js/data/storage.js"></script>
+    <script src="js/data/export.js"></script>
+    <script src="js/renderers/AnomalyRenderer.js"></script>
+    <script src="js/renderers/AnalogyRenderer.js"></script>
+    <script src="js/renderers/AntithesisRenderer.js"></script>
+    <script src="js/renderers/AntinomyRenderer.js"></script>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

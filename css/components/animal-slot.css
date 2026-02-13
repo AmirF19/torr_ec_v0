@@ -1,0 +1,288 @@
+.animal-slot {
+    width: 11vw;
+    height: 100%;
+    min-width: 100px;
+    min-height: 120px;
+
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+
+    cursor: default;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        transform var(--transition-normal),
+        box-shadow var(--transition-normal),
+        background var(--transition-fast);
+}
+
+.animal-slot--empty {
+    cursor: default;
+    pointer-events: none;
+}
+
+.animal-slot--populated {
+    cursor: pointer;
+}
+
+.animal-slot--selectable {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.animal-slot--selectable:hover {
+    transform: translateY(-4px);
+    box-shadow: none;
+    background: transparent;
+    border: none;
+}
+
+.animal-slot--selectable:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.animal-slot--selected {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: none;
+    background: transparent;
+    border: none;
+}
+
+.animal-slot--selected:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: none;
+    background: transparent;
+}
+
+.animal-slot--animating {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.animal-slot--grouped {
+    width: calc(var(--slot-size) * 1.5);
+    min-width: calc(var(--min-touch-target) * 1.5);
+}
+
+.animal-group {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0;
+}
+
+.animal-group--single {
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.animal-slot--grouped .animal-group {
+    align-items: flex-end;
+}
+
+.animal-image {
+    object-fit: contain;
+    object-position: center bottom;
+    pointer-events: none;
+    display: block;
+    transition: all var(--transition-normal);
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.animal-image--large {
+    width: auto;
+    height: 28vh;
+    max-width: none;
+    max-height: 28vh;
+}
+
+.animal-image--medium {
+    width: auto;
+    height: 20vh;
+    max-width: none;
+    max-height: 20vh;
+}
+
+.animal-image--small {
+    width: auto;
+    height: 13vh;
+    max-width: none;
+    max-height: 13vh;
+}
+
+.animal-slot--grouped .animal-image--large {
+    width: auto;
+    height: 18vh;
+    max-width: none;
+    max-height: 18vh;
+}
+
+.animal-slot--grouped .animal-image--medium {
+    width: auto;
+    height: 14vh;
+    max-width: none;
+    max-height: 14vh;
+}
+
+.animal-slot--grouped .animal-image--small {
+    width: auto;
+    height: 10vh;
+    max-width: none;
+    max-height: 10vh;
+}
+
+.animal-slot--out {
+    width: 11vw;
+    height: 100%;
+    min-width: 90px;
+    min-height: 120px;
+    cursor: pointer;
+}
+
+.animal-slot--out.animal-slot--empty {
+    border: none;
+    background: transparent;
+    cursor: default;
+}
+
+.animal-slot--out.animal-slot--populated {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.animal-slot--out.animal-slot--populated:hover {
+    transform: translateY(-4px);
+    box-shadow: none;
+    background: transparent;
+}
+
+.animal-slot--out.animal-slot--populated:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.animal-slot--selected::before {
+    content: none;
+}
+
+@keyframes pulse-ring {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.3;
+    }
+}
+
+.animal-slot--selectable:focus {
+    outline: 3px solid var(--accent-green);
+    outline-offset: 2px;
+}
+
+.animal-slot--selectable:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.animal-slot--selectable:focus-visible {
+    outline: 3px solid var(--accent-green);
+    outline-offset: 2px;
+}
+
+.animal-slot--flying-clone {
+    position: fixed;
+    z-index: var(--z-animation);
+    pointer-events: none;
+    transition:
+        left var(--transition-smooth),
+        top var(--transition-smooth),
+        width var(--transition-smooth),
+        height var(--transition-smooth),
+        transform var(--transition-smooth);
+}
+
+.animal-slot--flying-clone.animal-slot--flying-out {
+    animation: fly-out 0.4s ease-in-out forwards;
+}
+
+.animal-slot--flying-clone.animal-slot--flying-in {
+    animation: fly-in 0.4s ease-in-out forwards;
+}
+
+.animal-slot--flying-clone .animal-image,
+.animal-slot--flying-clone img {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+}
+
+@keyframes fly-out {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1) translateY(-10px);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fly-in {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slot-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.12);
+    }
+
+    70% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animal-slot--pop {
+    animation: slot-pop 0.3s ease-out;
+}

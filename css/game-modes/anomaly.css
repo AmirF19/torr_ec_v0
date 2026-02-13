@@ -1,0 +1,236 @@
+.anomaly-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10vw;
+    width: 99%;
+    margin-left: 0.5%;
+    margin-right: 1.5%;
+    margin-top: 2vh;
+    min-height: 70vh;
+    max-width: 99vw;
+    overflow: visible;
+    padding: 0;
+}
+
+.game-header .game-title {
+    font-size: 2.5rem !important;
+}
+
+.game-header .game-instruction {
+    font-size: 1.4rem !important;
+}
+
+.pen-label {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+}
+
+.anomaly-layout .pen--main {
+    flex: 0 0 auto;
+    transform: translateX(-1vw);
+    transform-origin: center bottom;
+}
+
+.anomaly-layout .pen-surface--main {
+    width: clamp(240px, 52vw, 2000px);
+    height: auto;
+    aspect-ratio: 16 / 10;
+}
+
+.anomaly-layout .pen-surface--main .animal-grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 0.5vw;
+    justify-items: center;
+    align-items: end;
+}
+
+.anomaly-layout .pen-surface--main .animal-grid--4col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.anomaly-layout .pen-surface--main .animal-slot {
+    width: 100%;
+    height: 100%;
+}
+
+.anomaly-layout .pen--out .pen-ground {
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    top: 29%;
+    left: 5%;
+    right: 5%;
+    bottom: 15%;
+}
+
+.anomaly-layout .pen--out {
+    flex: 0 0 auto;
+    transform: translateY(2.5vw);
+}
+
+.anomaly-layout .pen-surface--out {
+    width: clamp(160px, 24vw, 560px);
+    height: auto;
+    aspect-ratio: 0.8;
+    overflow: visible;
+    position: relative;
+}
+
+.anomaly-layout .pen-surface--out .pen-ground {
+    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+    transform-origin: center bottom;
+    z-index: 9;
+}
+
+.anomaly-layout .pen-surface--out .pen-fence {
+    width: 155% !important;
+    height: 165% !important;
+    left: -27.5% !important;
+    top: -52% !important;
+    transform: none !important;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.anomaly-layout .pen-surface--out .animal-slot {
+    width: 100%;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    bottom: 8%;
+    left: 0;
+    z-index: 40;
+}
+
+.anomaly-layout .pen-surface--out .animal-slot .animal-image,
+.anomaly-layout .pen-surface--out .animal-slot img {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(0%) !important;
+    margin: 0 !important;
+    top: auto !important;
+}
+
+.anomaly-layout .pen-surface--out .pen-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+    position: relative;
+}
+
+.anomaly-layout .pen-ground {
+    top: 29%;
+    left: 5%;
+    right: 5%;
+    bottom: 15%;
+}
+
+.anomaly-layout .pen-ground {
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+.anomaly-layout .pen-content {
+    top: 10%;
+    left: 15%;
+    right: 15%;
+    bottom: 31%;
+}
+
+.anomaly-layout .pen-surface--out .pen-content {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
+/*
+@media (min-width: 768px) and (max-width: 1024px) {
+    .anomaly-layout {
+        gap: 4vw;
+    }
+
+    .anomaly-layout .pen-surface--main {
+        width: 58vw;
+        height: 54vh;
+    }
+
+    .anomaly-layout .pen-surface--main .animal-slot {
+        min-width: 70px;
+        min-height: 90px;
+    }
+
+    .anomaly-layout .pen-surface--out {
+        width: 26vw;
+        height: 50vh;
+    }
+
+    .anomaly-layout .pen-surface--out .animal-slot {
+        width: 10vw;
+        height: 22vh;
+    }
+}
+
+@media (max-width: 767px) {
+    .anomaly-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 2vh;
+        min-height: auto;
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .anomaly-layout .pen--out {
+        margin-top: 0;
+    }
+
+    .anomaly-layout .pen-surface--main {
+        width: 94vw;
+        height: 42vh;
+    }
+
+    .anomaly-layout .pen-surface--main .animal-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1vw;
+    }
+
+    .anomaly-layout .pen-surface--main .animal-slot {
+        width: 100%;
+        height: 100%;
+    }
+
+    .anomaly-layout .pen-surface--out {
+        width: 55vw;
+        height: 38vh;
+    }
+
+    .anomaly-layout .pen-surface--out .animal-slot {
+        width: 16vw;
+        height: 20vh;
+    }
+}
+*/
+
+.anomaly-layout .animal-image--large {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -15% !important;
+    display: block !important;
+}
+
+.anomaly-layout .pen-surface--main .animal-slot:nth-child(even) .animal-image,
+.anomaly-layout .pen-surface--out .animal-slot:nth-child(even) .animal-image {
+    margin-bottom: 35% !important;
+}

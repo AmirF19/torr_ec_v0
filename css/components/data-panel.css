@@ -1,0 +1,110 @@
+.data-panel {
+    position: fixed;
+    top: var(--space-md);
+    right: var(--space-md);
+
+    background: var(--panel-bg-solid);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+
+    max-width: 220px;
+    min-width: 180px;
+
+    font-size: var(--small-size);
+
+    z-index: var(--z-controls);
+}
+
+.data-panel h4 {
+    font-size: var(--body-size);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 2px solid var(--dirt-primary);
+}
+
+.data-panel__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.data-panel p {
+    margin: 0;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.data-panel strong {
+    color: var(--text-dark);
+}
+
+.data-panel__stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xs) 0;
+}
+
+.data-panel__stat:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.data-panel__label {
+    color: var(--text-secondary);
+}
+
+.data-panel__value {
+    font-weight: var(--weight-bold);
+    color: var(--text-primary);
+}
+
+.data-panel__value--success {
+    color: var(--accent-green);
+}
+
+.data-panel__value--warning {
+    color: var(--accent-gold);
+}
+
+.data-panel__value--error {
+    color: var(--accent-red);
+}
+
+.data-panel--minimized {
+    max-width: 48px;
+    min-width: 48px;
+    padding: var(--space-sm);
+    cursor: pointer;
+}
+
+.data-panel--minimized h4,
+.data-panel--minimized .data-panel__content {
+    display: none;
+}
+
+.data-panel--minimized::after {
+    content: '📊';
+    font-size: 1.5rem;
+    display: block;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .data-panel {
+        top: auto;
+        bottom: calc(var(--controls-bottom) + 80px);
+        right: var(--space-sm);
+        max-width: 160px;
+        min-width: 140px;
+        font-size: calc(var(--small-size) * 0.9);
+        padding: var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .data-panel {
+        display: none;
+    }
+}
