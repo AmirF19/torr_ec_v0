@@ -67,7 +67,7 @@ const Config = {
     gameTypes: {
         anomaly: {
             name: 'Anomaly',
-            title: '"What Does Not Belong?"',
+            title: "'What Doesn't Fit?'",
             instruction: 'Find the animal that does not belong!',
             minAnimals: 4,
             maxAnimals: 5,
@@ -75,7 +75,7 @@ const Config = {
         },
         analogy: {
             name: 'Analogy',
-            title: '"Complete the Pattern"',
+            title: '"What Goes With?"',
             instruction: 'Choose the answer choice that completes the pattern.',
             questionItems: 3,
             answerChoices: 4,
@@ -83,7 +83,7 @@ const Config = {
         },
         antithesis: {
             name: 'Antithesis',
-            title: '"Find the Middle"',
+            title: '"What Goes in the Middle?"',
             instruction: 'Choose the option that goes in the middle.',
             boxes: 3,
             answerChoices: 4,
@@ -91,7 +91,7 @@ const Config = {
         },
         antinomy: {
             name: 'Antinomy',
-            title: 'What Goes Game',
+            title: 'What Goes Here?',
             instruction: 'Choose the option that matches the green box rule.',
             categoryBoxes: 2,
             answerChoices: 4,

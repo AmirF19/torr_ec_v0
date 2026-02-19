@@ -53,9 +53,9 @@ The codebase handles clean separation of concerns:
 ## Game Modes
 
 1.  **Anomaly**: "What Does Not Belong?" - Users select the odd one out from a main pen.
-2.  **Analogy**: "Complete the Pattern" - Users choose an item to complete a visual analogy (A:B :: C:?).
-3.  **Antithesis**: "Find the Middle" - Users fill a middle slot to complete a sequence.
-4.  **Antinomy**: "What Goes Game" - Users place an item that follows a rule into a specific category box.
+2.  **Analogy**: "What Goes With?" - Users choose an item to complete a visual analogy (A:B :: C:?).
+3.  **Antithesis**: "What Goes in the Middle?" - Users fill a middle slot to complete a sequence.
+4.  **Antinomy**: "What Goes Here?" - Users place an item that follows a rule into a specific category box.
 
 ## Developer Guide: Example Modifications
 
@@ -154,7 +154,7 @@ This section explains how specific lines of code control the visual elements on 
 *   **Out Pen**: The small box on the right.
     *   *Code*: Defined as `.pen--out` in `css/game-modes/anomaly.css`.
 
-### 2. Analogy ("Complete the Pattern")
+### 2. Analogy ("What Goes With?")
 **Visual Layout**: Top box (Question), Gate/Arrow, Bottom box (Answers).
 *   **The Gate & Arrow**: The image between the two pens.
     *   *Code*: Created in `js/renderers/AnalogyRenderer.js` as `.gate-container`.
@@ -164,7 +164,7 @@ This section explains how specific lines of code control the visual elements on 
 *   **Answer Choices**: The bottom container.
     *   *Code*: `.analogy-layout .pen-surface--answer` in `css/game-modes/analogy.css`.
 
-### 3. Antithesis ("Find the Middle")
+### 3. Antithesis ("What Goes in the Middle?")
 **Visual Layout**: A sequence `[Box 1] -> [?] -> [Box 3]` with a `[Options]` pen below.
 *   **The Arrows**: The `→` symbols between boxes.
     *   *Code*: Created in `js/renderers/AntithesisRenderer.js` as elements with class `.arrow-indicator`.
@@ -174,7 +174,7 @@ This section explains how specific lines of code control the visual elements on 
 *   **Box Dimensions**: All three top boxes share styles.
     *   *Code*: `.antithesis-layout .pen-surface--sequence` in `css/game-modes/antithesis.css`.
 
-### 4. Antinomy ("Sort by Rule")
+### 4. Antinomy ("What Goes Here?")
 **Visual Layout**: Green Box (Left), Red Box (Right), Choices Box (Bottom).
 *   **Green vs Red Styling**: The specific themes for the top boxes.
     *   *Code*: `css/game-modes/antinomy.css` defines `.pen-surface--green` and `.pen-surface--red`.
