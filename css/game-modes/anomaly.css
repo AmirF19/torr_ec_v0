@@ -1,20 +1,52 @@
+/**
+ * Anomaly Game Mode - COMPLETE SELF-CONTAINED STYLES
+ * "Find the animal that does not belong"
+ * 
+ * ============================================================================
+ * ALL ANOMALY CONTROLS ARE IN THIS FILE
+ * ============================================================================
+ */
+
+/* ============================================================================ */
+/* LAYOUT - Overall page structure                                              */
+/* ============================================================================ */
+
+/* LAYOUT - Controls overall positioning */
 .anomaly-layout {
     display: flex;
     justify-content: center;
+
+    /* === PEN ALIGNMENT === */
+    /* Options: flex-start (tops), flex-end (bottoms), center (middles) */
     align-items: center;
+    /* CENTER ALIGNED - pen centers aligned horizontally */
+
+    /* === EDIT THESE === */
     gap: 10vw;
+    /* Space between main pen and out pen - Increased separation */
     width: 99%;
+    /* Total width of layout - Fill the screen */
     margin-left: 0.5%;
+    /* Left screen margin - Edge to edge */
     margin-right: 1.5%;
+    /* Right screen margin - slightly more to nudge pens left */
     margin-top: 2vh;
+    /* Distance from top of screen */
     min-height: 70vh;
+    /* Minimum layout height */
+    /* ================== */
+
     max-width: 99vw;
     overflow: visible;
     padding: 0;
 }
 
+/* ==================== */
+/* UI SCALING OVERRIDES */
+/* ==================== */
 .game-header .game-title {
     font-size: 2.5rem !important;
+    /* Larger title */
 }
 
 .game-header .game-instruction {
@@ -23,40 +55,64 @@
 
 .pen-label {
     font-size: 1.5rem !important;
+    /* Larger pen labels ("Pen", "Does Not Belong") */
     font-weight: bold;
 }
 
+/* ============================================================================ */
+/* MAIN PEN - The large pen with 5 animals                                     */
+/* ============================================================================ */
+
 .anomaly-layout .pen--main {
     flex: 0 0 auto;
+    /* User Request: Move entire left fence to the left (Removed rotation) */
     transform: translateX(-1vw);
     transform-origin: center bottom;
 }
 
+/* MAIN PEN SIZE */
+/* MAIN PEN SIZE */
+/* MAIN PEN SIZE */
 .anomaly-layout .pen-surface--main {
+    /* Main Pen = 2/3 of logical space (~65%) - Reduced 20% */
     width: clamp(240px, 52vw, 2000px);
     height: auto;
+    /* Height determined by scaling */
     aspect-ratio: 16 / 10;
+    /* Fixed aspect ratio */
 }
 
+/* ANIMAL GRID - How animals are arranged */
 .anomaly-layout .pen-surface--main .animal-grid {
     display: grid;
     width: 100%;
     height: 100%;
+
+    /* 5 columns, centered */
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
     gap: 0.5vw;
+    /* Reduced gap to prevent overlap */
     justify-items: center;
+    /* Center animals in cells */
     align-items: end;
+    /* Align to bottom */
 }
 
+/* For 4-animal problems */
 .anomaly-layout .pen-surface--main .animal-grid--4col {
     grid-template-columns: repeat(4, 1fr);
 }
 
+/* Animal slots in main pen */
 .anomaly-layout .pen-surface--main .animal-slot {
     width: 100%;
     height: 100%;
 }
+
+/* ============================================================================ */
+/* OUT PEN GROUND OVERRIDE                                                      */
+/* ============================================================================ */
 
 .anomaly-layout .pen--out .pen-ground {
     clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
@@ -66,113 +122,221 @@
     bottom: 15%;
 }
 
+/* ============================================================================ */
+/* OUT PEN - Vertical alignment to match Main Pen center                       */
+/* ============================================================================ */
+
 .anomaly-layout .pen--out {
     flex: 0 0 auto;
+    /* Use transform to move pen down since flexbox align-items overrides margin */
     transform: translateY(2.5vw);
 }
 
+/* OUT PEN SIZE */
 .anomaly-layout .pen-surface--out {
+    /* Exactly 50% of the Main Pen width (52vw * 0.5 = 26vw) - Reduced 20% */
     width: clamp(160px, 24vw, 560px);
     height: auto;
     aspect-ratio: 0.8;
+    /* Taller rectangular shape to match Main Pen height */
     overflow: visible;
+    /* ALLOW animals to stick out of the top/sides */
     position: relative;
 }
 
+/* FIX: Scale and position ground to match Main Pen proportions */
+/* Main Pen: fence=100%, ground fills 90% width, 56% height */
+/* Out Pen: fence=155% width, 165% height */
+/* Calculation: ground should scale to match fence ratio */
 .anomaly-layout .pen-surface--out .pen-ground {
-    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+    transform:
+        scaleX(1.6)
+        /* Width: adjust independently */
+        scaleY(0.8)
+        /* Height: adjust independently */
+        translateY(-58%);
+    /* Vertical position: negative=up, positive=down */
     transform-origin: center bottom;
     z-index: 9;
 }
 
+/* OUT PEN FENCE - Scale up to surround ground properly */
 .anomaly-layout .pen-surface--out .pen-fence {
+    /* SIMPLIFIED FOR MANUAL ADJUSTMENT */
+    /* Adjust these 4 numbers to fit the fence around the ground */
     width: 155% !important;
     height: 165% !important;
     left: -27.5% !important;
     top: -52% !important;
+
+    /* Reset complexities */
     transform: none !important;
+
+    /* Ensure z-index is correct */
     z-index: 30;
     pointer-events: none;
 }
 
+/* ANIMAL SLOT inside out pen */
 .anomaly-layout .pen-surface--out .animal-slot {
+    /* Use a fixed generous width to ensure the animal can sit there */
     width: 100%;
     height: 120%;
+
+    /* Center aligns the content (the animal image) */
     display: flex;
     flex-direction: column;
+    /* Ensure vertical stacking */
     justify-content: flex-end;
+    /* Align feet to bottom */
     align-items: center;
+    /* Center horizontally */
+
+    /* Position animal INSIDE the fence (aligned with transformed ground) */
+    /* Ground is at translateY(-58%), so animal needs to move up proportionally */
     position: absolute;
     bottom: 8%;
+    /* Adjusted to align with transformed ground position */
     left: 0;
+
+    /* Ensure it sits on top of the fence (30) so it doesn't disappear */
     z-index: 40;
 }
 
+/* FIX: Connect with Anomaly Out Pen - Ensure natural size */
 .anomaly-layout .pen-surface--out .animal-slot .animal-image,
 .anomaly-layout .pen-surface--out .animal-slot img {
     position: absolute !important;
     bottom: 0 !important;
     left: 50% !important;
-    transform: translateX(-50%) translateY(0%) !important;
+    transform:
+        translateX(-50%)
+        /* Horizontal center */
+        translateY(0%) !important;
+    /* Vertical adjustment: negative=down, positive=up */
+    /* Ensure no flex alignment interferes */
     margin: 0 !important;
     top: auto !important;
 }
 
+/* Align animal to bottom (baseline alignment) */
 .anomaly-layout .pen-surface--out .pen-content {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    /* FIX: Lift the entire content container above the fence (30) */
     z-index: 50;
     position: relative;
+    /* Ensure z-index applies */
 }
 
+/* ============================================================================ */
+/* GROUND POSITIONING - Where the dirt/ground appears inside the fence         */
+/* ============================================================================ */
+
 .anomaly-layout .pen-ground {
+    /* === EDIT THESE === */
     top: 29%;
+    /* Distance from TOP of pen. DECREASE = ground moves UP */
     left: 5%;
+    /* Distance from LEFT edge */
     right: 5%;
+    /* Distance from RIGHT edge */
     bottom: 15%;
+    /* Distance from BOTTOM. INCREASE = ground moves UP */
+    /* ================== */
 }
+
+/* ============================================================================ */
+/* GROUND ANGLE - The trapezoid shape (3D perspective)                          */
+/* ============================================================================ */
 
 .anomaly-layout .pen-ground {
-    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    /* === EDIT THESE === */
+
+    /* OPTION 1: Perfectly Rectangular (Matches a square fence exactly) */
+    /* clip-path: polygon(
+        0% 0%,          
+        100% 0%,        
+        100% 100%,      
+        0% 100%         
+    ); */
+
+    /* OPTION 2: Subtle Depth (Best for cartoon/game look) */
+    /* We only indent the top by 3% on each side so it fits the corners but looks 3D */
+    clip-path: polygon(10% 0%,
+            /* Top-left: Was 24%, now 3% (Much wider) */
+            90% 0%,
+            /* Top-right: Was 68%, now 97% (Much wider) */
+            100% 100%,
+            /* Bottom-right */
+            0% 100%
+            /* Bottom-left */
+        );
+    /* ================== */
 }
 
+/* ============================================================================ */
+/* ANIMAL POSITIONING - Where animals appear inside the pen                    */
+/* ============================================================================ */
+
+/* Pen Content Container - Base positioning */
 .anomaly-layout .pen-content {
+    /* Default for MAIN pen */
     top: 10%;
     left: 15%;
     right: 15%;
     bottom: 31%;
 }
 
+/* OUT PEN overrides */
 .anomaly-layout .pen-surface--out .pen-content {
+    /* Full area so we can just center the slot */
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+    /* Ensure flex centering does NOT fight with absolute slot */
     display: block;
 }
+
+/* ==================== */
+/* RESPONSIVE ANOMALY   */
+/* ==================== */
+
+/* 
+ * ============================================================================
+ * RESPONSIVE BREAKPOINTS - DISABLED FOR DESKTOP CONFIGURATION
+ * ============================================================================
+ * 
+ * These are commented out so you can configure desktop settings without 
+ * interference. Once desktop is finalized, uncomment and adjust these
+ * for tablet and mobile.
+ * 
+ * ============================================================================
+ */
 
 /*
 @media (min-width: 768px) and (max-width: 1024px) {
     .anomaly-layout {
         gap: 4vw;
     }
-
+    
     .anomaly-layout .pen-surface--main {
         width: 58vw;
         height: 54vh;
     }
-
+    
     .anomaly-layout .pen-surface--main .animal-slot {
         min-width: 70px;
         min-height: 90px;
     }
-
+    
     .anomaly-layout .pen-surface--out {
         width: 26vw;
         height: 50vh;
     }
-
+    
     .anomaly-layout .pen-surface--out .animal-slot {
         width: 10vw;
         height: 22vh;
@@ -189,38 +353,41 @@
         margin-left: 2%;
         margin-right: 2%;
     }
-
+    
     .anomaly-layout .pen--out {
         margin-top: 0;
     }
-
+    
     .anomaly-layout .pen-surface--main {
         width: 94vw;
         height: 42vh;
     }
-
+    
     .anomaly-layout .pen-surface--main .animal-grid {
         grid-template-columns: repeat(5, 1fr);
         gap: 1vw;
     }
-
+    
     .anomaly-layout .pen-surface--main .animal-slot {
         width: 100%;
         height: 100%;
     }
-
+    
     .anomaly-layout .pen-surface--out {
         width: 55vw;
         height: 38vh;
     }
-
+    
     .anomaly-layout .pen-surface--out .animal-slot {
         width: 16vw;
         height: 20vh;
     }
 }
-*/
+/* ==================== */
+/* UI POLISH (USER REQUEST) */
+/* ==================== */
 
+/* Large Animals - Increase size and lower baseline */
 .anomaly-layout .animal-image--large {
     position: absolute !important;
     left: 50% !important;
@@ -230,6 +397,7 @@
     display: block !important;
 }
 
+/* Staggered Alignment - Zig-Zag */
 .anomaly-layout .pen-surface--main .animal-slot:nth-child(even) .animal-image,
 .anomaly-layout .pen-surface--out .animal-slot:nth-child(even) .animal-image {
     margin-bottom: 35% !important;

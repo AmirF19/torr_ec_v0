@@ -1,35 +1,70 @@
+/**
+ * Analogy Game Mode - COMPLETE SELF-CONTAINED STYLES
+ * "Choose the answer that completes the analogy"
+ * 
+ * ============================================================================
+ * ALL ANALOGY CONTROLS ARE IN THIS FILE
+ * ============================================================================
+ */
+
+/* ============================================================================ */
+/* LAYOUT - Overall page structure                                              */
+/* ============================================================================ */
+
 .analogy-layout {
     display: flex;
     justify-content: center;
+
+    /* === EDIT THESE === */
     align-items: flex-start;
+    /* Options: flex-start, flex-end, center */
     gap: 10vw;
+    /* Space between question pen and answer pen */
     width: 90%;
+    /* Total layout width */
     margin-left: 5%;
+    /* Left screen margin */
     margin-right: 5%;
+    /* Right screen margin */
     margin-top: 3vh;
+    /* Distance from top */
     min-height: 55vh;
+    /* ================== */
+
     max-width: 90vw;
     overflow: visible;
     padding: var(--space-md) 0;
 }
 
+/* ============================================================================ */
+/* QUESTION PEN - The large pen with 3 items                                    */
+/* ============================================================================ */
+
 .analogy-layout .pen--question {
     flex: 0 0 auto;
 }
 
+/* QUESTION PEN SIZE */
 .analogy-layout .pen-surface--question {
+    /* === EDIT THESE === */
     width: clamp(200px, 60vw, 1200px);
     height: clamp(150px, 50vh, 700px);
+    /* ================== */
 }
 
+/* QUESTION GRID */
 .analogy-layout .pen-surface--question .animal-grid {
     display: grid;
     width: 100%;
     height: 100%;
+
+    /* === EDIT THESE === */
     grid-template-columns: repeat(3, 1fr);
+    /* 3 items */
     gap: var(--slot-gap);
     align-items: center;
     justify-items: center;
+    /* ================== */
 }
 
 .analogy-layout .pen-surface--question .animal-slot {
@@ -39,12 +74,20 @@
     pointer-events: none;
 }
 
+/* ============================================================================ */
+/* GATE/ARROW - The arrow between pens                                          */
+/* ============================================================================ */
+
 .analogy-layout .gate-container {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* === EDIT THESE === */
     margin-top: 12vh;
+    /* Vertical position of arrow */
+    /* ================== */
 }
 
 .analogy-layout .gate-image {
@@ -52,47 +95,93 @@
     height: auto;
 }
 
+/* ============================================================================ */
+/* ANSWER PEN - The small pen with 4 choices                                    */
+/* ============================================================================ */
+
 .analogy-layout .pen--answer {
     flex: 0 0 auto;
+
+    /* === EDIT THESE === */
     margin-top: 5vh;
+    /* Vertical offset */
+    /* ================== */
 }
 
+/* ANSWER PEN SIZE */
 .analogy-layout .pen-surface--answer {
+    /* === EDIT THESE === */
     width: clamp(120px, 20vw, 350px);
     height: clamp(120px, 20vw, 350px);
+    /* ================== */
 }
 
+/* ANSWER GRID - 2x2 */
 .analogy-layout .pen-surface--answer .animal-grid {
     display: grid;
     width: 100%;
+
+    /* === EDIT THESE === */
     grid-template-columns: repeat(2, 1fr);
     gap: var(--slot-gap);
     align-items: center;
     justify-items: center;
+    /* ================== */
+
     padding: var(--space-sm);
 }
 
 .analogy-layout .pen-surface--answer .animal-slot {
+    /* Use base styles from animal-slot.css for proper sizing */
     cursor: pointer;
 }
 
+/* ============================================================================ */
+/* GROUND POSITIONING - Where dirt appears inside fence                         */
+/* ============================================================================ */
+
 .analogy-layout .pen-ground {
+    /* === EDIT THESE === */
     top: 29%;
     left: 5%;
     right: 5%;
     bottom: 15%;
+    /* ================== */
 }
+
+/* ============================================================================ */
+/* GROUND ANGLE - Trapezoid shape                                               */
+/* ============================================================================ */
 
 .analogy-layout .pen-ground {
-    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
+    /* === EDIT THESE === */
+    clip-path: polygon(12% 0%,
+            /* Top-left (increase for steeper) */
+            88% 0%,
+            /* Top-right (decrease for steeper) */
+            100% 100%,
+            0% 100%);
+    /* ================== */
 }
 
+/* ============================================================================ */
+/* ANIMAL POSITIONING - Where animals appear inside pen                         */
+/* ============================================================================ */
+
 .analogy-layout .pen-content {
+    /* === EDIT THESE === */
     top: 30%;
+    /* Decrease = animals move UP */
     left: 10%;
     right: 10%;
     bottom: 18%;
+    /* Increase = animals move UP */
+    /* ================== */
 }
+
+/* ============================================================================ */
+/* QUESTION MARK SLOT                                                           */
+/* ============================================================================ */
 
 .analogy-layout .animal-slot--question-mark {
     background: rgba(255, 255, 255, 0.3);
@@ -105,6 +194,10 @@
     font-weight: bold;
     color: var(--dirt-secondary);
 }
+
+/* ============================================================================ */
+/* RESPONSIVE - DISABLED FOR NOW (uncomment when ready)                         */
+/* ============================================================================ */
 
 /*
 @media (min-width: 768px) and (max-width: 1024px) {

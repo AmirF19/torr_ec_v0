@@ -1,20 +1,37 @@
+/**
+ * Data Panel Component Styles
+ * Session statistics display
+ */
+
+/* ==================== */
+/* DATA PANEL           */
+/* ==================== */
+
 .data-panel {
     position: fixed;
     top: var(--space-md);
     right: var(--space-md);
-
+    
+    /* Styling */
     background: var(--panel-bg-solid);
     padding: var(--space-md);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-
+    
+    /* Sizing */
     max-width: 220px;
     min-width: 180px;
-
+    
+    /* Typography */
     font-size: var(--small-size);
-
+    
+    /* Layer */
     z-index: var(--z-controls);
 }
+
+/* ==================== */
+/* PANEL HEADER         */
+/* ==================== */
 
 .data-panel h4 {
     font-size: var(--body-size);
@@ -23,6 +40,10 @@
     padding-bottom: var(--space-xs);
     border-bottom: 2px solid var(--dirt-primary);
 }
+
+/* ==================== */
+/* PANEL CONTENT        */
+/* ==================== */
 
 .data-panel__content {
     display: flex;
@@ -39,6 +60,10 @@
 .data-panel strong {
     color: var(--text-dark);
 }
+
+/* ==================== */
+/* STAT ITEMS           */
+/* ==================== */
 
 .data-panel__stat {
     display: flex;
@@ -60,6 +85,10 @@
     color: var(--text-primary);
 }
 
+/* ==================== */
+/* HIGHLIGHT VALUES     */
+/* ==================== */
+
 .data-panel__value--success {
     color: var(--accent-green);
 }
@@ -71,6 +100,10 @@
 .data-panel__value--error {
     color: var(--accent-red);
 }
+
+/* ==================== */
+/* MINIMIZED STATE      */
+/* ==================== */
 
 .data-panel--minimized {
     max-width: 48px;
@@ -91,6 +124,10 @@
     text-align: center;
 }
 
+/* ==================== */
+/* MOBILE ADJUSTMENTS   */
+/* ==================== */
+
 @media (max-width: 768px) {
     .data-panel {
         top: auto;
@@ -103,6 +140,7 @@
     }
 }
 
+/* Hide on very small screens */
 @media (max-width: 480px) {
     .data-panel {
         display: none;

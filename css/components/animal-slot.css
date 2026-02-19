@@ -1,45 +1,70 @@
+/**
+ * Animal Slot Component Styles
+ * Interactive tiles containing animals
+ */
+
+/* ==================== */
+/* BASE SLOT            */
+/* ==================== */
+
 .animal-slot {
+    /* PROPORTIONAL SIZING - scales with viewport - LARGER */
     width: 11vw;
     height: 100%;
     min-width: 100px;
+    /* FIX: Increased min-width to prevent overlap */
     min-height: 120px;
 
+    /* NO visible background or border - animals on shared ground */
     background: transparent;
     border: none;
     border-radius: var(--radius-md);
 
+    /* Layout - align animals to BOTTOM for consistent baseline */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    /* Align to BOTTOM */
     position: relative;
 
+    /* Interaction */
     cursor: default;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
 
+    /* Transitions */
     transition:
         transform var(--transition-normal),
         box-shadow var(--transition-normal),
         background var(--transition-fast);
 }
 
+/* ==================== */
+/* SLOT STATES          */
+/* ==================== */
+
+/* Empty slot */
 .animal-slot--empty {
     cursor: default;
     pointer-events: none;
 }
 
+/* Populated slot (has animal) */
 .animal-slot--populated {
     cursor: pointer;
 }
 
+/* Selectable slot (can be clicked) */
 .animal-slot--selectable {
     cursor: pointer;
+    /* NO visible border or background - clean look */
     border: none;
     background: transparent;
 }
 
 .animal-slot--selectable:hover {
+    /* Only subtle lift effect - NO color, NO border */
     transform: translateY(-4px);
     box-shadow: none;
     background: transparent;
@@ -50,6 +75,7 @@
     transform: translateY(-2px) scale(0.98);
 }
 
+/* Selected slot (currently chosen) - NO visible styling */
 .animal-slot--selected {
     transform: translateY(-4px) scale(1.02);
     box-shadow: none;
@@ -63,17 +89,24 @@
     background: transparent;
 }
 
+/* Animating slot (during transition) */
 .animal-slot--animating {
     pointer-events: none;
     opacity: 0.5;
 }
 
+/* Grouped slot (multiple animals) */
 .animal-slot--grouped {
     width: calc(var(--slot-size) * 1.5);
     min-width: calc(var(--min-touch-target) * 1.5);
 }
 
+/* ==================== */
+/* ANIMAL GROUP         */
+/* ==================== */
+
 .animal-group {
+    /* CRITICAL: Fill the entire slot and align content to bottom */
     position: absolute;
     top: 0;
     bottom: 0;
@@ -83,37 +116,61 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-end;
+    /* Align images to BOTTOM of this container */
     gap: 4px;
     padding: 0;
 }
 
+/* Single animal in group */
 .animal-group--single {
     justify-content: center;
     align-items: flex-end;
 }
 
+/* Multiple animals adjustment */
 .animal-slot--grouped .animal-group {
     align-items: flex-end;
 }
 
+/* ==================== */
+/* ANIMAL IMAGE         */
+/* ==================== */
+
 .animal-image {
+    /* Base image styles - size controlled by size variants below */
     object-fit: contain;
     object-position: center bottom;
     pointer-events: none;
     display: block;
+
+    /* Smooth size transitions */
     transition: all var(--transition-normal);
+
+    /* Prevent selection */
     -webkit-user-drag: none;
     user-select: none;
 }
 
+/* ============================================================ */
+/* SIZE VARIANTS - FIXED VIEWPORT SIZES FOR CONSISTENCY         */
+/* Animals stay the SAME SIZE in main pen AND out pen           */
+/* ============================================================ */
+
+/* ============================================================ */
+/* SIZE VARIANTS - FIXED HEIGHTS (ORIGINAL LOGIC)               */
+/* ============================================================ */
+
 .animal-image--large {
+    /* LARGE: 28vh fixed height */
     width: auto;
     height: 28vh;
     max-width: none;
+    /* Allow natural width */
     max-height: 28vh;
 }
 
 .animal-image--medium {
+    /* MEDIUM: 20vh fixed height */
     width: auto;
     height: 20vh;
     max-width: none;
@@ -121,12 +178,14 @@
 }
 
 .animal-image--small {
+    /* SMALL: 13vh fixed height */
     width: auto;
     height: 13vh;
     max-width: none;
     max-height: 13vh;
 }
 
+/* Grouped animals (multiple animals in one slot) - smaller to fit */
 .animal-slot--grouped .animal-image--large {
     width: auto;
     height: 18vh;
@@ -148,15 +207,32 @@
     max-height: 10vh;
 }
 
+/* Downscale cats to match other animals visually */
+.animal-image--cat.animal-image--large,
+.animal-image--cat.animal-image--medium {
+    transform: scale(0.9);
+    transform-origin: bottom center;
+}
+
+/* REMOVED: Specific Out Pen sizing override that caused scaling issues. */
+
+/* ==================== */
+/* OUT PEN SLOT         */
+/* ==================== */
+
 .animal-slot--out {
+    /* OUT PEN SLOT - MUST match main pen slot size so animals don't resize */
+    /* These values should match .anomaly-layout .pen-surface--out .animal-slot */
     width: 11vw;
     height: 100%;
+    /* Fill the container height */
     min-width: 90px;
     min-height: 120px;
     cursor: pointer;
 }
 
 .animal-slot--out.animal-slot--empty {
+    /* No placeholder - clean empty state */
     border: none;
     background: transparent;
     cursor: default;
@@ -168,6 +244,7 @@
     cursor: pointer;
 }
 
+/* Out pen slot is clickable when populated - NO visible styling */
 .animal-slot--out.animal-slot--populated:hover {
     transform: translateY(-4px);
     box-shadow: none;
@@ -178,8 +255,14 @@
     transform: translateY(-2px) scale(0.98);
 }
 
+/* ==================== */
+/* SELECTION INDICATOR  */
+/* ==================== */
+
+/* Selection indicator DISABLED - no visible ring */
 .animal-slot--selected::before {
     content: none;
+    /* Disabled - no pulsing ring */
 }
 
 @keyframes pulse-ring {
@@ -196,6 +279,10 @@
     }
 }
 
+/* ==================== */
+/* FOCUS STATES         */
+/* ==================== */
+
 .animal-slot--selectable:focus {
     outline: 3px solid var(--accent-green);
     outline-offset: 2px;
@@ -210,6 +297,11 @@
     outline-offset: 2px;
 }
 
+/* ==================== */
+/* FLYING CLONE         */
+/* ==================== */
+
+/* Used during animation when animal moves between pens */
 .animal-slot--flying-clone {
     position: fixed;
     z-index: var(--z-animation);
@@ -230,6 +322,7 @@
     animation: fly-in 0.4s ease-in-out forwards;
 }
 
+/* FIX: Ensure flying clone images align exactly like the fixed Out Pen slots */
 .animal-slot--flying-clone .animal-image,
 .animal-slot--flying-clone img {
     position: absolute !important;
@@ -264,6 +357,10 @@
         opacity: 1;
     }
 }
+
+/* ==================== */
+/* SLOT POP ANIMATION   */
+/* ==================== */
 
 @keyframes slot-pop {
     0% {

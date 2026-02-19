@@ -1,19 +1,33 @@
+/**
+ * Base Styles
+ * Reset, typography, and global body styles
+ * Cross-browser compatible: Chrome, Safari (macOS/iOS), Firefox, Edge
+ */
+
+/* ==================== */
+/* CSS RESET            */
+/* ==================== */
+
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Prevent tap highlight on all elements */
     -webkit-tap-highlight-color: transparent;
 }
 
 html {
     height: 100%;
+    /* Prevent text size adjustment on orientation change */
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    /* Font smoothing for all browsers */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Smooth scrolling */
     scroll-behavior: smooth;
 }
 
@@ -25,15 +39,22 @@ body {
     line-height: 1.5;
     color: var(--text-primary);
 
+    /* Prevent pull-to-refresh on mobile */
     overscroll-behavior: none;
 
+    /* Prevent text selection during game */
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 
+    /* Prevent callout on long press (iOS) */
     -webkit-touch-callout: none;
 }
+
+/* ==================== */
+/* BACKGROUND STATES    */
+/* ==================== */
 
 body {
     background: url('../images/background_images/background.png') center center / cover no-repeat fixed;
@@ -53,6 +74,10 @@ body.report-view {
     justify-content: flex-start;
     padding-top: var(--space-xl);
 }
+
+/* ==================== */
+/* TYPOGRAPHY           */
+/* ==================== */
 
 h1,
 h2,
@@ -76,6 +101,10 @@ p {
     font-size: var(--body-size);
 }
 
+/* ==================== */
+/* LINKS & BUTTONS      */
+/* ==================== */
+
 a {
     color: inherit;
     text-decoration: none;
@@ -88,6 +117,7 @@ button {
     border: none;
     background: none;
 
+    /* Touch optimization - all browsers */
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
@@ -100,6 +130,7 @@ button:focus {
     outline-offset: 2px;
 }
 
+/* Safari/older browser support for focus-visible */
 button:focus:not(:focus-visible) {
     outline: none;
 }
@@ -109,19 +140,30 @@ button:focus-visible {
     outline-offset: 2px;
 }
 
+/* Firefox-specific focus styling */
 button:-moz-focusring {
     outline: 3px solid var(--accent-green);
     outline-offset: 2px;
 }
 
+/* ==================== */
+/* IMAGES               */
+/* ==================== */
+
 img {
     max-width: 100%;
     height: auto;
     display: block;
+
+    /* Prevent dragging */
     -webkit-user-drag: none;
     user-select: none;
     pointer-events: none;
 }
+
+/* ==================== */
+/* UTILITY CLASSES      */
+/* ==================== */
 
 .hidden {
     display: none !important;
@@ -143,6 +185,11 @@ img {
     overflow: hidden;
 }
 
+/* ==================== */
+/* FOCUS MANAGEMENT     */
+/* ==================== */
+
+/* Skip to main content link (accessibility) */
 .skip-link {
     position: absolute;
     top: -100%;
@@ -158,6 +205,10 @@ img {
 .skip-link:focus {
     top: var(--space-md);
 }
+
+/* ==================== */
+/* SCROLLBAR STYLING    */
+/* ==================== */
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -177,6 +228,10 @@ img {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--dirt-dark);
 }
+
+/* ==================== */
+/* SELECTION STYLING    */
+/* ==================== */
 
 ::selection {
     background: var(--accent-green-light);

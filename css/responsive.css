@@ -1,6 +1,16 @@
-/* Large Desktop */
+/**
+ * Responsive Styles
+ * Media queries and device-specific adjustments
+ * Cross-browser compatible: Chrome, Safari (macOS/iOS), Firefox, Edge
+ */
+
+/* ==================== */
+/* LARGE DESKTOP        */
+/* ==================== */
+
 @media (min-width: 1440px) {
     :root {
+        /* Still proportional on large screens */
         --main-pen-width: 50vw;
         --main-pen-height: 48vh;
         --out-pen-size: 16vw;
@@ -11,17 +21,25 @@
     }
 }
 
-/* Standard Desktop */
+/* ==================== */
+/* STANDARD DESKTOP     */
+/* ==================== */
+
 @media (min-width: 1025px) and (max-width: 1439px) {
     :root {
         --main-pen-width: 55vw;
         --main-pen-height: 50vh;
         --out-pen-size: 28vw;
+        /* Updated to match Marginally Smaller size */
         --slot-size: 9vw;
     }
 }
 
-/* Tablet Landscape */
+/* ==================== */
+/* TABLET LANDSCAPE     */
+/* (iPad Pro, iPad Air) */
+/* ==================== */
+
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     :root {
         --main-pen-width: 52vw;
@@ -44,10 +62,12 @@
         margin-bottom: var(--space-xs);
     }
 
+    /* Ensure enough space above controls */
     .problem-area {
         padding-bottom: 90px;
     }
 
+    /* Larger controls for touch */
     .controls {
         padding: var(--space-sm) var(--space-lg);
     }
@@ -58,7 +78,10 @@
     }
 }
 
-/* Tablet Portrait */
+/* ==================== */
+/* TABLET PORTRAIT      */
+/* ==================== */
+
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
     :root {
         --main-pen-width: 80vw;
@@ -70,6 +93,7 @@
     .anomaly-layout,
     .analogy-layout {
         flex-direction: row;
+        /* FIX: Keep side-by-side */
         align-items: center;
         justify-content: center;
         gap: 3vw;
@@ -84,8 +108,13 @@
     }
 }
 
+/* ==================== */
+/* iPAD SPECIFIC        */
+/* ==================== */
+
 /* iPad (10.2") and iPad Air */
 @media only screen and (min-device-width: 810px) and (max-device-width: 1080px) and (-webkit-min-device-pixel-ratio: 2) {
+
     :root {
         --min-touch-target: 60px;
     }
@@ -103,6 +132,7 @@
 
 /* iPad Pro 11" */
 @media only screen and (min-device-width: 834px) and (max-device-width: 1194px) and (-webkit-min-device-pixel-ratio: 2) {
+
     :root {
         --main-pen-width: 52vw;
         --main-pen-height: 45vh;
@@ -112,6 +142,7 @@
 
 /* iPad Pro 12.9" */
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+
     :root {
         --main-pen-width: 50vw;
         --main-pen-height: 42vh;
@@ -119,7 +150,10 @@
     }
 }
 
-/* Mobile Landscape */
+/* ==================== */
+/* MOBILE LANDSCAPE     */
+/* ==================== */
+
 @media (max-width: 767px) and (orientation: landscape) {
     :root {
         --main-pen-width: 55vw;
@@ -141,7 +175,10 @@
     }
 }
 
-/* Mobile Portrait */
+/* ==================== */
+/* MOBILE PORTRAIT      */
+/* ==================== */
+
 @media (max-width: 767px) and (orientation: portrait) {
     :root {
         --main-pen-width: 88vw;
@@ -174,18 +211,23 @@
         margin-right: 2.5%;
     }
 
+    /* Stack pens vertically */
     .anomaly-layout .pen--out,
     .analogy-layout .pen--answer {
         margin-top: var(--space-md);
     }
 
+    /* Adjust controls for mobile */
     .controls {
         width: calc(100% - 2 * var(--space-md));
         max-width: 300px;
     }
 }
 
-/* Small Phones */
+/* ==================== */
+/* SMALL PHONES         */
+/* ==================== */
+
 @media (max-width: 375px) {
     :root {
         --main-pen-width: 95vw;
@@ -202,7 +244,10 @@
     }
 }
 
-/* iOS Safe Areas */
+/* ==================== */
+/* iOS SAFE AREAS       */
+/* ==================== */
+
 @supports (padding: max(0px)) {
     .controls {
         padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
@@ -215,8 +260,13 @@
     }
 }
 
-/* Touch Devices */
+/* ==================== */
+/* TOUCH DEVICE HINTS   */
+/* ==================== */
+
 @media (hover: none) and (pointer: coarse) {
+
+    /* Remove hover effects on touch devices - use active instead */
     .animal-slot--selectable:hover {
         transform: none;
         box-shadow: none;
@@ -229,6 +279,7 @@
         background: var(--hover-glow);
     }
 
+    /* Larger touch targets */
     .animal-slot {
         min-width: 56px;
         min-height: 56px;
@@ -240,9 +291,14 @@
     }
 }
 
-/* High DPI Displays */
+/* ==================== */
+/* HIGH DPI DISPLAYS    */
+/* ==================== */
+
 @media (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
+
+    /* Ensure crisp borders on retina */
     .animal-slot--selected {
         border-width: 2px;
     }
@@ -252,7 +308,10 @@
     }
 }
 
-/* Reduced Motion */
+/* ==================== */
+/* REDUCED MOTION       */
+/* ==================== */
+
 @media (prefers-reduced-motion: reduce) {
 
     *,
@@ -268,7 +327,10 @@
     }
 }
 
-/* Print */
+/* ==================== */
+/* PRINT STYLES         */
+/* ==================== */
+
 @media print {
 
     .controls,

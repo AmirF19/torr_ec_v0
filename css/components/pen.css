@@ -1,3 +1,19 @@
+/**
+ * Pen Component - SHARED STRUCTURAL STYLES ONLY
+ * 
+ * This file contains ONLY the base structure that all pens need.
+ * All sizing, positioning, and customization is in each game's CSS file:
+ * 
+ * - anomaly.css    → Anomaly game controls
+ * - analogy.css    → Analogy game controls
+ * - antithesis.css → Antithesis game controls
+ * - antinomy.css   → Antinomy game controls
+ */
+
+/* ==================== */
+/* BASE PEN STRUCTURE   */
+/* ==================== */
+
 .pen-surface {
     position: relative;
     display: flex;
@@ -7,24 +23,39 @@
     border-radius: var(--radius-sm);
 }
 
+/* ==================== */
+/* GROUND STRUCTURE     */
+/* ==================== */
+
 .pen-ground {
     position: absolute;
     z-index: var(--z-ground);
+
+    /* Default ground image - games can override */
     background-image: url('../../images/elements/ground_1.svg');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+/* ==================== */
+/* CONTENT STRUCTURE    */
+/* ==================== */
+
 .pen-content {
     position: absolute;
     z-index: var(--z-animals);
+
     display: flex;
     align-items: stretch;
     justify-content: center;
     overflow: visible;
     padding: 0;
 }
+
+/* ==================== */
+/* FENCE STRUCTURE      */
+/* ==================== */
 
 .pen-fence {
     position: absolute;
@@ -34,6 +65,7 @@
     bottom: 0;
     pointer-events: none;
     z-index: var(--z-fence);
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,6 +85,10 @@
     max-width: none;
     max-height: none;
 }
+
+/* ==================== */
+/* SHADOW (OPTIONAL)    */
+/* ==================== */
 
 .pen-shadow {
     position: absolute;

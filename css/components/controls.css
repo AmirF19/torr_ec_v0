@@ -1,42 +1,68 @@
+/**
+ * Controls Component Styles
+ * Navigation buttons and control panel
+ */
+
+/* ==================== */
+/* CONTROLS CONTAINER   */
+/* ==================== */
+
 .controls {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: var(--space-md);
 
+    /* Fixed position at bottom */
     position: fixed;
     bottom: var(--controls-bottom);
     left: 50%;
     transform: translateX(-50%);
 
+    /* Styling */
     padding: var(--space-sm) var(--space-lg);
     background: transparent;
+    /* Removed background */
+    /* border-radius: var(--radius-lg); */
+    /* box-shadow: var(--shadow-lg); */
 
+    /* Above content */
     z-index: var(--z-controls);
 
+    /* iOS safe area */
     padding-bottom: max(var(--space-sm), var(--safe-bottom));
 }
 
+/* ==================== */
+/* PRIMARY BUTTON       */
+/* ==================== */
+
 .btn-primary {
+    /* Sizing - large for children */
     min-width: 140px;
     min-height: 56px;
     padding: var(--space-sm) var(--space-lg);
 
+    /* Touch target */
     touch-action: manipulation;
 
+    /* Appearance */
     background: var(--accent-green);
     color: var(--text-light);
     font-size: var(--subtitle-size);
     font-weight: var(--weight-bold);
     font-family: var(--font-primary);
 
+    /* Shape */
     border: none;
     border-radius: var(--radius-md);
 
+    /* Effects */
     box-shadow:
         0 4px 0 #3d8b40,
         var(--shadow-md);
 
+    /* Interaction */
     cursor: pointer;
     transition:
         transform var(--transition-fast),
@@ -59,30 +85,45 @@
         var(--shadow-sm);
 }
 
+/* ==================== */
+/* ARROW BUTTON         */
+/* ==================== */
+
 .arrow-btn {
+    /* Sizing */
     width: clamp(100px, 15vw, 160px);
     height: clamp(50px, 8vh, 70px);
 
+    /* Appearance */
     background: linear-gradient(to bottom, #66BB6A, #43A047);
+    /* Green Gradient */
     color: white;
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight: 900;
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
 
+    /* Shape */
     border: 4px solid white;
+    /* Sticker Look */
     border-radius: 50px;
+    /* Full Capsule */
 
+    /* Layout */
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
+    /* Effects */
     box-shadow:
         0 6px 0 #2E7D32,
+        /* Deep Green 3D edge */
         0 8px 10px rgba(0, 0, 0, 0.2);
 
+    /* Interaction */
     cursor: pointer;
     touch-action: manipulation;
     transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy */
 }
 
 .arrow-btn:hover:not(:disabled) {
@@ -99,6 +140,10 @@
         0 2px 0 #2E7D32,
         0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+/* ==================== */
+/* DISABLED STATE       */
+/* ==================== */
 
 .btn-primary:disabled,
 .arrow-btn:disabled {
@@ -120,12 +165,21 @@
         var(--shadow-sm);
 }
 
+/* ==================== */
+/* START BUTTON         */
+/* ==================== */
+
 .start-btn {
+    /* Larger for welcome screen */
     min-width: 180px;
     min-height: 70px;
     font-size: clamp(2rem, 4vw, 2.5rem);
     padding: var(--space-md) var(--space-xl);
 }
+
+/* ==================== */
+/* ICON BUTTONS         */
+/* ==================== */
 
 .btn-icon {
     width: 48px;
@@ -143,11 +197,19 @@
     fill: currentColor;
 }
 
+/* ==================== */
+/* BUTTON GROUP         */
+/* ==================== */
+
 .btn-group {
     display: flex;
     gap: var(--space-sm);
     align-items: center;
 }
+
+/* ==================== */
+/* FOCUS STATES         */
+/* ==================== */
 
 .btn-primary:focus,
 .arrow-btn:focus {
@@ -166,6 +228,10 @@
     outline-offset: 2px;
 }
 
+/* ==================== */
+/* BUTTON ANIMATIONS    */
+/* ==================== */
+
 @keyframes btn-pulse {
 
     0%,
@@ -178,6 +244,7 @@
     }
 }
 
+/* Pulse when enabled after selection */
 .arrow-btn--pulse:not(:disabled) {
     animation: btn-pulse 0.8s ease-in-out 2;
 }

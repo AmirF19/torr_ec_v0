@@ -1,32 +1,63 @@
+/**
+ * Header Component Styles
+ * Game title, instructions, and problem counter
+ */
+
+/* ==================== */
+/* GAME HEADER          */
+/* ==================== */
+
 .game-header {
     text-align: center;
     background: transparent;
+    /* Removed background */
+    /* border-radius: var(--radius-lg); */
     padding: var(--space-sm) var(--space-lg);
+    /* box-shadow: var(--shadow-md); */
     width: fit-content;
     max-width: 90%;
     margin: 0 auto var(--space-xs);
 }
 
+/* ==================== */
+/* TITLE                */
+/* ==================== */
+
 .game-title {
     font-size: var(--title-size);
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+    /* Cartoon Font */
     font-weight: 800;
     color: #FF9800;
+    /* Bright Orange */
     margin-bottom: var(--space-xs);
+    /* Pop-out Shadow */
     text-shadow:
         2px 2px 0px #fff,
         4px 4px 0px rgba(0, 0, 0, 0.15);
     letter-spacing: 1px;
+    visibility: hidden;
+    /* Hide title but keep layout space */
 }
 
+/* Quotation marks styling */
 .game-title::before,
 .game-title::after {
     color: var(--text-header);
 }
 
+/* ==================== */
+/* PROBLEM COUNTER      */
+/* ==================== */
+
+/* Problem counter in header is hidden - moved to bottom left panel */
 .game-header .problem-counter {
     display: none;
 }
+
+/* ==================== */
+/* INSTRUCTION TEXT     */
+/* ==================== */
 
 .game-instruction {
     font-size: var(--instruction-size);
@@ -34,6 +65,10 @@
     margin-top: var(--space-xs);
     line-height: 1.4;
 }
+
+/* ==================== */
+/* SECTION LABELS       */
+/* ==================== */
 
 .problem-label {
     font-size: var(--label-size);
@@ -48,6 +83,7 @@
     white-space: nowrap;
 }
 
+/* Label with decorative underline */
 .problem-label::after {
     content: '';
     position: absolute;
@@ -63,9 +99,16 @@
     border-radius: 1px;
 }
 
+/* ==================== */
+/* WELCOME SCREEN       */
+/* ==================== */
+
 .start-container .game-title {
-    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    /* Increased size significantly */
     margin-bottom: var(--space-lg);
+    visibility: visible;
+    /* Override global hidden state for splash screens */
 }
 
 .start-container .game-instruction {

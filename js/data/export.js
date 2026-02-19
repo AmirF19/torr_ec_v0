@@ -1,10 +1,19 @@
-const DataExport = (function () {
+/**
+ * Export Module
+ * Handles data export to CSV format
+ */
 
+const DataExport = (function() {
+    
+    /**
+     * Generate CSV content from completed problems
+     */
     function generateCSV(completedProblems) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
-
+        
+        // CSV header
         const headers = [
             'Problem Number',
             'Game Type',
@@ -23,13 +32,15 @@ const DataExport = (function () {
             'Final Selection Images',
             'Is Correct'
         ];
-
+        
         let csv = headers.join(',') + '\n';
-
+        
+        // Generate rows
         completedProblems.forEach((problem, index) => {
             const finalSelection = problem.finalSelection;
             const animals = problem.animals || [];
-
+            
+            // Extract final selection details
             const selectedAnimals = finalSelection?.animals || [];
             const selectedIds = selectedAnimals.map(a => a.id).join(';');
             const selectedSpecies = selectedAnimals.map(a => a.species).join(';');
@@ -37,7 +48,8 @@ const DataExport = (function () {
             const selectedPatterns = selectedAnimals.map(a => a.pattern).join(';');
             const selectedSizes = selectedAnimals.map(a => a.size).join(';');
             const selectedImages = selectedAnimals.map(a => a.image).join(';');
-
+            
+            // Build row
             const row = [
                 index + 1,
                 escapeCSV(problem.type),
@@ -56,18 +68,22 @@ const DataExport = (function () {
                 escapeCSV(selectedImages),
                 problem.isCorrect ? 'TRUE' : 'FALSE'
             ];
-
+            
             csv += row.join(',') + '\n';
         });
-
+        
         return csv;
     }
-
+    
+    /**
+     * Generate detailed CSV with all selections
+     */
     function generateDetailedCSV(completedProblems) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
-
+        
+        // CSV header
         const headers = [
             'Problem Number',
             'Game Type',
@@ -84,19 +100,21 @@ const DataExport = (function () {
             'Is Final Selection',
             'Is Correct'
         ];
-
+        
         let csv = headers.join(',') + '\n';
-
+        
+        // Generate rows for each selection
         completedProblems.forEach((problem, problemIndex) => {
             const selections = problem.selections || [];
-
+            
             selections.forEach((selection, selectionIndex) => {
                 const isFinal = selectionIndex === selections.length - 1;
                 const animals = selection.animals || [];
                 const isCorrect = isFinal && problem.isCorrect;
-
+                
+                // Time from problem start
                 const selectionTime = selection.timestamp - problem.startTime;
-
+                
                 animals.forEach(animal => {
                     const row = [
                         problemIndex + 1,
@@ -114,89 +132,107 @@ const DataExport = (function () {
                         isFinal ? 'TRUE' : 'FALSE',
                         isCorrect ? 'TRUE' : 'FALSE'
                     ];
-
+                    
                     csv += row.join(',') + '\n';
                 });
             });
         });
-
+        
         return csv;
     }
-
+    
+    /**
+     * Escape CSV field
+     */
     function escapeCSV(value) {
         if (value === null || value === undefined) {
             return '';
         }
-
+        
         const stringValue = String(value);
-
+        
+        // Check if escaping is needed
         if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
             return '"' + stringValue.replace(/"/g, '""') + '"';
         }
-
+        
         return stringValue;
     }
-
+    
+    /**
+     * Download CSV file
+     */
     function downloadCSV(csvContent, filename) {
         if (!csvContent) {
             console.warn('No CSV content to download');
             return false;
         }
-
+        
         try {
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
-
+            
             const link = document.createElement('a');
             link.href = url;
             link.download = filename || generateFilename();
             link.style.display = 'none';
-
+            
             document.body.appendChild(link);
             link.click();
-
+            
+            // Cleanup
             setTimeout(() => {
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             }, 100);
-
+            
             return true;
         } catch (e) {
             console.error('Failed to download CSV:', e);
             return false;
         }
     }
-
+    
+    /**
+     * Generate default filename
+     */
     function generateFilename(prefix = 'rr_experiment') {
         const date = new Date();
         const dateStr = date.toISOString().split('T')[0];
         const timeStr = date.toTimeString().split(' ')[0].replace(/:/g, '-');
         return `${prefix}_${dateStr}_${timeStr}.csv`;
     }
-
+    
+    /**
+     * Export game data to CSV
+     */
     function exportGameData(completedProblems, detailed = false) {
-        const csv = detailed ?
-            generateDetailedCSV(completedProblems) :
+        const csv = detailed ? 
+            generateDetailedCSV(completedProblems) : 
             generateCSV(completedProblems);
-
+        
         if (!csv) {
             console.warn('No data to export');
             return false;
         }
-
+        
         const prefix = detailed ? 'rr_detailed_data' : 'rr_experiment_data';
         return downloadCSV(csv, generateFilename(prefix));
     }
-
+    
+    /**
+     * Generate summary report
+     */
     function generateSummaryReport(completedProblems) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
-
+        
         const total = completedProblems.length;
         const correct = completedProblems.filter(p => p.isCorrect).length;
         const totalTime = completedProblems.reduce((sum, p) => sum + p.totalTime, 0);
-
+        
+        // Group by type
         const byType = {};
         completedProblems.forEach(problem => {
             const type = problem.type;
@@ -207,7 +243,7 @@ const DataExport = (function () {
             if (problem.isCorrect) byType[type].correct++;
             byType[type].time += problem.totalTime;
         });
-
+        
         return {
             overall: {
                 total,
@@ -225,7 +261,11 @@ const DataExport = (function () {
             }))
         };
     }
-
+    
+    // ==================== 
+    // PUBLIC API
+    // ====================
+    
     return {
         generateCSV,
         generateDetailedCSV,
@@ -235,6 +275,7 @@ const DataExport = (function () {
     };
 })();
 
+// Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = DataExport;
 }

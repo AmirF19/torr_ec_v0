@@ -1,3 +1,12 @@
+/**
+ * Report Component Styles
+ * Final results and data export screen
+ */
+
+/* ==================== */
+/* REPORT CONTAINER     */
+/* ==================== */
+
 .report-container {
     width: 100%;
     max-width: 900px;
@@ -8,6 +17,10 @@
     box-shadow: var(--shadow-xl);
     text-align: center;
 }
+
+/* ==================== */
+/* REPORT HEADER        */
+/* ==================== */
 
 .report-title {
     font-size: var(--title-size);
@@ -23,6 +36,10 @@
     background: rgba(33, 150, 243, 0.1);
     border-radius: var(--radius-md);
 }
+
+/* ==================== */
+/* RESULTS TABLE        */
+/* ==================== */
 
 .report-table {
     width: 100%;
@@ -52,6 +69,10 @@
     background-color: rgba(33, 150, 243, 0.05);
 }
 
+/* ==================== */
+/* RESULT INDICATORS    */
+/* ==================== */
+
 .result-correct {
     color: var(--accent-green);
     font-weight: var(--weight-bold);
@@ -61,6 +82,10 @@
     color: var(--accent-red);
     font-weight: var(--weight-bold);
 }
+
+/* ==================== */
+/* SCORE DISPLAY        */
+/* ==================== */
 
 .score-display {
     display: flex;
@@ -88,6 +113,10 @@
     color: var(--text-secondary);
     margin-top: var(--space-xs);
 }
+
+/* ==================== */
+/* DOWNLOAD SECTION     */
+/* ==================== */
 
 .report-actions {
     display: flex;
@@ -121,6 +150,10 @@
     font-size: 1.2em;
 }
 
+/* ==================== */
+/* RESTART BUTTON       */
+/* ==================== */
+
 .restart-btn {
     display: inline-flex;
     align-items: center;
@@ -145,21 +178,25 @@
     font-size: 1.2em;
 }
 
+/* ==================== */
+/* MOBILE ADJUSTMENTS   */
+/* ==================== */
+
 @media (max-width: 768px) {
     .report-container {
         margin: var(--space-md);
         padding: var(--space-md);
     }
-
+    
     .report-table {
         font-size: var(--small-size);
     }
-
+    
     .report-table th,
     .report-table td {
         padding: var(--space-xs) var(--space-sm);
     }
-
+    
     .score-display {
         flex-direction: column;
         gap: var(--space-sm);

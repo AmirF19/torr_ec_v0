@@ -1,22 +1,22 @@
 /**
- * Antinomy Renderer Module
- * Renders the Antinomy game type layout (MIGRATED FROM ANTINOMY2)
+ * Antinomy2 Renderer Module
+ * Renders the Antinomy2 game type layout (fresh build)
  */
 
-const AntinomyRenderer = (function () {
+const Antinomy2Renderer = (function () {
 
     /**
-     * Render Antinomy problem
+     * Render Antinomy2 problem
      */
     function render(problemData, container) {
         container.innerHTML = '';
 
-        // Create layout container - uses antinomy-layout class
+        // Create layout container - uses antinomy2-layout class
         const layout = document.createElement('div');
-        layout.className = 'antinomy-layout';
+        layout.className = 'antinomy2-layout';
 
         // CLEANUP: Remove any lingering flying animals from previous renders/sessions
-        document.querySelectorAll('.antinomy-flying-animal').forEach(el => el.remove());
+        document.querySelectorAll('.antinomy2-flying-animal').forEach(el => el.remove());
 
         // Find sections
         const greenSection = problemData.sections.find(s => s.label === 'Green Box');
@@ -24,7 +24,7 @@ const AntinomyRenderer = (function () {
         const choicesSection = problemData.sections.find(s => s.label === 'Choices Box');
 
         if (!greenSection || !redSection || !choicesSection) {
-            console.error('Missing sections in Antinomy problem');
+            console.error('Missing sections in Antinomy2 problem');
             return;
         }
 
@@ -33,9 +33,7 @@ const AntinomyRenderer = (function () {
         categoryRow.className = 'category-row';
 
         // Create Green Box
-        // Create Green Box
-        const { pen: greenPen, grid: greenGrid } = Pen.createCategoryPen('green', 'Green Box', Config.images.elements.penGreen);
-
+        const { pen: greenPen, grid: greenGrid } = Pen.createCategoryPen('green', 'Green Box');
         greenPen.classList.add('pen--green');
 
         // Add animals to green box (non-selectable)
@@ -62,9 +60,7 @@ const AntinomyRenderer = (function () {
         vsIndicator.textContent = 'VS';
 
         // Create Red Box
-        // Create Red Box
-        const { pen: redPen, grid: redGrid } = Pen.createCategoryPen('red', 'Red Box', Config.images.elements.penRed);
-
+        const { pen: redPen, grid: redGrid } = Pen.createCategoryPen('red', 'Red Box');
         redPen.classList.add('pen--red');
 
         // Add animals to red box (non-selectable)
@@ -83,8 +79,8 @@ const AntinomyRenderer = (function () {
             });
         });
 
-        // Add Question Mark Slot to Red Grid - REMOVED per user request
-        // redGrid.appendChild(createQuestionMarkAttributes());
+        // Add Question Mark Slot to Red Grid
+        redGrid.appendChild(createQuestionMarkAttributes());
 
         // Add to category row
         categoryRow.appendChild(greenPen);
@@ -102,7 +98,7 @@ const AntinomyRenderer = (function () {
                 selectable: true,
                 slotIndex: index,
                 penId: 'choices',
-                onClick: handleAntinomySelection
+                onClick: handleAntinomy2Selection
             });
             choicesGrid.appendChild(slot);
         });
@@ -115,9 +111,12 @@ const AntinomyRenderer = (function () {
     }
 
     /**
-     * Handle selection in Antinomy mode
+     * Handle selection in Antinomy2 mode
      */
-    function handleAntinomySelection(slotElement, choice, slotIndex) {
+    /**
+     * Handle selection in Antinomy2 mode
+     */
+    function handleAntinomy2Selection(slotElement, choice, slotIndex) {
         // Clear previous selections
         document.querySelectorAll('.pen--choices .animal-slot--selected').forEach(slot => {
             slot.classList.remove('animal-slot--selected');
@@ -134,13 +133,13 @@ const AntinomyRenderer = (function () {
         slotElement.dataset.isAnimating = 'true';
 
         // --- ANIMATION START ---
-        // STRICT TARGETING: Green Box Only (Updated for .antinomy-layout)
-        const targetContainer = document.querySelector('.antinomy-layout .category-row .pen--green .question-mark-slot');
+        // STRICT TARGETING: Green Box Only
+        const targetContainer = document.querySelector('.antinomy2-layout .category-row .pen--green .question-mark-slot');
         const sourceImage = slotElement.querySelector('.animal-image');
 
         if (sourceImage && targetContainer) {
             // CRITICAL FIX: Remove ALL existing animated clones to prevent duplication piles
-            document.querySelectorAll('.antinomy-flying-animal').forEach(el => el.remove());
+            document.querySelectorAll('.antinomy2-flying-animal').forEach(el => el.remove());
 
             // Hide original immediately
             sourceImage.style.opacity = '0';
@@ -148,7 +147,7 @@ const AntinomyRenderer = (function () {
             // Create clone
             const clone = sourceImage.cloneNode(true);
             clone.style.opacity = ''; // Ensure clone is visible
-            clone.classList.add('antinomy-flying-animal');
+            clone.classList.add('antinomy2-flying-animal');
             document.body.appendChild(clone);
 
             // Get positions
@@ -185,11 +184,11 @@ const AntinomyRenderer = (function () {
 
             let sizeOffset = 0;
             if (sourceImage.classList.contains('animal-image--large')) {
-                sizeOffset = startRect.height * 0.45; // Adjusted from 0.53 (Too low) to 0.45 to raise it up
+                sizeOffset = startRect.height * 0.55; // Large animals need significant push (Was 0.46)
             } else if (sourceImage.classList.contains('animal-image--medium')) {
-                sizeOffset = startRect.height * 0.55; // Medium animals need significant push (Was 0.42)
+                sizeOffset = startRect.height * 0.25; // Medium animals need some push
             } else {
-                sizeOffset = startRect.height * 0.3; // Small animals need slight push (Was 0.23)
+                sizeOffset = startRect.height * 0.15; // Small animals need slight push
             }
 
             // Global base offset to ensure nothing floats
@@ -232,6 +231,13 @@ const AntinomyRenderer = (function () {
 
                     // 5. Disable Next Button
                     SelectionHandler.disableNextButton();
+
+                    // 6. Update Game State (remove selection)
+                    // We assume SelectionHandler handles specific logic, but visuals are key here.
+                    // If we need to clear the actual data selection:
+                    // GameState.undoSelection? Or just rely on visual reset for now.
+                    // A proper implementation might need an 'undo' function in SelectionHandler, 
+                    // but visual reset + disable next button covers the requirement.
                 };
 
                 clone.addEventListener('click', returnHandler, { once: true });
@@ -276,5 +282,5 @@ const AntinomyRenderer = (function () {
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = AntinomyRenderer;
+    module.exports = Antinomy2Renderer;
 }

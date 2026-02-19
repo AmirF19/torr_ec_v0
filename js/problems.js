@@ -1,14 +1,26 @@
+/**
+ * Problem Set Module
+ * Defines all problems for Anomaly, Analogy, Antithesis, and Antinomy game types
+ */
+
 const ProblemSet = (function () {
+    // ==================== 
+    // ANIMAL FACTORY
+    // ====================
 
     let nextAnimalId = 1;
     let nextGroupId = 1;
 
+    /**
+     * Create an animal object
+     */
     function createAnimal({ species, size, color, pattern = 'solid' }) {
         const normalizedSpecies = species.toLowerCase();
         const normalizedSize = size.toLowerCase();
         const normalizedColor = color.toLowerCase();
         const normalizedPattern = pattern === 'striped' ? 'striped' : 'solid';
 
+        // Build image path
         const sizeFolder = Config.animals.sizeFolderMap[normalizedSize]?.[normalizedPattern];
         const image = sizeFolder
             ? `${Config.images.animalsBase}/${normalizedSpecies}/${sizeFolder}/${normalizedColor}.svg`
@@ -24,20 +36,32 @@ const ProblemSet = (function () {
         };
     }
 
+    // Shorthand animal creator
     const a = (species, size, color, pattern = 'solid') =>
         createAnimal({ species, size, color, pattern });
 
+    /**
+     * Create a choice (single animal or group)
+     */
     function makeChoice(animals) {
         const group = Array.isArray(animals) ? animals : [animals];
         const id = group.length === 1 ? group[0].id : `group-${nextGroupId++}`;
         return { id, animals: group };
     }
 
+    // ==================== 
+    // PROBLEM DEFINITIONS
+    // ====================
+
     function buildProblemSet() {
+        // Reset IDs for consistent problem set
         nextAnimalId = 1;
         nextGroupId = 1;
 
         return [
+            // ========================================
+            // ANOMALY PROBLEMS
+            // ========================================
 
             // Anomaly Sample
             (() => {
@@ -155,6 +179,10 @@ const ProblemSet = (function () {
                     correctChoiceId: choices[0].id
                 };
             })(),
+
+            // ========================================
+            // ANALOGY PROBLEMS
+            // ========================================
 
             // Analogy Sample
             (() => {
@@ -331,6 +359,10 @@ const ProblemSet = (function () {
                 };
             })(),
 
+            // ========================================
+            // ANTITHESIS PROBLEMS
+            // ========================================
+
             // Antithesis Sample
             (() => {
                 const choices = [
@@ -471,6 +503,10 @@ const ProblemSet = (function () {
                     correctChoiceId: choices[1].id
                 };
             })(),
+
+            // ========================================
+            // ANTINOMY PROBLEMS
+            // ========================================
 
             // Antinomy Sample
             (() => {
@@ -613,30 +649,46 @@ const ProblemSet = (function () {
                 };
             })(),
 
+
         ];
     }
 
     return {
+        /**
+         * Get the full problem set
+         */
         getProblems() {
             return buildProblemSet();
         },
 
+        /**
+         * Get problems by type
+         */
         getProblemsByType(type) {
             return buildProblemSet().filter(p =>
                 p.type.toLowerCase() === type.toLowerCase()
             );
         },
 
+        /**
+         * Get instruction text for a problem type
+         */
         getInstruction(type) {
             const typeConfig = Config.gameTypes[type.toLowerCase()];
             return typeConfig ? typeConfig.instruction : 'Choose the best answer.';
         },
 
+        /**
+         * Format animal label for display
+         */
         formatAnimalLabel(animal) {
             const patternText = animal.pattern === 'striped' ? 'striped ' : '';
             return `${animal.size} ${patternText}${animal.color} ${animal.species}`;
         },
 
+        /**
+         * Collect all animals from a problem
+         */
         collectProblemAnimals(problemData) {
             const animals = [];
             problemData.sections.forEach(section => {
@@ -652,6 +704,7 @@ const ProblemSet = (function () {
     };
 })();
 
+// Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ProblemSet;
 }

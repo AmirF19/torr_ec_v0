@@ -1,3 +1,12 @@
+/**
+ * Layout Styles
+ * Main containers, grids, and structural layouts
+ */
+
+/* ==================== */
+/* MAIN CONTAINERS      */
+/* ==================== */
+
 .game-container {
     max-width: 100%;
     width: 100%;
@@ -6,12 +15,13 @@
     margin: 0;
     position: relative;
     z-index: var(--z-background);
-
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-sm);
-
+    
+    /* Take up most of the viewport */
     min-height: 95vh;
 }
 
@@ -38,6 +48,10 @@
     text-align: center;
 }
 
+/* ==================== */
+/* PROBLEM AREA         */
+/* ==================== */
+
 .problem-area {
     display: flex;
     flex-direction: column;
@@ -45,11 +59,19 @@
     padding: 0 var(--space-md) var(--space-lg);
     width: 100%;
     overflow: visible;
+    
+    /* Fill available space */
     flex: 1;
+    /* Changed from center to flex-start + padding to move pens lower */
     justify-content: flex-start;
-    padding-top: 5vh;
+    padding-top: 5vh;  /* Push content down by 5% of viewport height */
 }
 
+/* ==================== */
+/* GAME MODE LAYOUTS    */
+/* ==================== */
+
+/* Anomaly & Analogy horizontal layout - cross-browser flexbox */
 .anomaly-layout,
 .analogy-layout {
     display: -webkit-box;
@@ -65,6 +87,7 @@
     -ms-flex-pack: center;
     justify-content: center;
     gap: 10vw;
+    /* 5% margin from screen edges */
     width: 90%;
     max-width: 90vw;
     margin-left: 5%;
@@ -72,10 +95,13 @@
     overflow: visible;
     min-height: 65vh;
     padding: 0;
+    
+    /* Center vertically */
     flex: 1;
     align-content: center;
 }
 
+/* Antithesis & Antinomy vertical sections */
 .problem-section {
     display: flex;
     flex-direction: column;
@@ -84,16 +110,25 @@
     overflow: visible;
 }
 
+/* ==================== */
+/* ANIMAL GRID          */
+/* ==================== */
+
 .animal-grid {
     display: -ms-grid;
     display: grid;
     gap: var(--slot-gap);
     width: 100%;
     height: 100%;
+    /* ========================================================== */
+    /* GRID ALIGNMENT - Controls how animal slots are positioned  */
+    /* align-items: end = slots align to BOTTOM for baseline      */
+    /* ========================================================== */
     justify-items: stretch;
-    align-items: end;
+    align-items: end;  /* Align slots to BOTTOM for consistent baseline */
 }
 
+/* Grid variants for different pen types */
 .animal-grid--main {
     grid-template-columns: repeat(auto-fit, minmax(var(--slot-size), 1fr));
     max-width: 100%;
@@ -102,7 +137,7 @@
 .animal-grid--out {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    place-items: stretch;
+    place-items: stretch;  /* Slot fills the cell - alignment handled inside */
 }
 
 .animal-grid--question {
@@ -115,14 +150,20 @@
     gap: var(--slot-gap);
 }
 
+/* 5-column grid for anomaly main pen */
 .animal-grid--anomaly {
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
 }
 
+/* 4-column grid for some problems */
 .animal-grid--4col {
     grid-template-columns: repeat(4, 1fr);
 }
+
+/* ==================== */
+/* FLEXBOX UTILITIES    */
+/* ==================== */
 
 .flex-center {
     display: flex;
@@ -144,17 +185,13 @@
     flex-wrap: wrap;
 }
 
-.gap-sm {
-    gap: var(--space-sm);
-}
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
 
-.gap-md {
-    gap: var(--space-md);
-}
-
-.gap-lg {
-    gap: var(--space-lg);
-}
+/* ==================== */
+/* PEN CONTAINER        */
+/* ==================== */
 
 .pen {
     display: flex;
@@ -163,6 +200,10 @@
     gap: var(--space-sm);
     overflow: visible;
 }
+
+/* ==================== */
+/* GATE/ARROW ELEMENT   */
+/* ==================== */
 
 .gate-container {
     display: flex;
@@ -176,6 +217,10 @@
     height: auto;
     pointer-events: none;
 }
+
+/* ==================== */
+/* BUCKET CONTAINER     */
+/* ==================== */
 
 .bucket-container {
     display: flex;

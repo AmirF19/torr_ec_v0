@@ -7,23 +7,28 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
+    <!-- iOS/Safari specific -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
 
+    <!-- Android/Chrome specific -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#87CEEB">
 
+    <!-- Prevent caching during development -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
     <title>Relational Reasoning Study</title>
 
+    <!-- Preload critical assets -->
     <link rel="preload" href="images/background_images/background.png" as="image">
     <link rel="preload" href="images/background_images/opening_page.png" as="image">
     <link rel="preload" href="images/elements/pen_1.svg" as="image">
 
+    <!-- CSS Files -->
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -41,20 +46,26 @@
 
     <link rel="stylesheet" href="css/responsive.css">
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/background_images/barn.png">
 </head>
 
 <body class="welcome">
+    <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link visually-hidden">Skip to main content</a>
 
-    <!-- Welcome Screen -->
+    <!-- ==================== -->
+    <!-- WELCOME SCREEN       -->
+    <!-- ==================== -->
     <div class="start-container" id="start-container">
         <h1 class="game-title">Test of Relational Reasoning - EC</h1>
         <p class="game-instruction">Click the start button to begin!</p>
         <button class="arrow-btn start-btn" aria-label="Start the game">►</button>
     </div>
 
-    <!-- Game Screen -->
+    <!-- ==================== -->
+    <!-- GAME SCREEN          -->
+    <!-- ==================== -->
     <main class="game-container hidden" id="game-container" role="main">
         <header class="game-header">
             <h1 class="game-title">"What Goes" Game</h1>
@@ -69,6 +80,7 @@
             <button class="arrow-btn" id="next-btn" disabled aria-label="Go to next problem">➤</button>
         </nav>
 
+        <!-- Bottom Left Panel: Game Switcher + Problem Counter -->
         <aside class="bottom-left-panel" id="bottom-left-panel">
             <div class="problem-counter" id="problem-counter-bottom" aria-live="polite"></div>
             <div class="game-switcher" id="game-switcher">
@@ -81,7 +93,9 @@
         </aside>
     </main>
 
-    <!-- Report Screen -->
+    <!-- ==================== -->
+    <!-- REPORT SCREEN        -->
+    <!-- ==================== -->
     <div class="report-container hidden" id="report-container">
         <h1 class="report-title">Experiment Complete!</h1>
         <p class="report-summary" id="report-summary" aria-live="polite"></p>
@@ -110,7 +124,9 @@
         </div>
     </div>
 
-    <!-- Data Panel -->
+    <!-- ==================== -->
+    <!-- DATA PANEL           -->
+    <!-- ==================== -->
     <aside class="data-panel" id="data-panel" aria-label="Session statistics">
         <h4>Current Session:</h4>
         <div id="current-data" class="data-panel__content">
@@ -120,6 +136,10 @@
         </div>
     </aside>
 
+    <!-- ==================== -->
+    <!-- JAVASCRIPT MODULES   -->
+    <!-- ==================== -->
+    <!-- Load order matters - dependencies first -->
     <script src="js/config.js"></script>
     <script src="js/state.js"></script>
     <script src="js/problems.js"></script>
