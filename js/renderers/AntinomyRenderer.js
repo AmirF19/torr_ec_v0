@@ -179,25 +179,66 @@ const AntinomyRenderer = (function () {
             const left = endRect.left + (targetWidth - startRect.width) / 2;
 
             // Fix for Animal Height Alignment:
-            // Animals need to be pushed down to align their baseline with the "ground"
-            // The Question Mark target slot is full height, so aligning bottom-to-bottom works theoretically,
-            // but visual padding in the SVGs requires manual downward offsets.
+            // "Feet should be aligned with the feet of the lowest animal"
+            // The lowest animal is on the baseline (bottom of the slot).
+            // We align the bottom of the flying image to the bottom of the target slot.
+
+            // 1. Calculate Base Top (Align Bottoms)
+            // endRect.bottom is the bottom of the slot.
+            // startRect.height is the height of the animal.
+            const baseTop = endRect.bottom - startRect.height;
+
+            // 2. Size Offsets (Match CSS values in antinomy.css)
+            // Large: bottom: -15% (pushes down) -> add 15% of slot height
+            // Small: bottom: 8% (pushes up) -> subtract 8% of slot height
+            // Medium: bottom: 0% -> 0
 
             let sizeOffset = 0;
+            const slotHeight = targetHeight; // endRect.height
+
             if (sourceImage.classList.contains('animal-image--large')) {
-                sizeOffset = startRect.height * 0.45; // Adjusted from 0.53 (Too low) to 0.45 to raise it up
-            } else if (sourceImage.classList.contains('animal-image--medium')) {
-                sizeOffset = startRect.height * 0.55; // Medium animals need significant push (Was 0.42)
+                sizeOffset = slotHeight * 0.15;
+            } else if (sourceImage.classList.contains('animal-image--small')) {
+                sizeOffset = -1 * (slotHeight * 0.08);
             } else {
-                sizeOffset = startRect.height * 0.3; // Small animals need slight push (Was 0.23)
+                // Medium or default
+                sizeOffset = 0;
             }
 
-            // Global base offset to ensure nothing floats
-            const globalBaseOffset = targetHeight * 0.05;
+            // 3. Stagger Offsets (Match CSS values in antinomy.css)
+            // .animal-slot:nth-child(odd) .animal-image { margin-bottom: 35% !important; }
+            // If target slot is Odd (1st, 3rd...), it is lifted UP by 35%.
+            // We need to find the index of targetContainer to know if it's odd or even.
 
-            // Calculate Top Position
-            // Align bottoms of image and target, then add offsets
-            const top = endRect.top + (targetHeight - startRect.height) + sizeOffset + globalBaseOffset;
+            let staggerOffset = 0;
+
+            // Find index of targetContainer in its parent
+            const parent = targetContainer.parentElement;
+            if (parent) {
+                const children = Array.from(parent.children);
+                const index = children.indexOf(targetContainer);
+
+                // CSS nth-child is 1-based. JS index is 0-based.
+                // If index is 0 (1st child) -> Odd -> Lift
+                // If index is 1 (2nd child) -> Even -> No Lift
+                // If index is 2 (3rd child) -> Odd -> Lift
+                // So if (index % 2 === 0), it corresponds to Odd nth-child.
+
+                if (index % 2 === 0) {
+                    // Only apply stagger if it's NOT the question mark slot
+                    // The Question Mark slot sits on the baseline (flex-end), so we shouldn't lift the animation.
+                    if (!targetContainer.classList.contains('question-mark-slot')) {
+                        staggerOffset = -1 * (slotHeight * 0.35);
+                    }
+                }
+            }
+
+            // Global base offset
+            // Reset to 0 as we want to align with the "lower animals" (baseline)
+            const globalBaseOffset = 0;
+
+            // Calculate Final Top Position
+            const top = baseTop + sizeOffset + staggerOffset + globalBaseOffset;
 
             clone.style.left = `${left}px`;
             clone.style.top = `${top}px`;
