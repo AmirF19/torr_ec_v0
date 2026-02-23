@@ -410,9 +410,9 @@
 }
 
 .analogy-flying-animal.animal-image--large {
-    max-height: 22vh !important;
-    /* Match top pen cap during flight */
+    /* Maintain natural size in flight */
 }
+
 
 
 /* ============================================================ */
@@ -425,9 +425,6 @@
     /* FOOTPRINT ALIGNMENT: Force all sizes to the wooden door line */
     bottom: 0% !important;
     transform: translateX(-50%) !important;
-
-    /* GIGANTIC ANIMAL FIX: Cap height for top-row scale */
-    max-height: 22vh !important;
     transform-origin: bottom center !important;
 }
 
