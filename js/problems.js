@@ -66,66 +66,68 @@ const ProblemSet = (function () {
             // Anomaly Sample
             (() => {
                 const choices = [
-                    makeChoice(a('sheep', 'small', 'yellow')),
-                    makeChoice(a('pig', 'medium', 'yellow')),
                     makeChoice(a('dog', 'large', 'yellow')),
+                    makeChoice(a('sheep', 'small', 'yellow')),
+                    makeChoice(a('cow', 'medium', 'yellow')),
+                    makeChoice(a('pig', 'medium', 'yellow')),
                     makeChoice(a('cat', 'small', 'yellow', 'striped'))
                 ];
                 return {
                     type: 'Anomaly',
                     label: 'Sample',
                     sections: [{ label: 'Animals', selectable: true, items: choices }],
-                    correctChoiceId: choices[3].id
+                    correctChoiceId: choices[4].id
                 };
             })(),
 
             // Anomaly Question 1
             (() => {
                 const choices = [
-                    makeChoice(a('cat', 'small', 'red')),
+                    makeChoice(a('cow', 'small', 'red')),
                     makeChoice(a('pig', 'small', 'red', 'striped')),
+                    makeChoice(a('cat', 'small', 'red')),
                     makeChoice(a('sheep', 'small', 'green', 'striped')),
-                    makeChoice(a('cow', 'small', 'red'))
+                    makeChoice(a('horse', 'small', 'red'))
                 ];
                 return {
                     type: 'Anomaly',
                     label: 'Question 1',
                     sections: [{ label: 'Animals', selectable: true, items: choices }],
-                    correctChoiceId: choices[2].id
+                    correctChoiceId: choices[3].id
                 };
             })(),
 
             // Anomaly Question 2
             (() => {
                 const choices = [
-                    makeChoice(a('dog', 'small', 'green', 'striped')),
                     makeChoice(a('cow', 'small', 'green', 'striped')),
-                    makeChoice(a('pig', 'large', 'green', 'striped')),
+                    makeChoice(a('cow', 'large', 'green')),
                     makeChoice(a('dog', 'large', 'green')),
-                    makeChoice(a('cow', 'large', 'green'))
+                    makeChoice(a('dog', 'small', 'green', 'striped')),
+                    makeChoice(a('pig', 'large', 'green', 'striped'))
                 ];
                 return {
                     type: 'Anomaly',
                     label: 'Question 2',
                     sections: [{ label: 'Animals', selectable: true, items: choices }],
-                    correctChoiceId: choices[2].id
+                    correctChoiceId: choices[4].id
                 };
             })(),
 
             // Anomaly Question 3
             (() => {
                 const choices = [
-                    makeChoice(a('pig', 'large', 'blue')),
-                    makeChoice(a('cow', 'large', 'blue')),
+                    makeChoice(a('dog', 'medium', 'green')),
                     makeChoice(a('cat', 'medium', 'green', 'striped')),
+                    makeChoice(a('cow', 'large', 'blue')),
                     makeChoice(a('dog', 'medium', 'green', 'striped')),
-                    makeChoice(a('dog', 'medium', 'green'))
+                    makeChoice(a('pig', 'large', 'blue'))
                 ];
                 return {
                     type: 'Anomaly',
                     label: 'Question 3',
                     sections: [{ label: 'Animals', selectable: true, items: choices }],
-                    correctChoiceId: choices[4].id
+                    correctChoiceId: choices[0].id
                 };
             })(),
 
@@ -133,10 +135,10 @@ const ProblemSet = (function () {
             (() => {
                 const choices = [
                     makeChoice(a('cat', 'small', 'red', 'striped')),
-                    makeChoice(a('cat', 'large', 'green', 'striped')),
-                    makeChoice(a('cat', 'large', 'blue')),
                     makeChoice(a('cat', 'small', 'blue', 'striped')),
-                    makeChoice(a('cat', 'large', 'red', 'striped'))
+                    makeChoice(a('cat', 'large', 'blue')),
+                    makeChoice(a('cat', 'large', 'red', 'striped')),
+                    makeChoice(a('cat', 'large', 'green', 'striped'))
                 ];
                 return {
                     type: 'Anomaly',
@@ -149,9 +151,9 @@ const ProblemSet = (function () {
             // Anomaly Question 5
             (() => {
                 const choices = [
-                    makeChoice(a('sheep', 'small', 'yellow', 'striped')),
                     makeChoice(a('sheep', 'large', 'green', 'striped')),
                     makeChoice(a('sheep', 'small', 'blue')),
+                    makeChoice(a('sheep', 'small', 'yellow', 'striped')),
                     makeChoice(a('sheep', 'large', 'yellow', 'striped')),
                     makeChoice(a('sheep', 'large', 'blue', 'striped'))
                 ];
@@ -159,7 +161,7 @@ const ProblemSet = (function () {
                     type: 'Anomaly',
                     label: 'Question 5',
                     sections: [{ label: 'Animals', selectable: true, items: choices }],
-                    correctChoiceId: choices[2].id
+                    correctChoiceId: choices[1].id
                 };
             })(),
 
@@ -167,10 +169,10 @@ const ProblemSet = (function () {
             (() => {
                 const choices = [
                     makeChoice(a('dog', 'large', 'red')),
+                    makeChoice(a('dog', 'small', 'red', 'striped')),
                     makeChoice(a('horse', 'large', 'red')),
                     makeChoice(a('dog', 'large', 'red', 'striped')),
-                    makeChoice(a('horse', 'small', 'red')),
-                    makeChoice(a('dog', 'small', 'red', 'striped'))
+                    makeChoice(a('horse', 'small', 'red'))
                 ];
                 return {
                     type: 'Anomaly',
@@ -417,8 +419,7 @@ const ProblemSet = (function () {
                     makeChoice(a('cat', 'large', 'blue')),
                     makeChoice(a('cat', 'medium', 'green')),
                     makeChoice(a('dog', 'medium', 'red')),
-                    makeChoice(a('cat', 'small', 'yellow')),
-                    makeChoice(a('sheep', 'medium', 'green'))
+                    makeChoice(a('cat', 'small', 'yellow'))
                 ];
                 return {
                     type: 'Antithesis',
@@ -475,9 +476,9 @@ const ProblemSet = (function () {
             // Antithesis Question 4
             (() => {
                 const choices = [
-                    makeChoice(a('dog', 'small', 'blue')),
-                    makeChoice([a('cat', 'small', 'yellow'), a('pig', 'small', 'yellow')]),
                     makeChoice([a('sheep', 'medium', 'green'), a('dog', 'medium', 'green')]),
+                    makeChoice([a('cat', 'small', 'yellow'), a('pig', 'small', 'yellow')]),
+                    makeChoice(a('dog', 'small', 'blue')),
                     makeChoice(a('cow', 'large', 'yellow'))
                 ];
                 return {
@@ -488,7 +489,7 @@ const ProblemSet = (function () {
                         { label: 'Box 3', selectable: false, items: [{ animals: [a('cow', 'large', 'blue'), a('sheep', 'large', 'blue'), a('dog', 'large', 'blue')] }] },
                         { label: 'Options Box', selectable: true, items: choices }
                     ],
-                    correctChoiceId: choices[2].id
+                    correctChoiceId: choices[0].id
                 };
             })(),
 
@@ -539,10 +540,10 @@ const ProblemSet = (function () {
             // Antinomy Sample
             (() => {
                 const choices = [
+                    makeChoice(a('dog', 'small', 'red')),
                     makeChoice(a('sheep', 'large', 'blue')),
                     makeChoice(a('sheep', 'medium', 'green')),
-                    makeChoice(a('sheep', 'small', 'green')),
-                    makeChoice(a('dog', 'small', 'red'))
+                    makeChoice(a('sheep', 'small', 'green'))
                 ];
                 return {
                     type: 'Antinomy',
@@ -552,16 +553,16 @@ const ProblemSet = (function () {
                         { label: 'Red Box', selectable: false, items: [{ animals: [a('cat', 'large', 'yellow'), a('cow', 'large', 'yellow'), a('pig', 'large', 'yellow')] }] },
                         { label: 'Choices Box', selectable: true, items: choices }
                     ],
-                    correctChoiceId: choices[1].id
+                    correctChoiceId: choices[2].id
                 };
             })(),
 
             // Antinomy Question 1
             (() => {
                 const choices = [
-                    makeChoice(a('pig', 'large', 'red')),
                     makeChoice(a('pig', 'large', 'blue')),
                     makeChoice(a('sheep', 'medium', 'blue')),
+                    makeChoice(a('pig', 'large', 'red')),
                     makeChoice(a('cat', 'medium', 'yellow'))
                 ];
                 return {
@@ -572,17 +573,17 @@ const ProblemSet = (function () {
                         { label: 'Red Box', selectable: false, items: [{ animals: [a('sheep', 'large', 'yellow'), a('dog', 'large', 'yellow'), a('cow', 'large', 'yellow')] }] },
                         { label: 'Choices Box', selectable: true, items: choices }
                     ],
-                    correctChoiceId: choices[1].id
+                    correctChoiceId: choices[0].id
                 };
             })(),
 
             // Antinomy Question 2
             (() => {
                 const choices = [
-                    makeChoice(a('cow', 'large', 'blue', 'striped')),
-                    makeChoice(a('pig', 'large', 'red', 'striped')),
                     makeChoice(a('sheep', 'large', 'red')),
-                    makeChoice(a('pig', 'medium', 'green'))
+                    makeChoice(a('pig', 'large', 'red', 'striped')),
+                    makeChoice(a('pig', 'medium', 'green')),
+                    makeChoice(a('cow', 'large', 'blue', 'striped'))
                 ];
                 return {
                     type: 'Antinomy',
@@ -620,10 +621,9 @@ const ProblemSet = (function () {
             (() => {
                 const choices = [
                     makeChoice(a('sheep', 'medium', 'blue')),
-                    makeChoice(a('pig', 'medium', 'red', 'striped')),
+                    makeChoice(a('dog', 'large', 'green', 'striped')),
                     makeChoice(a('cow', 'small', 'yellow')),
-                    makeChoice(a('sheep', 'medium', 'green')),
-                    makeChoice(a('dog', 'large', 'green', 'striped'))
+                    makeChoice(a('pig', 'medium', 'red', 'striped'))
                 ];
                 return {
                     type: 'Antinomy',
@@ -633,16 +633,16 @@ const ProblemSet = (function () {
                         { label: 'Red Box', selectable: false, items: [{ animals: [a('pig', 'large', 'blue'), a('dog', 'large', 'red'), a('horse', 'large', 'yellow')] }] },
                         { label: 'Choices Box', selectable: true, items: choices }
                     ],
-                    correctChoiceId: choices[1].id
+                    correctChoiceId: choices[3].id
                 };
             })(),
 
             // Antinomy Question 5
             (() => {
                 const choices = [
-                    makeChoice(a('sheep', 'small', 'red')),
+                    makeChoice(a('sheep', 'small', 'yellow', 'striped')),
                     makeChoice(a('cow', 'large', 'green')),
-                    makeChoice(a('sheep', 'small', 'yellow')),
+                    makeChoice(a('sheep', 'small', 'red')),
                     makeChoice(a('sheep', 'medium', 'red'))
                 ];
                 return {
@@ -653,7 +653,7 @@ const ProblemSet = (function () {
                         { label: 'Red Box', selectable: false, items: [{ animals: [a('cow', 'medium', 'red'), a('cat', 'medium', 'blue'), a('sheep', 'medium', 'yellow')] }] },
                         { label: 'Choices Box', selectable: true, items: choices }
                     ],
-                    correctChoiceId: choices[0].id
+                    correctChoiceId: choices[2].id
                 };
             })(),
 
