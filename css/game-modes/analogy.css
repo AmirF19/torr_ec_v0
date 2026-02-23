@@ -95,18 +95,17 @@
 
 /* AB FENCE IMAGE — updated scoping */
 .analogy-layout .pen--ab .pen-fence img {
-    transform: scale(2.1, 1.2) !important;
     left: 0% !important;
     top: 15% !important;
     transform-origin: center bottom !important;
 
-    /* === FENCE WARP TOOL (USER REQUEST) === */
-    /* Edit these variables to Pin corners independently */
+    /* === FENCE WARP TOOL === */
+    /* Shared variables for both Category pens (AB and C) */
     --warp-perspective: 600px;
     --warp-rotate-x: 0deg;
     --warp-skew-x: 0deg;
-    --warp-scale-x: 2.1;
-    --warp-scale-y: 1.2;
+    --warp-scale-x: 0.9;
+    --warp-scale-y: 0.73;
 
     transform: perspective(var(--warp-perspective)) scale(var(--warp-scale-x), var(--warp-scale-y)) rotateX(var(--warp-rotate-x)) skewX(var(--warp-skew-x)) !important;
 }
@@ -133,13 +132,18 @@
 
 /* C FENCE IMAGE — updated scoping */
 .analogy-layout .pen--c .pen-fence img {
-    transform: scale(2.1, 1.2) !important;
     left: 0% !important;
     top: 15% !important;
     transform-origin: center bottom !important;
 
-    /* === FENCE WARP TOOL === */
-    transform: perspective(var(--warp-perspective, 600px)) scale(var(--warp-scale-x, 2.1), var(--warp-scale-y, 1.2)) rotateX(var(--warp-rotate-x, 0deg)) skewX(var(--warp-skew-x, 0deg)) !important;
+    /* === FENCE WARP TOOL — Inherits from .pen--ab logic or uses same variables === */
+    --warp-perspective: 600px;
+    --warp-rotate-x: 0deg;
+    --warp-skew-x: 0deg;
+    --warp-scale-x: 0.9;
+    --warp-scale-y: 0.73;
+
+    transform: perspective(var(--warp-perspective)) scale(var(--warp-scale-x), var(--warp-scale-y)) rotateX(var(--warp-rotate-x)) skewX(var(--warp-skew-x)) !important;
 }
 
 /* C PEN CONTENT - updated scoping */
@@ -336,23 +340,26 @@
 
 /* No global size offsets - isolated to Choices Pen only */
 
+/* === GLOBAL SCALING === */
+/* Force 1.25x scaling for all large animals in Analogy mode */
+.analogy-layout .animal-image--large {
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+}
+
 /* === CAT SPECIFIC SCALING (0.9x) === */
 /* Large Cats: 1.25 * 0.9 = 1.125 */
-.analogy-layout .animal-slot .animal-image--large.animal-image--cat {
+.analogy-layout .animal-image--large.animal-image--cat {
     transform: translateX(-50%) scale(1.125) !important;
-    transform-origin: bottom center !important;
 }
 
 /* Medium Cats: 1.0 * 0.9 = 0.9 */
-.analogy-layout .animal-slot .animal-image--medium.animal-image--cat {
+.analogy-layout .animal-image--medium.animal-image--cat {
     transform: translateX(-50%) scale(0.9) !important;
-    transform-origin: bottom center !important;
 }
 
-/* Large animals in Choices pen - Depth Illusion */
+/* Choices Pen Specific Offsets (Depth Illusion & Stagger) */
 .analogy-layout .pen-surface--choices .animal-slot .animal-image--large {
-    transform: translateX(-50%) scale(1.25) !important;
-    transform-origin: bottom center !important;
     bottom: -15% !important;
 }
 
@@ -418,14 +425,17 @@
 /* ============================================================ */
 /* TOP PEN BASELINE LOCK - must appear LAST to win cascade      */
 /* ============================================================ */
-.analogy-layout .category-row .animal-slot .animal-image,
+.analogy-layout .category-row .animal-slot .animal-image {
+    /* FOOTPRINT ALIGNMENT: Force all sizes to the wooden door line */
+    bottom: 0% !important;
+    /* REMOVED: max-height: 22vh — was shrinking top pen animals */
+}
+
+/* Explicitly ensure large/medium/small classes don't override the baseline lock */
 .analogy-layout .category-row .animal-slot .animal-image--large,
 .analogy-layout .category-row .animal-slot .animal-image--medium,
 .analogy-layout .category-row .animal-slot .animal-image--small {
-    /* FOOTPRINT ALIGNMENT: Force all sizes to the wooden door line */
     bottom: 0% !important;
-    transform: translateX(-50%) !important;
-    transform-origin: bottom center !important;
 }
 
 /* ============================================================ */

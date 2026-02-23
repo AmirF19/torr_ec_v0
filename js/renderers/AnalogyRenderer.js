@@ -151,19 +151,11 @@ const AnalogyRenderer = (function () {
             // Force reflow to lock in start position
             void clone.offsetWidth;
 
-            // Calculate the exact same cap your CSS uses: 22vh
-            // This is necessary because the clone on document.body is outside .analogy-layout scope.
-            const maxHeightPx = window.innerHeight * 0.22;
+            // No cap — use the animal's full natural rendered size from the choices pen
+            const landingHeight = startRect.height;
+            const landingWidth = startRect.width;
 
-            // The clone's height should be either its natural size or capped at 22vh
-            const naturalHeight = startRect.height;
-            const landingHeight = Math.min(naturalHeight, maxHeightPx);
-
-            // Maintain aspect ratio for width
-            const aspectRatio = startRect.width / startRect.height;
-            const landingWidth = landingHeight * aspectRatio;
-
-            // Set explicit dimensions to the capped values
+            // Set explicit dimensions to the natural values
             clone.style.width = `${landingWidth}px`;
             clone.style.height = `${landingHeight}px`;
 
