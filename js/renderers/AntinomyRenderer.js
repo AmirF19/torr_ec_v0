@@ -296,7 +296,7 @@ const AntinomyRenderer = (function () {
      */
     function createQuestionMarkAttributes() {
         const div = document.createElement('div');
-        div.className = 'question-mark-slot';
+        div.className = 'animal-slot animal-slot--empty question-mark-slot';
 
         const span = document.createElement('span');
         span.className = 'question-mark-text';

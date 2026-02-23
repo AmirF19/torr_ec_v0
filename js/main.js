@@ -191,9 +191,9 @@ const App = (function () {
         let title = '';
         switch (gameType.toLowerCase()) {
             case 'anomaly': title = 'What Does Not Belong?'; break;
-            case 'antinomy': title = 'What Goes Game'; break;
-            case 'antithesis': title = 'Find The Middle'; break;
-            case 'analogy': title = 'Complete the Pattern'; break;
+            case 'antinomy': title = 'What Goes With?'; break;
+            case 'antithesis': title = 'What Goes in the Middle?'; break;
+            case 'analogy': title = 'What Goes Here?'; break;
             default: title = 'Game';
         }
 

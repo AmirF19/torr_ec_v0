@@ -24,6 +24,7 @@ const Config = {
             penMain: 'images/elements/pen_1.svg',
             penGreen: 'images/elements/pen_1a_green.svg',
             penRed: 'images/elements/pen_1a_red.svg',
+            penAnalogy: 'images/elements/analogy_pen.svg',
             penSmall: 'images/elements/pen_2.png',
             gateRight: 'images/elements/white_fencing_entrance_rightwards.png',
             gateLeft: 'images/elements/white_fencing_entrance_leftwards.png',

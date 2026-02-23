@@ -197,13 +197,17 @@ const ProblemSet = (function () {
                     label: 'Sample',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('pig', 'large', 'green')] },
-                                { animals: [a('pig', 'small', 'green')] },
+                                { animals: [a('pig', 'small', 'green')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('sheep', 'large', 'yellow')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[2].id
                 };
@@ -222,13 +226,17 @@ const ProblemSet = (function () {
                     label: 'Question 1',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('pig', 'large', 'green')] },
-                                { animals: [a('pig', 'medium', 'green')] },
+                                { animals: [a('pig', 'medium', 'green')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('pig', 'large', 'blue', 'striped')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[2].id
                 };
@@ -247,13 +255,17 @@ const ProblemSet = (function () {
                     label: 'Question 2',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('cat', 'large', 'yellow')] },
-                                { animals: [a('cat', 'medium', 'yellow')] },
+                                { animals: [a('cat', 'medium', 'yellow')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('sheep', 'large', 'yellow')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[1].id
                 };
@@ -272,13 +284,17 @@ const ProblemSet = (function () {
                     label: 'Question 3',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('sheep', 'large', 'green')] },
-                                { animals: [a('cow', 'large', 'yellow')] },
+                                { animals: [a('cow', 'large', 'yellow')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('sheep', 'small', 'green')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[3].id
                 };
@@ -297,13 +313,17 @@ const ProblemSet = (function () {
                     label: 'Question 4',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('cat', 'large', 'red')] },
-                                { animals: [a('sheep', 'large', 'blue')] },
+                                { animals: [a('sheep', 'large', 'blue')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('cat', 'small', 'red')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[2].id
                 };
@@ -322,13 +342,17 @@ const ProblemSet = (function () {
                     label: 'Question 5',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('sheep', 'large', 'red')] },
-                                { animals: [a('cat', 'large', 'green')] },
+                                { animals: [a('cat', 'large', 'green')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('cow', 'large', 'red')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[3].id
                 };
@@ -347,13 +371,17 @@ const ProblemSet = (function () {
                     label: 'Question 6',
                     sections: [
                         {
-                            label: 'Question Box', selectable: false, items: [
+                            label: 'AB Box', selectable: false, items: [
                                 { animals: [a('dog', 'large', 'blue')] },
-                                { animals: [a('sheep', 'small', 'red')] },
+                                { animals: [a('sheep', 'small', 'red')] }
+                            ]
+                        },
+                        {
+                            label: 'C Box', selectable: false, items: [
                                 { animals: [a('pig', 'large', 'yellow')] }
                             ]
                         },
-                        { label: 'Answer Choices', selectable: true, items: choices }
+                        { label: 'Choices Box', selectable: true, items: choices }
                     ],
                     correctChoiceId: choices[0].id
                 };
