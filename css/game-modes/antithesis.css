@@ -208,20 +208,14 @@
 }
 
 /* OPTIONS PEN ANIMAL SIZING - Overrides for choices pen */
-/* User requested true sizing be respected; removing explicit height overrides that distort them */
-.antithesis-layout .pen-surface--choices .animal-image--small {
-    /* height: 90% !important; */
-    bottom: 38% !important;
-}
-
-.antithesis-layout .pen-surface--choices .animal-image--medium {
-    /* height: 120% !important; */
-    bottom: 30% !important;
-}
-
+/* Remove old explicit percentage sizes and bottom lifts so animals sit on the ground and true size */
+.antithesis-layout .pen-surface--choices .animal-image--small,
+.antithesis-layout .pen-surface--choices .animal-image--medium,
 .antithesis-layout .pen-surface--choices .animal-image--large {
-    /* height: 150% !important; */
-    bottom: 15% !important;
+    height: auto !important;
+    /* Will fallback to standard animal logic sizes */
+    bottom: 0 !important;
+    /* Reset floating height so they sit securely in the slot box */
 }
 
 
@@ -302,11 +296,13 @@
     margin-top: calc(var(--space-md) + 2vh);
 }
 
-/* OPTIONS PEN SIZE - Matches Antinomy Choices */
+/* OPTIONS PEN SIZE - Matches Antinomy Choices (Enlarged for Antithesis) */
 .antithesis-layout .pen-surface--choices {
-    width: clamp(530px, 86vw, 1200px);
+    /* Base width increased by ~75% */
+    width: clamp(920px, 150vw, 2100px);
     height: auto;
-    aspect-ratio: 4.8;
+    /* Aspect ratio adjusted to reflect +75% width and +15% height change (4.8 * 1.75 / 1.15 =~ 7.3) */
+    aspect-ratio: 7.3;
     position: relative;
     overflow: visible;
 }
@@ -326,23 +322,30 @@
 }
 
 .antithesis-layout .pen-surface--choices .pen-fence img {
-    /* MATCHING ANTINOMY CHOICES SCALING */
+    /* MATCHING ANTINOMY CHOICES SCALING (Enlarged) */
     position: absolute !important;
     max-width: none !important;
     max-height: none !important;
 
-    transform: scale(2.65, 1.15) !important;
+    /* 
+     * USER INSTRUCTION: You can personally modify the width and height of the pen SVG here.
+     * transform: scale(WIDTH_MULTIPLIER, HEIGHT_MULTIPLIER)
+     * e.g., scale(3.18, 1.35) makes it 3.18x wider and 1.35x taller.
+     */
+    /* Scale factor increased by 20% on width (2.65 * 1.2 = 3.18) */
+    transform: scale(3.9, 1.85) !important;
     left: 0% !important;
-    top: -35% !important;
+    top: -1% !important;
     transform-origin: center bottom !important;
 }
 
 /* OPTIONS GROUND - Matches Antinomy Choices Ground */
 .antithesis-layout .pen-surface--choices .pen-ground {
-    top: -20%;
-    left: 5%;
-    right: 5%;
-    bottom: 45%;
+    top: -35%;
+    /* Revert to 5% to match original overlap */
+    left: 7%;
+    right: 6%;
+    bottom: 20%;
     clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
     z-index: 10;
 }
@@ -365,7 +368,8 @@
     display: grid !important;
     width: 100%;
     height: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+    /* Base non-grouped grid */
+    grid-template-columns: repeat(auto-fit, minmax(130px, auto));
     grid-template-rows: 1fr;
     gap: 3.5vw;
     justify-items: center;
@@ -390,10 +394,11 @@
 /* So no specific override needed here unless 'animal-group' interferes */
 
 /* STAGGERED ALIGNMENT - Matches Antinomy */
-.antithesis-layout .pen-surface--choices .animal-slot:nth-child(even) .animal-image {
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--choices .animal-slot:nth-child(even) .animal-image {
     /* margin-bottom: 35% !important;  <-- REMOVE MARGIN BOTTOM for Flex Items */
     /* Use transform on the image instead for stagger */
     /* Combine with existing translateX */
+    /* Applied ONLY to non-grouped layouts so groups don't overlap */
     transform: translateX(-50%) translateY(-35%) !important;
     /* Scale is separate rule, will cascade? No, we need to be careful with scale overrides */
 }
@@ -492,6 +497,9 @@
     /* Force side-by-side */
     justify-content: center !important;
     align-items: flex-end !important;
+    gap: 8px !important;
+    /* Lift animals up by 15% so they don't appear below the pen */
+    padding-bottom: 15% !important;
     /* Maintain Absolute Position of the GROUP container itself */
     position: absolute !important;
     left: 0 !important;
@@ -509,11 +517,14 @@
     /* Bottom is handled by specific overrides, generally ok to keep or reset if needed */
     /* We keep 'bottom' from global rules to lift them up, but position must be relative */
 
+    /* Prevent Flexbox from shrinking them to fit container width which distorts true size */
+    flex-shrink: 0 !important;
+
     /* Remove Global Centering Transform */
     transform: none !important;
 
-    /* Spacing: Increase negative margin to allow closer packing within slot limits */
-    margin: 0 -12px !important;
+    /* Spacing: Use gap on parent instead of negative margins to prevent overlap */
+    margin: 0 !important;
 }
 
 /* 3. RESTORE SCALING (Without translateX -50%) */
@@ -537,15 +548,31 @@
 .antithesis-group-layout .pen-surface--choices .animal-grid {
     /* Ensure grid still works */
     display: grid !important;
-    /* WIDEN GRID SLOTS FOR GROUPS */
-    /* Increased minmax to 240px to give 3 animals more room without making pen larger */
-    grid-template-columns: repeat(auto-fit, minmax(240px, auto)) !important;
+    /* FORCE 4 COLUMNS so groups never wrap and overflow the fence */
+    grid-template-columns: repeat(4, 1fr) !important;
 }
 
-/* Override stagger to NOT lift via transform if flex handles alignment differently? */
-/* Actually, keep the lift, but without X translation */
+/* OVERRIDE GROUP SHRINKING: Prevent animal-slot.css from shrinking grouped animals */
+.antithesis-group-layout .animal-slot--grouped .animal-image--large {
+    height: 28vh !important;
+    max-height: 28vh !important;
+}
+
+.antithesis-group-layout .animal-slot--grouped .animal-image--medium {
+    /* Increased medium size */
+    height: 24vh !important;
+    max-height: 24vh !important;
+}
+
+.antithesis-group-layout .animal-slot--grouped .animal-image--small {
+    height: 13vh !important;
+    max-height: 13vh !important;
+}
+
+/* Keep the lift, but without X translation so groups align correctly */
 .antithesis-group-layout .pen-surface--choices .animal-slot:nth-child(even) {
-    transform: translateY(-7.5%) !important;
+    /* Increase vertical stagger */
+    transform: translateY(-15.0%) !important;
 }
 
 /* 5. FLYING GROUP STYLES (Fixes Stacking during Animation) */
@@ -554,6 +581,7 @@
     flex-direction: row !important;
     justify-content: center !important;
     align-items: flex-end !important;
+    gap: 8px !important;
     /* Reset any block/fixed overrides from base class if needed, checking specificity */
 }
 
@@ -566,7 +594,7 @@
     transform: scale(1.25) !important;
     /* Match Box Scale to prevent resize glitch */
     /* Match the tighter margin applied to static boxes */
-    margin: 0 -12px !important;
+    margin: 0 !important;
 }
 
 /* Flying Cats */
