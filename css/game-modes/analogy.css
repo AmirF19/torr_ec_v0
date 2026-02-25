@@ -38,7 +38,8 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: clamp(30px, 6vw, 100px);
+    /* Barely any space per user request */
+    gap: clamp(5px, 1vw, 15px);
     width: 100%;
 }
 
@@ -84,6 +85,8 @@
 
 .analogy-layout .pen--ab {
     flex: 0 0 auto;
+    /* Pull the right side inward toward the C pen */
+    margin-right: -2vw;
 }
 
 /* AB PEN SIZE — Added .pen--ab scoping for selector strength */
@@ -104,8 +107,8 @@
     --warp-perspective: 600px;
     --warp-rotate-x: 0deg;
     --warp-skew-x: 0deg;
-    --warp-scale-x: 0.9;
-    --warp-scale-y: 0.73;
+    --warp-scale-x: 1.55;
+    --warp-scale-y: 0.98;
 
     transform: perspective(var(--warp-perspective)) scale(var(--warp-scale-x), var(--warp-scale-y)) rotateX(var(--warp-rotate-x)) skewX(var(--warp-skew-x)) !important;
 }
@@ -121,6 +124,8 @@
 
 .analogy-layout .pen--c {
     flex: 0 0 auto;
+    /* Pull the left side inward toward the AB pen */
+    margin-left: -2vw;
 }
 
 /* C PEN SIZE — same as AB pen */
@@ -140,8 +145,8 @@
     --warp-perspective: 600px;
     --warp-rotate-x: 0deg;
     --warp-skew-x: 0deg;
-    --warp-scale-x: 0.9;
-    --warp-scale-y: 0.73;
+    --warp-scale-x: 1.55;
+    --warp-scale-y: 0.98;
 
     transform: perspective(var(--warp-perspective)) scale(var(--warp-scale-x), var(--warp-scale-y)) rotateX(var(--warp-rotate-x)) skewX(var(--warp-skew-x)) !important;
 }
@@ -202,20 +207,20 @@
 
 /* AB PEN GROUND — updated scoping */
 .analogy-layout .pen--ab .pen-ground {
-    top: 42%;
+    top: 45%;
     left: 5%;
     right: 5%;
-    bottom: -15%;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    bottom: -5%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
 
 /* C PEN GROUND — updated scoping */
 .analogy-layout .pen--c .pen-ground {
-    top: 42%;
+    top: 45%;
     left: 5%;
     right: 5%;
-    bottom: -15%;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    bottom: -5%;
+    clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
 
 /* CHOICES PEN GROUND */
@@ -235,8 +240,9 @@
 .analogy-layout .category-row .pen-content {
     position: absolute;
     top: 25%;
-    left: 10%;
-    right: 10%;
+    /* Pushed inward from the edges to leave space for the question mark and outer animals */
+    left: 20%;
+    right: 20%;
     bottom: 11%;
 }
 
