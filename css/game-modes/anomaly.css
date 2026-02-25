@@ -203,6 +203,36 @@
     z-index: 40;
 }
 
+/* ============================================================================ */
+/* OUT PEN QUESTION MARK PLACEHOLDER                                            */
+/* ============================================================================ */
+.anomaly-layout .animal-slot--out.animal-slot--empty::after {
+    content: "?";
+    font-size: clamp(80px, 14vw, 140px);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    /* Center within the slot box as a baseline */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* 
+     * USER INSTRUCTION: Fine-tune the question mark placement here:
+     * Modify these margin values to nudge it from the center.
+     * margin-top: negative = UP, positive = DOWN
+     * margin-left: negative = LEFT, positive = RIGHT
+     */
+    margin-top: -6vh;
+    /* Pushed higher */
+    margin-left: -2vw;
+    /* Pushed marginally to the left */
+
+    pointer-events: none;
+    /* Let clicks pass through to the slot */
+}
+
 /* FIX: Connect with Anomaly Out Pen - Ensure natural size */
 .anomaly-layout .pen-surface--out .animal-slot .animal-image,
 .anomaly-layout .pen-surface--out .animal-slot img {
@@ -400,5 +430,10 @@
 /* Staggered Alignment - Zig-Zag */
 .anomaly-layout .pen-surface--main .animal-slot:nth-child(even) .animal-image,
 .anomaly-layout .pen-surface--out .animal-slot:nth-child(even) .animal-image {
-    margin-bottom: 35% !important;
+    /* 
+     * USER INSTRUCTION: This controls the vertical "zig-zag" stagger in Anomaly.
+     * Increase this percentage (e.g., 45%) for a more extreme stagger.
+     * Decrease this percentage (e.g., 20%) for a flatter stagger.
+     */
+    margin-bottom: 75% !important;
 }
