@@ -208,14 +208,18 @@
 }
 
 /* OPTIONS PEN ANIMAL SIZING - Overrides for choices pen */
-/* Remove old explicit percentage sizes and bottom lifts so animals sit on the ground and true size */
+/* Remove old explicit percentage sizes and lift animals from the bottom of their slot bounds */
 .antithesis-layout .pen-surface--choices .animal-image--small,
 .antithesis-layout .pen-surface--choices .animal-image--medium,
 .antithesis-layout .pen-surface--choices .animal-image--large {
     height: auto !important;
     /* Will fallback to standard animal logic sizes */
-    bottom: 0 !important;
-    /* Reset floating height so they sit securely in the slot box */
+
+    /* 
+     * USER INSTRUCTION: You can modify the baseline height for all animals in the 
+     * choices box here. Increase the percentage to move them higher up the screen.
+     */
+    bottom: 31% !important;
 }
 
 
@@ -333,7 +337,7 @@
      * e.g., scale(3.18, 1.35) makes it 3.18x wider and 1.35x taller.
      */
     /* Scale factor increased by 20% on width (2.65 * 1.2 = 3.18) */
-    transform: scale(3.9, 1.85) !important;
+    transform: scale(4.9, 1.85) !important;
     left: 0% !important;
     top: -1% !important;
     transform-origin: center bottom !important;
@@ -343,8 +347,8 @@
 .antithesis-layout .pen-surface--choices .pen-ground {
     top: -35%;
     /* Revert to 5% to match original overlap */
-    left: 7%;
-    right: 6%;
+    left: -5%;
+    right: -5%;
     bottom: 20%;
     clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
     z-index: 10;
@@ -368,8 +372,8 @@
     display: grid !important;
     width: 100%;
     height: 100%;
-    /* Base non-grouped grid */
-    grid-template-columns: repeat(auto-fit, minmax(130px, auto));
+    /* Base grid: Force 4 columns to distribute width evenly across the enlarged pen */
+    grid-template-columns: repeat(4, 1fr) !important;
     grid-template-rows: 1fr;
     gap: 3.5vw;
     justify-items: center;
@@ -498,8 +502,8 @@
     justify-content: center !important;
     align-items: flex-end !important;
     gap: 8px !important;
-    /* Lift animals up by 15% so they don't appear below the pen */
-    padding-bottom: 15% !important;
+    /* We handle bottom lift directly on the images now */
+    padding-bottom: 0 !important;
     /* Maintain Absolute Position of the GROUP container itself */
     position: absolute !important;
     left: 0 !important;
@@ -544,14 +548,6 @@
     transform: scale(0.9) !important;
 }
 
-/* 4. CHOICES PEN STAGGER (Without translateX -50%) */
-.antithesis-group-layout .pen-surface--choices .animal-grid {
-    /* Ensure grid still works */
-    display: grid !important;
-    /* FORCE 4 COLUMNS so groups never wrap and overflow the fence */
-    grid-template-columns: repeat(4, 1fr) !important;
-}
-
 /* OVERRIDE GROUP SHRINKING: Prevent animal-slot.css from shrinking grouped animals */
 .antithesis-group-layout .animal-slot--grouped .animal-image--large {
     height: 28vh !important;
@@ -571,8 +567,11 @@
 
 /* Keep the lift, but without X translation so groups align correctly */
 .antithesis-group-layout .pen-surface--choices .animal-slot:nth-child(even) {
-    /* Increase vertical stagger */
-    transform: translateY(-15.0%) !important;
+    /* 
+     * USER INSTRUCTION: This controls the vertical stagger for alternating choice groups.
+     * modify the translateY percentage. A larger negative number (e.g. -40%) increases the stagger height.
+     */
+    transform: translateY(-40.0%) !important;
 }
 
 /* 5. FLYING GROUP STYLES (Fixes Stacking during Animation) */
