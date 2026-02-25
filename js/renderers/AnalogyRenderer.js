@@ -179,8 +179,20 @@ const AnalogyRenderer = (function () {
 
             // On animation finish
             clone.addEventListener('transitionend', () => {
-                // Hide question mark
-                targetContainer.style.opacity = '0';
+                // Hide question mark span, keep container visible
+                const qmSpan = targetContainer.querySelector('.question-mark-text');
+                if (qmSpan) qmSpan.style.opacity = '0';
+
+                // Reparent the clone into the slot so CSS size alignments apply natively!
+                targetContainer.appendChild(clone);
+
+                // Clear the inline inline animation styles so CSS takes over
+                clone.style.position = '';
+                clone.style.left = '';
+                clone.style.top = '';
+                clone.style.width = '';
+                clone.style.height = '';
+                clone.style.transition = '';
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
@@ -197,7 +209,7 @@ const AnalogyRenderer = (function () {
                     sourceImage.style.opacity = '1';
 
                     // Show question mark again
-                    targetContainer.style.opacity = '1';
+                    if (qmSpan) qmSpan.style.opacity = '1';
 
                     // Remove selection state
                     slotElement.classList.remove('animal-slot--selected');
