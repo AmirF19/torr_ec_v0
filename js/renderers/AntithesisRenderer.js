@@ -184,6 +184,15 @@ const AntithesisRenderer = (function () {
             const isGroupLayout = document.querySelector('.antithesis-layout').classList.contains('antithesis-group-layout');
             if (isGroupLayout) {
                 clone.classList.add('antithesis-flying-group');
+
+                // IMPORTANT: Ensure the clone's physical dimensions match the source 
+                // exactly so that the flex children (which are now position: relative) 
+                // render in the same arrangement as they did in the source slot.
+                clone.style.display = 'flex';
+                clone.style.flexDirection = 'row';
+                clone.style.flexWrap = 'nowrap';
+                clone.style.justifyContent = 'center';
+                clone.style.alignItems = 'flex-end';
             }
 
             // FIX: Remove Flexbox overrides. Let CSS (.antinomy-flying-animal) handle layout.
@@ -230,6 +239,10 @@ const AntithesisRenderer = (function () {
 
             const top = centerY_Target - centerY_Animal + verticalOffset;
 
+            // Enforce final dimensions to prevent stacking or squishing in the new container
+            clone.style.width = `${startRect.width}px`;
+            clone.style.height = `${startRect.height}px`;
+
             clone.style.left = `${left}px`;
             clone.style.top = `${top}px`;
 
@@ -240,6 +253,13 @@ const AntithesisRenderer = (function () {
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
+
+                // Ensure the layout remains correct statically
+                clone.style.display = 'flex';
+                clone.style.flexDirection = 'row';
+                clone.style.flexWrap = 'nowrap';
+                clone.style.justifyContent = 'center';
+                clone.style.alignItems = 'flex-end';
 
                 // === INTERACTION: CLICK TO RETURN ===
                 clone.style.pointerEvents = 'auto'; // Enable clicking

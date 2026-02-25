@@ -208,18 +208,19 @@
 }
 
 /* OPTIONS PEN ANIMAL SIZING - Overrides for choices pen */
+/* User requested true sizing be respected; removing explicit height overrides that distort them */
 .antithesis-layout .pen-surface--choices .animal-image--small {
-    height: 90% !important;
+    /* height: 90% !important; */
     bottom: 38% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--medium {
-    height: 120% !important;
+    /* height: 120% !important; */
     bottom: 30% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--large {
-    height: 150% !important;
+    /* height: 150% !important; */
     bottom: 15% !important;
 }
 
@@ -487,6 +488,8 @@
 .antithesis-group-layout .animal-group {
     display: flex !important;
     flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    /* Force side-by-side */
     justify-content: center !important;
     align-items: flex-end !important;
     /* Maintain Absolute Position of the GROUP container itself */
@@ -509,8 +512,8 @@
     /* Remove Global Centering Transform */
     transform: none !important;
 
-    /* Spacing */
-    margin: 0 -5px !important;
+    /* Spacing: Increase negative margin to allow closer packing within slot limits */
+    margin: 0 -12px !important;
 }
 
 /* 3. RESTORE SCALING (Without translateX -50%) */
@@ -535,7 +538,8 @@
     /* Ensure grid still works */
     display: grid !important;
     /* WIDEN GRID SLOTS FOR GROUPS */
-    grid-template-columns: repeat(auto-fit, minmax(180px, auto)) !important;
+    /* Increased minmax to 240px to give 3 animals more room without making pen larger */
+    grid-template-columns: repeat(auto-fit, minmax(240px, auto)) !important;
 }
 
 /* Override stagger to NOT lift via transform if flex handles alignment differently? */
@@ -561,7 +565,8 @@
     top: auto !important;
     transform: scale(1.25) !important;
     /* Match Box Scale to prevent resize glitch */
-    margin: 0 -5px !important;
+    /* Match the tighter margin applied to static boxes */
+    margin: 0 -12px !important;
 }
 
 /* Flying Cats */
