@@ -52,7 +52,7 @@ The codebase handles clean separation of concerns:
 
 ## Game Modes
 
-1.  **Anomaly**: "What Does Not Belong?" - Users select the odd one out from a main pen.
+1.  **Anomaly**: "What Doesn't Belong?" - Users select the odd one out from a main pen.
 2.  **Analogy**: "What Goes With?" - Users choose an item to complete a visual analogy (A:B :: C:?).
 3.  **Antithesis**: "What Goes in the Middle?" - Users fill a middle slot to complete a sequence.
 4.  **Antinomy**: "What Goes Here?" - Users place an item that follows a rule into a specific category box.

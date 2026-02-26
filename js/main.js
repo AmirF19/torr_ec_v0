@@ -190,10 +190,10 @@ const App = (function () {
     function showGameInterstitial(gameType) {
         let title = '';
         switch (gameType.toLowerCase()) {
-            case 'anomaly': title = 'What Does Not Belong?'; break;
-            case 'antinomy': title = 'What Goes With?'; break;
+            case 'anomaly': title = "What Doesn't Belong?"; break;
+            case 'antinomy': title = 'What Goes Here?'; break;
             case 'antithesis': title = 'What Goes in the Middle?'; break;
-            case 'analogy': title = 'What Goes Here?'; break;
+            case 'analogy': title = 'What Goes With?'; break;
             default: title = 'Game';
         }
 
