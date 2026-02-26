@@ -84,7 +84,7 @@ const ProblemSet = (function () {
             (() => {
                 const choices = [
                     makeChoice(a('cow', 'small', 'red')),
-                    makeChoice(a('pig', 'small', 'red', 'striped')),
+                    makeChoice(a('pig', 'small', 'red')),
                     makeChoice(a('cat', 'small', 'red')),
                     makeChoice(a('sheep', 'small', 'green', 'striped')),
                     makeChoice(a('horse', 'small', 'red'))
@@ -135,10 +135,10 @@ const ProblemSet = (function () {
             (() => {
                 const choices = [
                     makeChoice(a('cat', 'small', 'red', 'striped')),
-                    makeChoice(a('cat', 'small', 'blue', 'striped')),
+                    makeChoice(a('cat', 'large', 'green', 'striped')),
                     makeChoice(a('cat', 'large', 'blue')),
-                    makeChoice(a('cat', 'large', 'red', 'striped')),
-                    makeChoice(a('cat', 'large', 'green', 'striped'))
+                    makeChoice(a('cat', 'small', 'blue', 'striped')),
+                    makeChoice(a('cat', 'large', 'red', 'striped'))
                 ];
                 return {
                     type: 'Anomaly',
