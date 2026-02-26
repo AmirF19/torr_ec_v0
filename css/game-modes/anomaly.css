@@ -59,6 +59,16 @@
     font-weight: bold;
 }
 
+/* ==================== */
+/* Z-INDEX OVERRIDES    */
+/* ==================== */
+
+/* FIX: Ensure all animals in Anomaly sit ABOVE the fence (which is z-index 10 or 30) */
+/* By overriding z-index here without changing position, we keep the grid layout intact */
+.anomaly-layout .pen-content {
+    z-index: 50 !important;
+}
+
 /* ============================================================================ */
 /* MAIN PEN - The large pen with 5 animals                                     */
 /* ============================================================================ */
@@ -108,6 +118,9 @@
 .anomaly-layout .pen-surface--main .animal-slot {
     width: 100%;
     height: 100%;
+    /* FIX: Lift individual animals over the fence instead of the container */
+    position: relative;
+    z-index: 50;
 }
 
 /* ============================================================================ */
