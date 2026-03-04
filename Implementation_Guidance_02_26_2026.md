@@ -88,7 +88,7 @@ if (populateBtn) {
 
 *CSS files act as the "paint" and "layout instructions" for the website. The following changes require tweaking numbers (like percentages or pixels) inside these files.*
 
-### 2.1 Anomaly Domain
+### 2.1 Anomaly
 *   **File to Edit:** `css/game-modes/anomaly.css`
 *   **Issue 1: Visual Overlap Fence:** Find `.anomaly-layout .pen-ground` (Line 280). Adjust the `top`, `bottom`, `left`, and `right` percentages. Increasing `top` makes the dirty ground area start lower, keeping animals away from the top fence.
 *   **Issue 2: Option Overlap:** Find `.anomaly-layout .pen-surface--main .animal-grid` (Line 96). Change `gap: 0.5vw;` to `gap: 2vw;` to push the animals further apart.
@@ -102,12 +102,12 @@ const counterText = `${problemData.type}${labelSuffix} (${numberWithinType} of $
 const counterText = ``; // Leaves it completely blank
 ```
 
-### 2.2 Analogy Domain
+### 2.2 Analogy
 *   **File to Edit:** `css/game-modes/analogy.css`
 *   **Issue 1: iPad Overlap (Next Button):** Decrease the overall grid height. Look for `.analogy-layout` and add `margin-bottom: 80px;` to lift the animals above the Next button space.
 *   **Issue 2: Choices Box Resizing (75% Bigger):** Search for `.analogy-layout .pen-surface--choices`. Change its `width` from whatever it currently is to something much wider (e.g., from `30vw` to `50vw`).
 
-### 2.3 Antithesis Domain
+### 2.3 Antithesis
 *   **Issue 1: Persistence Bug (Animals stuck on screen):**
     *   **File to Edit:** `js/renderers/AntithesisRenderer.js` and `js/main.js`
     *   **Change:** The issue occurs because the previous game screen is not fully erased before the next one starts. In `js/main.js`, find `function renderDefaultProblem` and ensure we aggressively clear the container: `container.innerHTML = '';` runs properly during transitions.
@@ -115,7 +115,7 @@ const counterText = ``; // Leaves it completely blank
     *   **File to Edit:** `css/game-modes/antithesis.css`
     *   **Change:** Search for the CSS class controlling the arrow (e.g., `.antithesis-arrow`). Add `display: none !important;` to hide it permanently.
 
-### 2.4 Antinomy Domain
+### 2.4 Antinomy
 *   **File to Edit:** `css/game-modes/antinomy.css`
 *   **Issue 1: Question Mark Placement:** Search for `.antinomy-layout .animal-slot--empty::after`. This controls the question mark. Change `margin-left:` and `margin-top:` to `0` to perfectly center it within the selection area.
 *   **Issue 2: Green Box / Red Box Baseline Misalignment:**
