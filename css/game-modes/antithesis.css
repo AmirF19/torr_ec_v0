@@ -207,18 +207,28 @@
     bottom: 5% !important;
 }
 
-/* OPTIONS PEN ANIMAL SIZING - Overrides for choices pen */
-/* Remove old explicit percentage sizes and lift animals from the bottom of their slot bounds */
-.antithesis-layout .pen-surface--choices .animal-image--small,
-.antithesis-layout .pen-surface--choices .animal-image--medium,
+/* OPTIONS PEN ANIMAL SIZING - Explicit per-size heights so all Antithesis questions
+   (including Sample and Q1, which lack .antithesis-group-layout) render at the
+   correct size. Heights mirror the values used in the group-layout section below. */
 .antithesis-layout .pen-surface--choices .animal-image--large {
-    height: auto !important;
-    /* Will fallback to standard animal logic sizes */
-
+    height: 28vh !important;
+    max-height: 28vh !important;
     /* 
-     * USER INSTRUCTION: You can modify the baseline height for all animals in the 
-     * choices box here. Increase the percentage to move them higher up the screen.
+     * USER INSTRUCTION: You can modify the baseline bottom offset for all animals
+     * in the choices box here. Increase the percentage to move them higher up.
      */
+    bottom: 31% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-image--medium {
+    height: 24vh !important;
+    max-height: 24vh !important;
+    bottom: 31% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-image--small {
+    height: 13vh !important;
+    max-height: 13vh !important;
     bottom: 31% !important;
 }
 
