@@ -180,6 +180,20 @@ const AntithesisRenderer = (function () {
             clone.style.opacity = ''; // Ensure clone is visible
             clone.classList.add('antinomy-flying-animal'); // Re-use Antinomy class for flying style
 
+            // FIX: Lock each animal image to its current rendered pixel size
+            // so CSS rules don't resize it when the clone moves to a different context
+            const sourceImages = sourceGroup.querySelectorAll('.animal-image');
+            const cloneImages = clone.querySelectorAll('.animal-image');
+            sourceImages.forEach((srcImg, idx) => {
+                const imgRect = srcImg.getBoundingClientRect();
+                if (cloneImages[idx]) {
+                    cloneImages[idx].style.width = `${imgRect.width}px`;
+                    cloneImages[idx].style.height = `${imgRect.height}px`;
+                    cloneImages[idx].style.maxWidth = 'none';
+                    cloneImages[idx].style.maxHeight = 'none';
+                }
+            });
+
             // Check if we are in Group Layout (Q3+)
             const isGroupLayout = document.querySelector('.antithesis-layout').classList.contains('antithesis-group-layout');
             if (isGroupLayout) {

@@ -216,20 +216,21 @@
     /* 
      * USER INSTRUCTION: You can modify the baseline bottom offset for all animals
      * in the choices box here. Increase the percentage to move them higher up.
+     * Aligned to match Box 1 & 3 baseline.
      */
-    bottom: 31% !important;
+    bottom: -5% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--medium {
     height: 24vh !important;
     max-height: 24vh !important;
-    bottom: 31% !important;
+    bottom: 5% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
-    bottom: 31% !important;
+    bottom: 8% !important;
 }
 
 
@@ -289,17 +290,8 @@
 /* ============================================================================ */
 
 .antithesis-layout .arrow-indicator {
-    /* Increased size */
-    font-size: clamp(3rem, 5vw, 5rem);
-    color: var(--dirt-secondary);
-    z-index: 100;
-
-    /* Lift arrow to visual middle of the shifted pens */
-    /* Pens are shifted ~50% up visually */
-    transform: translateY(-100%);
-
-    font-weight: bold;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+    /* HIDDEN per user request */
+    display: none !important;
 }
 
 /* ============================================================================ */
@@ -345,9 +337,9 @@
      * e.g., scale(3.18, 1.35) makes it 3.18x wider and 1.35x taller.
      */
     /* Fence scale proportional to pen size */
-    transform: scale(2.7, 1.0) !important;
+    transform: scale(3.25, 1.8) !important;
     left: 0% !important;
-    top: 15% !important;
+    top: -3% !important;
     transform-origin: center bottom !important;
 }
 

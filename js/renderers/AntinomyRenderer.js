@@ -149,6 +149,15 @@ const AntinomyRenderer = (function () {
             const clone = sourceImage.cloneNode(true);
             clone.style.opacity = ''; // Ensure clone is visible
             clone.classList.add('antinomy-flying-animal');
+
+            // FIX: Lock animal image to its current rendered pixel size
+            // so CSS rules don't resize it when the clone moves to a different context
+            const imgRect = sourceImage.getBoundingClientRect();
+            clone.style.width = `${imgRect.width}px`;
+            clone.style.height = `${imgRect.height}px`;
+            clone.style.maxWidth = 'none';
+            clone.style.maxHeight = 'none';
+
             document.body.appendChild(clone);
 
             // Get positions
