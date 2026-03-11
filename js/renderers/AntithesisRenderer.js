@@ -234,24 +234,14 @@ const AntithesisRenderer = (function () {
             const targetWidth = endRect.width;
             const targetHeight = endRect.height;
 
-            // Center the group in the target
+            // Center the group horizontally in the target
             const left = endRect.left + (targetWidth - startRect.width) / 2;
 
-            // Determine size category from children (assume uniform or take largest)
-            // NO LONGER NEEDED FOR CENTERING LOGIC
-            // let sizeOffset = 0;
-            // ...
-
-            // Fix for Height Alignment: CENTER-TO-CENTER
-            // We want the animal to float in the exact center of the Question Box
-
-            const centerY_Target = endRect.top + (targetHeight / 2);
-            const centerY_Animal = startRect.height / 2;
-
-            // Shift down by 20% of target height per user request (Total 20%)
-            const verticalOffset = targetHeight * 0.20;
-
-            const top = centerY_Target - centerY_Animal + verticalOffset;
+            // BOTTOM-ALIGNED: Match the Box 1 & Box 3 baseline by aligning
+            // the clone's bottom edge with the target container's bottom edge.
+            // The question-mark-slot has bottom: 45% (same as Box 1/3 animal slots),
+            // so its bottom edge IS the ground line.
+            const top = endRect.bottom - startRect.height;
 
             // Enforce final dimensions to prevent stacking or squishing in the new container
             clone.style.width = `${startRect.width}px`;

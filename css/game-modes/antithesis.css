@@ -37,8 +37,8 @@
     justify-content: center;
 
     /* === EDIT THESE === */
-    /* Reduced gap to fit 3 boxes on iPad 11" */
-    gap: clamp(20px, 4vw, 60px);
+    /* Increased gap to prevent oversized fence overlays from overlapping */
+    gap: clamp(40px, 10vw, 120px);
     /* Drop the boxes down per user request */
     margin-top: 5vh;
     /* ================== */
@@ -213,24 +213,22 @@
 .antithesis-layout .pen-surface--choices .animal-image--large {
     height: 28vh !important;
     max-height: 28vh !important;
-    /* 
-     * USER INSTRUCTION: You can modify the baseline bottom offset for all animals
-     * in the choices box here. Increase the percentage to move them higher up.
-     * Aligned to match Box 1 & 3 baseline.
-     */
-    bottom: -5% !important;
+    /* Raised baseline to align with Box 1 & 3 baselines */
+    bottom: 10% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--medium {
     height: 24vh !important;
     max-height: 24vh !important;
-    bottom: 5% !important;
+    /* Raised baseline to align with Box 1 & 3 baselines */
+    bottom: 18% !important;
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
-    bottom: 8% !important;
+    /* Raised baseline to align with Box 1 & 3 baselines */
+    bottom: 20% !important;
 }
 
 
@@ -397,24 +395,14 @@
 /* With 'Absolute Truth', they are centered by default (left: 50%, translate -50%) */
 /* So no specific override needed here unless 'animal-group' interferes */
 
-/* STAGGERED ALIGNMENT - Matches Antinomy */
-.antithesis-layout:not(.antithesis-group-layout) .pen-surface--choices .animal-slot:nth-child(even) .animal-image {
-    /* margin-bottom: 35% !important;  <-- REMOVE MARGIN BOTTOM for Flex Items */
-    /* Use transform on the image instead for stagger */
-    /* Combine with existing translateX */
-    /* Applied ONLY to non-grouped layouts so groups don't overlap */
-    transform: translateX(-50%) translateY(-35%) !important;
-    /* Scale is separate rule, will cascade? No, we need to be careful with scale overrides */
-}
+/* STAGGERED ALIGNMENT - Use SLOT-LEVEL transform only (not image-level)
+   to avoid stripping scale() from animal images. The image-level stagger
+   was setting transform: translateX(-50%) translateY(-35%) with specificity (0,5,0)
+   which overrode ALL size-specific transforms (scale(1.25), scale(0.9), etc.) */
 
-/* FIX: Stagger needs to handle scale constants too. */
-/* It is better to lift the whole slot for stagger? */
-/* Antinomy lifts the slot via margin-bottom on image? No, antinomy.css says: margin-bottom: 35% !important; */
-/* But we are using absolute positioning now. So we must use bottom or transform */
-
-.antithesis-layout .pen-surface--choices .animal-slot:nth-child(even) {
-    /* Lift the whole slot - Reduced stagger by half (15% -> 7.5%) */
-    transform: translateY(-7.5%);
+/* Lift the whole slot for even-positioned animals */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--choices .animal-slot:nth-child(even) {
+    transform: translateY(-25%);
 }
 
 
@@ -458,9 +446,10 @@
     /* Height comes from base classes */
 }
 
-/* Apply scaling to flying animals too */
+/* Apply scaling to flying animals too - FIXED: DO NOT APPLY SCALE HERE */
+/* JS getBoundingClientRect captures the rendered size. Applying scale via CSS causes double-scaling. */
 .antinomy-flying-animal .animal-image--large {
-    transform: translateX(-50%) scale(1.25) !important;
+    transform: translateX(-50%) !important;
     transform-origin: bottom center !important;
     bottom: -15% !important;
 }
@@ -473,13 +462,13 @@
     bottom: 8% !important;
 }
 
-/* Cat scaling for flying */
+/* Cat scaling for flying - FIXED: Removed scale to prevent double-scaling */
 .antinomy-flying-animal .animal-image--large.animal-image--cat {
-    transform: translateX(-50%) scale(1.125) !important;
+    transform: translateX(-50%) !important;
 }
 
 .antinomy-flying-animal .animal-image--medium.animal-image--cat {
-    transform: translateX(-50%) scale(0.9) !important;
+    transform: translateX(-50%) !important;
 }
 
 
@@ -590,17 +579,16 @@
     left: auto !important;
     right: auto !important;
     top: auto !important;
-    transform: scale(1.25) !important;
-    /* Match Box Scale to prevent resize glitch */
-    /* Match the tighter margin applied to static boxes */
+    transform: none !important;
+    /* Match Box Scale to prevent resize glitch - FIXED: Handled by JS inline sizes now */
     margin: 0 !important;
 }
 
-/* Flying Cats */
+/* Flying Cats - FIXED: Removed to prevent double-scaling */
 .antithesis-flying-group .animal-image--large.animal-image--cat {
-    transform: scale(1.125) !important;
+    transform: none !important;
 }
 
 .antithesis-flying-group .animal-image--medium.animal-image--cat {
-    transform: scale(0.9) !important;
+    transform: none !important;
 }
