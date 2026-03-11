@@ -216,6 +216,8 @@
     height: 100%;
     cursor: default;
     pointer-events: none;
+    /* Prevent flex container from shrinking animal slots */
+    flex-shrink: 0;
 }
 
 /* RELOCATED: Top-row footprint alignment moved to bottom of file to fix cascade override */
@@ -259,9 +261,9 @@
 .analogy-layout .category-row .pen-content {
     position: absolute;
     top: 25%;
-    /* Pushed inward from the edges to leave space for the question mark and outer animals */
-    left: 20%;
-    right: 20%;
+    /* Widened from 20% to 8% to prevent large animals from being squeezed */
+    left: 8%;
+    right: 8%;
     bottom: 11%;
 }
 
@@ -361,6 +363,8 @@
     transform: translateX(-50%) !important;
     width: auto !important;
     display: block !important;
+    /* Prevent flex container from shrinking animal images */
+    flex-shrink: 0;
 }
 
 /* No global size offsets - isolated to Choices Pen only */
@@ -443,6 +447,4 @@
     object-fit: contain !important;
 }
 
-.analogy-flying-animal.animal-image--large {
-    /* Maintain natural size in flight */
-}
+/* Large flying animals: no extra overrides needed — pixel-lock in JS handles sizing */

@@ -246,20 +246,45 @@
     /* Let clicks pass through to the slot */
 }
 
-/* FIX: Connect with Anomaly Out Pen - Ensure natural size */
+/* FIX: Connect with Anomaly Out Pen - Base positioning only (no scale override) */
 .anomaly-layout .pen-surface--out .animal-slot .animal-image,
 .anomaly-layout .pen-surface--out .animal-slot img {
     position: absolute !important;
     bottom: 0 !important;
     left: 50% !important;
-    transform:
-        translateX(-50%)
-        /* Horizontal center */
-        translateY(0%) !important;
-    /* Vertical adjustment: negative=down, positive=up */
-    /* Ensure no flex alignment interferes */
+    /* DO NOT override transform here — let size-specific rules handle scale */
     margin: 0 !important;
     top: auto !important;
+}
+
+/* Out Pen: Large animals — preserve scale(1.25) + centering */
+.anomaly-layout .pen-surface--out .animal-image--large {
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -15% !important;
+}
+
+/* Out Pen: Medium animals — centering only */
+.anomaly-layout .pen-surface--out .animal-image--medium {
+    transform: translateX(-50%) !important;
+}
+
+/* Out Pen: Small animals — centering only */
+.anomaly-layout .pen-surface--out .animal-image--small {
+    transform: translateX(-50%) !important;
+    bottom: 8% !important;
+}
+
+/* Out Pen: Large cats — preserve scale(1.125) + centering */
+.anomaly-layout .pen-surface--out .animal-image--large.animal-image--cat {
+    transform: translateX(-50%) scale(1.125) !important;
+    transform-origin: bottom center !important;
+}
+
+/* Out Pen: Medium cats — preserve scale(0.9) + centering */
+.anomaly-layout .pen-surface--out .animal-image--medium.animal-image--cat {
+    transform: translateX(-50%) scale(0.9) !important;
+    transform-origin: bottom center !important;
 }
 
 /* Align animal to bottom (baseline alignment) */
