@@ -9,7 +9,7 @@
 
 .bottom-left-panel {
     position: fixed;
-    bottom: var(--space-md);
+    top: var(--space-md);
     left: var(--space-md);
     z-index: var(--z-controls);
 
@@ -19,7 +19,7 @@
 
     /* iOS safe area */
     padding-left: var(--safe-left);
-    padding-bottom: max(var(--space-sm), var(--safe-bottom));
+    padding-top: max(var(--space-sm), var(--safe-top));
 }
 
 /* ==================== */
@@ -133,7 +133,7 @@
 
 @media (max-width: 768px) {
     .bottom-left-panel {
-        bottom: calc(var(--controls-bottom) + 70px);
+        top: var(--space-sm);
         left: var(--space-sm);
     }
 

@@ -250,8 +250,8 @@
 
 @supports (padding: max(0px)) {
     .controls {
-        padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
-        bottom: max(12px, env(safe-area-inset-bottom));
+        padding-top: max(var(--space-sm), env(safe-area-inset-top));
+        top: max(12px, env(safe-area-inset-top));
     }
 
     .data-panel {

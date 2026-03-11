@@ -13,24 +13,22 @@
     align-items: center;
     gap: var(--space-md);
 
-    /* Fixed position at bottom */
+    /* Fixed position at top-right (researcher access, away from child) */
     position: fixed;
-    bottom: var(--controls-bottom);
-    left: 50%;
-    transform: translateX(-50%);
+    top: var(--space-md);
+    right: var(--space-md);
+    left: auto;
+    transform: none;
 
     /* Styling */
     padding: var(--space-sm) var(--space-lg);
     background: transparent;
-    /* Removed background */
-    /* border-radius: var(--radius-lg); */
-    /* box-shadow: var(--shadow-lg); */
 
     /* Above content */
     z-index: var(--z-controls);
 
     /* iOS safe area */
-    padding-bottom: max(var(--space-sm), var(--safe-bottom));
+    padding-top: max(var(--space-sm), var(--safe-top));
 }
 
 /* ==================== */

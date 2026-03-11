@@ -37,8 +37,8 @@
     justify-content: center;
 
     /* === EDIT THESE === */
-    /* Reduced gap by half per user request from previous (was 120-300) */
-    gap: clamp(60px, 9vw, 150px);
+    /* Reduced gap to fit 3 boxes on iPad 11" */
+    gap: clamp(20px, 4vw, 60px);
     /* Drop the boxes down per user request */
     margin-top: 5vh;
     /* ================== */
@@ -60,8 +60,8 @@
 /* BOX SIZE - Matches Anomaly "Does Not Belong" Pen */
 .antithesis-layout .pen-surface--box {
     /* Anomaly Out Pen Size logic: width: clamp(160px, 24vw, 560px); ratio: 0.8 */
-    width: clamp(140px, 22vw, 400px);
-    /* Slightly reduced max-width to fit 3 in row */
+    width: clamp(120px, 18vw, 320px);
+    /* Reduced to fit 3 boxes on iPad 11" */
     height: auto;
     aspect-ratio: 0.8;
     overflow: visible;
@@ -310,13 +310,11 @@
     margin-top: calc(var(--space-md) + 2vh);
 }
 
-/* OPTIONS PEN SIZE - Matches Antinomy Choices (Enlarged for Antithesis) */
+/* OPTIONS PEN SIZE - Fits within iPad 11" viewport */
 .antithesis-layout .pen-surface--choices {
-    /* Base width increased by ~75% */
-    width: clamp(920px, 150vw, 2100px);
+    width: clamp(540px, 88vw, 1200px);
     height: auto;
-    /* Aspect ratio adjusted to reflect +75% width and +15% height change (4.8 * 1.75 / 1.15 =~ 7.3) */
-    aspect-ratio: 7.3;
+    aspect-ratio: 4.8;
     position: relative;
     overflow: visible;
 }
@@ -346,10 +344,10 @@
      * transform: scale(WIDTH_MULTIPLIER, HEIGHT_MULTIPLIER)
      * e.g., scale(3.18, 1.35) makes it 3.18x wider and 1.35x taller.
      */
-    /* Scale factor increased by 20% on width (2.65 * 1.2 = 3.18) */
-    transform: scale(4.9, 1.85) !important;
+    /* Fence scale proportional to pen size */
+    transform: scale(2.7, 1.0) !important;
     left: 0% !important;
-    top: -1% !important;
+    top: 15% !important;
     transform-origin: center bottom !important;
 }
 

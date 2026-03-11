@@ -2,6 +2,7 @@
 
 A web-based cognitive task designed for a relational reasoning study. It features multiple game modes where users interact with animal figures to solve logical reasoning puzzles.
 
+Can be accessed preliminarily at: https://torr-ec.muhammadfusenig.com/
 ## Project Overview
 
 *   **Current Implementation**: The project runs directly in the browser. No bundlers (Webpack/Vite) or package managers (npm/yarn) are required for the core application.

@@ -35,7 +35,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: clamp(30px, 6vw, 100px);
+    gap: clamp(8px, 1.5vw, 30px);
     width: 100%;
 }
 
@@ -92,10 +92,10 @@
 
 /* GREEN BOX SIZE */
 .antinomy-layout .pen-surface--green {
-    width: clamp(400px, 53vw, 1200px);
+    width: clamp(300px, 44vw, 850px);
     height: auto;
     aspect-ratio: 3.75;
-    /* Expanded by 25% (was 3.0) */
+    /* Reduced from 53vw to fit both boxes on iPad 11" */
 }
 
 /* GREEN FENCE IMAGE - EDIT THESE VALUES */
@@ -104,7 +104,7 @@
     /* 1. scale(x, y) -> Increase numbers to make fence bigger. */
     /* 2. left/top -> Move fence position. */
 
-    transform: scale(2.1, 1.2) !important;
+    transform: scale(2.0, 1.2) !important;
     /* Widened X significantly to fit 4 columns */
     left: 0% !important;
     top: 20% !important;
@@ -170,10 +170,10 @@
 
 /* RED BOX SIZE */
 .antinomy-layout .pen-surface--red {
-    width: clamp(400px, 53vw, 1200px);
+    width: clamp(300px, 44vw, 850px);
     height: auto;
     aspect-ratio: 3.75;
-    /* Expanded by 25% (was 3.0) */
+    /* Reduced from 53vw to fit both boxes on iPad 11" */
 }
 
 /* RED FENCE IMAGE - EDIT THESE VALUES */
@@ -182,7 +182,7 @@
     /* 1. scale(x, y) -> Increase numbers to make fence bigger. */
     /* 2. left/top -> Move fence position. */
 
-    transform: scale(2.1, 1.2) !important;
+    transform: scale(2.0, 1.2) !important;
     /* Widened X significantly to fit 4 columns */
     left: 0% !important;
     top: 20% !important;
