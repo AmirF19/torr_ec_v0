@@ -72,6 +72,11 @@ const AnalogyRenderer = (function () {
         // Add question mark slot to C pen (the animation target)
         cGrid.appendChild(createQuestionMarkAttributes());
 
+        // ── FORCE ANIMAL SIZES ON CATEGORY PEN IMAGES ──
+        // Inline styles bypass all CSS specificity issues
+        forceAnimalSizes(abGrid);
+        forceAnimalSizes(cGrid);
+
         // ── CATEGORY ROW ───────────────────────────────────────────────────────
         categoryRow.appendChild(abPen);
         categoryRow.appendChild(cPen);
@@ -259,6 +264,56 @@ const AnalogyRenderer = (function () {
 
         div.appendChild(span);
         return div;
+    }
+
+    /**
+     * Force correct sizes on all animal images in a grid via inline styles.
+     * This is a fail-safe that bypasses all CSS specificity issues.
+     */
+    function forceAnimalSizes(grid) {
+        const images = grid.querySelectorAll('.animal-image');
+        images.forEach(img => {
+            // Determine size category
+            const isLarge = img.classList.contains('animal-image--large');
+            const isMedium = img.classList.contains('animal-image--medium');
+            const isSmall = img.classList.contains('animal-image--small');
+            const isCat = img.classList.contains('animal-image--cat');
+
+            // Base positioning
+            img.style.position = 'absolute';
+            img.style.left = '50%';
+            img.style.width = 'auto';
+            img.style.maxWidth = 'none';
+            img.style.maxHeight = 'none';
+            img.style.display = 'block';
+
+            if (isLarge) {
+                img.style.height = '28vh';
+                img.style.maxHeight = '28vh';
+                img.style.bottom = '-15%';
+                if (isCat) {
+                    img.style.transform = 'translateX(-50%) scale(1.125)';
+                } else {
+                    img.style.transform = 'translateX(-50%) scale(1.25)';
+                }
+                img.style.transformOrigin = 'bottom center';
+            } else if (isMedium) {
+                img.style.height = '20vh';
+                img.style.maxHeight = '20vh';
+                img.style.bottom = '0%';
+                if (isCat) {
+                    img.style.transform = 'translateX(-50%) scale(0.9)';
+                    img.style.transformOrigin = 'bottom center';
+                } else {
+                    img.style.transform = 'translateX(-50%)';
+                }
+            } else if (isSmall) {
+                img.style.height = '13vh';
+                img.style.maxHeight = '13vh';
+                img.style.bottom = '8%';
+                img.style.transform = 'translateX(-50%)';
+            }
+        });
     }
 
     // ====================
