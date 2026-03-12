@@ -352,10 +352,12 @@
 /* CHOICES PEN CONTENT POSITIONING */
 .analogy-layout .pen-surface--choices .pen-content {
     position: absolute !important;
-    top: 40% !important;
+    top: 30% !important;
+    /* Decreased to pull the top UP */
     left: 5% !important;
     right: 5% !important;
-    bottom: -2% !important;
+    bottom: 6% !important;
+    /* Increased to push the bottom UP */
     padding: 0 !important;
     z-index: 200 !important;
     pointer-events: none;
@@ -467,22 +469,9 @@
 /* CHOICES PEN STAGGER - lift odd-position animals so they are not all in line  */
 /* ============================================================================ */
 
-/* Lift odd-slot medium/small animals */
-.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd) .animal-image--medium {
-    bottom: 30% !important;
-}
-
-.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd) .animal-image--small {
-    bottom: 38% !important;
-    /* 8% base + 30% lift */
-}
-
-/* Lift odd-slot large animals (offset from their -15% base) */
-.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd) .animal-image--large {
-    bottom: 15% !important;
-    /* -15% base + 30% lift */
-    transform: translateX(-50%) scale(1.25) !important;
-    transform-origin: bottom center !important;
+/* Simply lift the entire slot, preserving all internal scaling and baselines! */
+.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd) {
+    transform: translateY(-25%);
 }
 
 /* ============================================================================ */
@@ -497,7 +486,7 @@
 }
 
 .analogy-layout .pen-surface--choices .animal-slot--selected:hover {
-    transform: none;
+    /* transform removed to preserve stagger translation */
 }
 
 /* ============================================================================ */
