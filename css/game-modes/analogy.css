@@ -485,9 +485,7 @@
     z-index: 100;
 }
 
-.analogy-layout .pen-surface--choices .animal-slot--selected:hover {
-    /* transform removed to preserve stagger translation */
-}
+
 
 /* ============================================================================ */
 /* FLYING ANIMAL - SIZING RESETS                                                */
