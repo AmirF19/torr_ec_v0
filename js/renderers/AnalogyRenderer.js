@@ -298,8 +298,8 @@ const AnalogyRenderer = (function () {
                 }
                 img.style.transformOrigin = 'bottom center';
             } else if (isMedium) {
-                img.style.height = '20vh';
-                img.style.maxHeight = '20vh';
+                img.style.height = '22vh';
+                img.style.maxHeight = '22vh';
                 img.style.bottom = '0%';
                 if (isCat) {
                     img.style.transform = 'translateX(-50%) scale(0.9)';

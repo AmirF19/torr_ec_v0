@@ -170,11 +170,11 @@
 }
 
 .animal-image--medium {
-    /* MEDIUM: 20vh fixed height */
+    /* MEDIUM: 22vh fixed height (scaled up from 20vh per user task) */
     width: auto;
-    height: 20vh;
+    height: 22vh;
     max-width: none;
-    max-height: 20vh;
+    max-height: 22vh;
 }
 
 .animal-image--small {
@@ -195,9 +195,9 @@
 
 .animal-slot--grouped .animal-image--medium {
     width: auto;
-    height: 14vh;
+    height: 16vh;
     max-width: none;
-    max-height: 14vh;
+    max-height: 16vh;
 }
 
 .animal-slot--grouped .animal-image--small {

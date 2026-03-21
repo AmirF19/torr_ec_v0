@@ -486,53 +486,29 @@
  * the slot box BEFORE scale() runs. This means large animals appear small.
  * Solution: let the image render at its natural width; the pen container
  * has overflow:visible so it won't be clipped. Transform handles visual sizing.
+ * Applies to BOTH MAIN and OUT pens so animals don't shrink when moved.
  */
-.anomaly-layout .pen-surface--main .animal-image {
-    /* Don't constrain by slot width — let natural SVG size render */
-    max-width: none !important;
-    width: auto !important;
-    /* Absolute positioning already set by .animal-image--large rule above */
-}
-
-/* Also suppress the per-species width constraints that global CSS may set */
-.anomaly-layout .pen-surface--main .animal-image--large {
-    /* Already has scale(1.25) from the rule at line 459.
-     * Ensure no max-width squishes it beforehand. */
+.anomaly-layout .animal-image {
     max-width: none !important;
     width: auto !important;
 }
 
 /* ============================================================================ */
-/* CAT-SPECIFIC OVERRIDE IN ANOMALY MAIN PEN                                    */
+/* CAT-SPECIFIC OVERRIDE IN ANOMALY PENS                                        */
 /* ============================================================================ */
 
 /*
- * animal-slot.css applies scale(0.9) to all large/medium cats globally.
- * In the Anomaly main pen, large animals should use scale(1.25).
- * We must explicitly set the FULL transform for cats so the 0.9 never applies.
- * Using 4-class specificity to guarantee this wins over the 2-class cat rule.
+ * global animal-slot.css applies scale(0.9) to all large/medium cats globally
+ * because they are drawn larger in their SVGs than cows.
+ * In Anomaly, large animals are globally boosted to scale(1.25).
+ * To preserve the cat's initial 0.9 scale adjustment while boosting it,
+ * we use 1.25 * 0.9 = 1.125. (1.05 * 0.9 = 0.945 for medium).
  */
-.anomaly-layout .pen-surface--main .animal-image--cat.animal-image--large {
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) scale(1.25) !important;
-    transform-origin: bottom center !important;
-    bottom: -15% !important;
-    max-width: none !important;
-    width: auto !important;
+.anomaly-layout .animal-image--cat.animal-image--large {
+    transform: translateX(-50%) scale(1.125) !important;
 }
 
-.anomaly-layout .pen-surface--main .animal-image--cat.animal-image--medium {
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    transform-origin: bottom center !important;
-    max-width: none !important;
-    width: auto !important;
-}
-
-.anomaly-layout .pen-surface--main .animal-image--cat.animal-image--small {
-    max-width: none !important;
-    width: auto !important;
+.anomaly-layout .animal-image--cat.animal-image--medium {
+    transform: translateX(-50%) scale(0.945) !important;
 }
 

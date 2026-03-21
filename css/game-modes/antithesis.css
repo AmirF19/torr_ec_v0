@@ -218,8 +218,8 @@
 }
 
 .antithesis-layout .pen-surface--choices .animal-image--medium {
-    height: 24vh !important;
-    max-height: 24vh !important;
+    height: 26vh !important;
+    max-height: 26vh !important;
     /* Raised baseline to align with Box 1 & 3 baselines */
     bottom: 18% !important;
 }
@@ -545,8 +545,8 @@
 
 .antithesis-group-layout .animal-slot--grouped .animal-image--medium {
     /* Increased medium size */
-    height: 24vh !important;
-    max-height: 24vh !important;
+    height: 26vh !important;
+    max-height: 26vh !important;
 }
 
 .antithesis-group-layout .animal-slot--grouped .animal-image--small {
