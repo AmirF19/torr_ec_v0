@@ -180,6 +180,7 @@ const GameState = (function() {
             state.problemStartTime = Date.now();
             state.selections = [];
             state.selectionCount = 0;
+            state.clickCount = 0;  // Total raw pointer-downs (includes non-animal clicks)
             state.animalPositions = new Map();
             state.originalPositions = new Map();
             state.outPenAnimal = null;
@@ -187,6 +188,13 @@ const GameState = (function() {
             state.ui.isAnimating = false;
             
             notifyObservers('currentProblem', state.currentProblem, null);
+        },
+
+        /**
+         * Record a raw click/tap event (all pointer-downs on animal targets)
+         */
+        recordClick() {
+            state.clickCount = (state.clickCount || 0) + 1;
         },
         
         /**
@@ -249,6 +257,7 @@ const GameState = (function() {
                 totalTime: endTime - state.problemStartTime,
                 selections: deepClone(state.selections),
                 totalSelections: state.selectionCount,
+                totalClicks: state.clickCount || 0,
                 finalSelection: finalSelection,
                 isCorrect: finalSelection ? 
                     (finalSelection.choiceId === state.currentProblem.correctChoiceId) : 

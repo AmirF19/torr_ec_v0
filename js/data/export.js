@@ -6,138 +6,153 @@
 const DataExport = (function() {
     
     /**
-     * Generate CSV content from completed problems
+     * Build a human-readable animal descriptor string.
+     * Format: "large solid red cat" or "small striped green sheep"
+     */
+    function buildAnimalDescriptor(animal) {
+        if (!animal) return '';
+        const patternText = animal.pattern === 'striped' ? 'striped' : 'solid';
+        return `${animal.size} ${patternText} ${animal.color} ${animal.species}`;
+    }
+
+    /**
+     * Generate CSV content from completed problems.
+     * Columns: problem_number, game_type, problem_label, question_index,
+     *          seconds_elapsed, option_chosen, option_chosen_id,
+     *          total_animals_selected, total_clicks, total_time_on_problem_ms,
+     *          time_from_last_selection_ms, is_correct
      */
     function generateCSV(completedProblems) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
-        
-        // CSV header
+
         const headers = [
-            'Problem Number',
-            'Game Type',
-            'Problem Label',
-            'Instruction',
-            'Correct Answer ID',
-            'Presented Animal IDs',
-            'Problem Start Time',
-            'Total Time (ms)',
-            'Total Selections',
-            'Final Selection ID',
-            'Final Selection Species',
-            'Final Selection Colors',
-            'Final Selection Patterns',
-            'Final Selection Sizes',
-            'Final Selection Images',
-            'Is Correct'
+            'problem_number',
+            'game_type',
+            'problem_label',
+            'question_index',
+            'seconds_elapsed',
+            'option_chosen',
+            'option_chosen_id',
+            'total_animals_selected',
+            'total_clicks',
+            'total_time_on_problem_ms',
+            'time_from_last_selection_ms',
+            'is_correct'
         ];
-        
+
         let csv = headers.join(',') + '\n';
-        
-        // Generate rows
+
         completedProblems.forEach((problem, index) => {
             const finalSelection = problem.finalSelection;
-            const animals = problem.animals || [];
-            
-            // Extract final selection details
             const selectedAnimals = finalSelection?.animals || [];
-            const selectedIds = selectedAnimals.map(a => a.id).join(';');
-            const selectedSpecies = selectedAnimals.map(a => a.species).join(';');
-            const selectedColors = selectedAnimals.map(a => a.color).join(';');
-            const selectedPatterns = selectedAnimals.map(a => a.pattern).join(';');
-            const selectedSizes = selectedAnimals.map(a => a.size).join(';');
-            const selectedImages = selectedAnimals.map(a => a.image).join(';');
-            
-            // Build row
+
+            // Full descriptor for the chosen option
+            const optionChosen = selectedAnimals.map(a => buildAnimalDescriptor(a)).join(' + ');
+
+            // Seconds elapsed since problem started
+            const secondsElapsed = problem.totalTime > 0 ? (problem.totalTime / 1000).toFixed(2) : '0.00';
+
+            // Time from last selection to end (if multiple selections, else equals total time)
+            const selections = problem.selections || [];
+            let timeFromLastSelection = problem.totalTime;
+            if (selections.length > 0) {
+                const lastSelectionTime = selections[selections.length - 1].timestamp;
+                const endTime = problem.endTime || (problem.startTime + problem.totalTime);
+                timeFromLastSelection = endTime - lastSelectionTime;
+            }
+
             const row = [
                 index + 1,
                 escapeCSV(problem.type),
                 escapeCSV(problem.label),
-                escapeCSV(problem.instruction || ProblemSet.getInstruction(problem.type)),
-                problem.correctChoiceId,
-                animals.map(a => a.id).join(';'),
-                new Date(problem.startTime).toISOString(),
-                problem.totalTime,
-                problem.totalSelections,
+                problem.questionIndex || '',
+                secondsElapsed,
+                escapeCSV(optionChosen),
                 finalSelection?.choiceId || '',
-                escapeCSV(selectedSpecies),
-                escapeCSV(selectedColors),
-                escapeCSV(selectedPatterns),
-                escapeCSV(selectedSizes),
-                escapeCSV(selectedImages),
+                problem.totalSelections || 0,
+                problem.totalClicks || 0,
+                problem.totalTime || 0,
+                timeFromLastSelection,
                 problem.isCorrect ? 'TRUE' : 'FALSE'
             ];
-            
+
             csv += row.join(',') + '\n';
         });
-        
+
         return csv;
     }
     
     /**
-     * Generate detailed CSV with all selections
+     * Generate detailed CSV with one row per selection.
+     * Columns: problem_number, game_type, problem_label, question_index,
+     *          selection_number, selection_time_from_start_ms,
+     *          option_chosen, option_chosen_id, is_final_selection,
+     *          total_clicks, total_time_on_problem_ms,
+     *          time_from_last_selection_ms, is_correct
      */
     function generateDetailedCSV(completedProblems) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
-        
-        // CSV header
+
         const headers = [
-            'Problem Number',
-            'Game Type',
-            'Problem Label',
-            'Selection Number',
-            'Selection Time (ms)',
-            'Selection Timestamp',
-            'Selected Choice ID',
-            'Selected Slot Index',
-            'Selected Animal Species',
-            'Selected Animal Color',
-            'Selected Animal Pattern',
-            'Selected Animal Size',
-            'Is Final Selection',
-            'Is Correct'
+            'problem_number',
+            'game_type',
+            'problem_label',
+            'question_index',
+            'selection_number',
+            'selection_time_from_start_ms',
+            'option_chosen',
+            'option_chosen_id',
+            'is_final_selection',
+            'total_clicks',
+            'total_time_on_problem_ms',
+            'time_from_last_selection_ms',
+            'is_correct'
         ];
-        
+
         let csv = headers.join(',') + '\n';
-        
-        // Generate rows for each selection
+
         completedProblems.forEach((problem, problemIndex) => {
             const selections = problem.selections || [];
-            
+
             selections.forEach((selection, selectionIndex) => {
                 const isFinal = selectionIndex === selections.length - 1;
                 const animals = selection.animals || [];
                 const isCorrect = isFinal && problem.isCorrect;
-                
-                // Time from problem start
-                const selectionTime = selection.timestamp - problem.startTime;
-                
-                animals.forEach(animal => {
-                    const row = [
-                        problemIndex + 1,
-                        escapeCSV(problem.type),
-                        escapeCSV(problem.label),
-                        selectionIndex + 1,
-                        selectionTime,
-                        new Date(selection.timestamp).toISOString(),
-                        selection.choiceId,
-                        selection.slotIndex,
-                        escapeCSV(animal.species),
-                        escapeCSV(animal.color),
-                        escapeCSV(animal.pattern),
-                        escapeCSV(animal.size),
-                        isFinal ? 'TRUE' : 'FALSE',
-                        isCorrect ? 'TRUE' : 'FALSE'
-                    ];
-                    
-                    csv += row.join(',') + '\n';
-                });
+
+                // Time from problem start to this selection
+                const selectionTimeFromStart = selection.timestamp - problem.startTime;
+
+                // Time from this selection to the end of the problem
+                const endTime = problem.endTime || (problem.startTime + problem.totalTime);
+                const timeFromThisSelection = endTime - selection.timestamp;
+
+                // Human-readable descriptor for this selection
+                const optionChosen = animals.map(a => buildAnimalDescriptor(a)).join(' + ');
+
+                const row = [
+                    problemIndex + 1,
+                    escapeCSV(problem.type),
+                    escapeCSV(problem.label),
+                    problem.questionIndex || '',
+                    selectionIndex + 1,
+                    selectionTimeFromStart,
+                    escapeCSV(optionChosen),
+                    selection.choiceId,
+                    isFinal ? 'TRUE' : 'FALSE',
+                    problem.totalClicks || 0,
+                    problem.totalTime || 0,
+                    timeFromThisSelection,
+                    isCorrect ? 'TRUE' : 'FALSE'
+                ];
+
+                csv += row.join(',') + '\n';
             });
         });
-        
+
         return csv;
     }
     

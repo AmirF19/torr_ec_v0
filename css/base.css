@@ -242,3 +242,31 @@ img {
     background: var(--accent-green-light);
     color: var(--text-dark);
 }
+
+/* ==================== */
+/* ANIMAL SLOT TOUCH    */
+/* ==================== */
+
+/* Prevent scroll/pan from firing when tapping on selectable animals */
+.animal-slot {
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ==================== */
+/* CONFETTI ANIMATION   */
+/* ==================== */
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}

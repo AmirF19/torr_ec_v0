@@ -12,14 +12,17 @@ const SelectionHandler = (function() {
      * Handle animal selection in main pen
      */
     function handleSelection(slotElement, choice, slotIndex) {
-        // Debounce rapid clicks
+        // Record every raw tap, even if we debounce it away
+        GameState.recordClick();
+
+        // Debounce rapid clicks (min 350ms between selections on iPad)
         if (selectionDebounceTimer) {
             return;
         }
         
         selectionDebounceTimer = setTimeout(() => {
             selectionDebounceTimer = null;
-        }, Config.timing.selectionDebounce);
+        }, Math.max(Config.timing.selectionDebounce || 0, 350));
         
         // Check if already animating
         if (GameState.getUI('isAnimating')) {

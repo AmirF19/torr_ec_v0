@@ -373,7 +373,7 @@
     /* Base grid: Force 4 columns to distribute width evenly across the enlarged pen */
     grid-template-columns: repeat(4, 1fr) !important;
     grid-template-rows: 1fr;
-    gap: 3.5vw;
+    gap: 1.5vw;
     justify-items: center;
     align-items: stretch;
     justify-content: center;
@@ -490,7 +490,7 @@
     /* Force side-by-side */
     justify-content: center !important;
     align-items: flex-end !important;
-    gap: 8px !important;
+    gap: 2px !important;
     /* We handle bottom lift directly on the images now */
     padding-bottom: 0 !important;
     /* Maintain Absolute Position of the GROUP container itself */

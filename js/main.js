@@ -257,9 +257,41 @@ const App = (function () {
     }
 
     /**
+     * Remove all flying-animal clones and orphaned DOM elements from any previous problem.
+     * CRITICAL: Called before every problem load to prevent screen persistence bugs.
+     */
+    function cleanupPreviousProblem() {
+        // Remove all classes of flying-animal clones (Antinomy, Analogy, Antithesis)
+        document.querySelectorAll(
+            '.antinomy-flying-animal, .analogy-flying-animal, .antithesis-flying-animal'
+        ).forEach(el => el.remove());
+
+        // Also sweep up any element with fixed position and z-index 99999 (loose clones)
+        document.querySelectorAll('[style*="z-index: 99999"], [style*="z-index:99999"]').forEach(el => {
+            if (el.classList.contains('animal-image') || el.classList.contains('animal-group')) {
+                el.remove();
+            }
+        });
+
+        // Reset global animation lock
+        GameState.setUI('isAnimating', false);
+
+        // Clear all selection state visuals
+        SelectionHandler.clearAllSelections();
+
+        // Reset any isAnimating data attributes on slots
+        document.querySelectorAll('[data-is-animating="true"]').forEach(el => {
+            el.dataset.isAnimating = 'false';
+        });
+    }
+
+    /**
      * Load current problem
      */
     function loadProblem(fromInterstitial = false) {
+        // ALWAYS clean up previous problem's DOM artifacts first
+        cleanupPreviousProblem();
+
         const currentIndex = GameState.get('currentProblemIndex');
 
         // Check if all problems completed
@@ -276,8 +308,8 @@ const App = (function () {
         if (!fromInterstitial && currentIndex > 0) {
             const prevProblem = problemSet[currentIndex - 1];
             if (problemData.type !== prevProblem.type) {
-                // Show interstitial for new game type
-                showGameInterstitial(problemData.type);
+                // Show test-complete celebration before the next game interstitial
+                showTestCompleteScreen(() => showGameInterstitial(problemData.type));
                 return;
             }
         }
@@ -338,7 +370,8 @@ const App = (function () {
      * Now updates the bottom-left panel counter
      */
     function updateProblemCounter(problemData, currentIndex) {
-        // Update both the header counter (hidden) and bottom-left counter
+        // IMPORTANT: Counter elements are hidden from participants.
+        // We still update them internally for data tracking but do NOT display.
         const headerCounter = document.getElementById('problem-counter');
         const bottomCounter = document.getElementById('problem-counter-bottom');
 
@@ -359,8 +392,15 @@ const App = (function () {
         const labelSuffix = problemData.label ? ` - ${problemData.label}` : '';
         const counterText = `${problemData.type}${labelSuffix} (${numberWithinType} of ${totalOfType})`;
 
-        if (headerCounter) headerCounter.textContent = counterText;
-        if (bottomCounter) bottomCounter.textContent = counterText;
+        // Store counter text on elements but keep them hidden from participants
+        if (headerCounter) {
+            headerCounter.textContent = counterText;
+            headerCounter.style.display = 'none';
+        }
+        if (bottomCounter) {
+            bottomCounter.textContent = counterText;
+            bottomCounter.style.display = 'none';
+        }
 
         // Update game switcher active state
         updateGameSwitcherActive(currentType);
@@ -509,27 +549,84 @@ const App = (function () {
     // ====================
 
     /**
+     * Show end-of-test confetti celebration screen.
+     * Displayed between tests (when test type changes) before the next interstitial.
+     * @param {Function} onContinue - called when participant clicks through
+     */
+    function showTestCompleteScreen(onContinue) {
+        // Clean up any remaining clones before showing celebration
+        cleanupPreviousProblem();
+
+        // Show start container with celebration messaging
+        showWelcomeScreen(
+            '🎉 Great Job! 🎉',
+            'Click the button to go to the next game!',
+            onContinue
+        );
+
+        // Launch confetti
+        launchConfetti();
+    }
+
+    /**
+     * Launch a simple CSS confetti burst.
+     */
+    function launchConfetti() {
+        const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff922b', '#cc5de8'];
+        const container = document.body;
+        const pieces = 80;
+
+        for (let i = 0; i < pieces; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.cssText = `
+                position: fixed;
+                top: -20px;
+                left: ${Math.random() * 100}vw;
+                width: ${6 + Math.random() * 8}px;
+                height: ${10 + Math.random() * 8}px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                border-radius: 2px;
+                opacity: 1;
+                z-index: 99998;
+                pointer-events: none;
+                animation: confettiFall ${1.5 + Math.random() * 2}s ${Math.random() * 0.8}s ease-in forwards;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            container.appendChild(piece);
+
+            // Auto-remove after animation
+            setTimeout(() => piece.remove(), 4000);
+        }
+    }
+
+    /**
      * Show final report
      */
     function showFinalReport() {
-        showReportScreen();
+        // Show a fun all-done celebration first, then transition to report
+        showWelcomeScreen(
+            '🌟 Amazing Work! 🌟',
+            'You completed all the activities! Tap the arrow to see your results.',
+            () => {
+                showReportScreen();
+                const completedProblems = GameState.getCompletedProblems();
+                const summary = DataExport.generateSummaryReport(completedProblems);
 
-        const completedProblems = GameState.getCompletedProblems();
-        const summary = DataExport.generateSummaryReport(completedProblems);
+                if (!summary) {
+                    console.warn('No data for report');
+                    return;
+                }
 
-        if (!summary) {
-            console.warn('No data for report');
-            return;
-        }
+                const summaryEl = document.getElementById('report-summary');
+                if (summaryEl) {
+                    summaryEl.textContent = `You got ${summary.overall.correct} out of ${summary.overall.total} correct (${summary.overall.accuracy}%)!`;
+                }
 
-        // Update summary text
-        const summaryEl = document.getElementById('report-summary');
-        if (summaryEl) {
-            summaryEl.textContent = `You got ${summary.overall.correct} out of ${summary.overall.total} correct (${summary.overall.accuracy}%)!`;
-        }
-
-        // Populate results table
-        populateResultsTable(completedProblems);
+                populateResultsTable(completedProblems);
+            }
+        );
+        launchConfetti();
     }
 
     /**
@@ -614,7 +711,9 @@ const App = (function () {
         finishProblem,
         downloadData,
         downloadDetailedData,
-        restartExperiment
+        restartExperiment,
+        cleanupPreviousProblem,
+        launchConfetti
     };
 })();
 
