@@ -306,12 +306,7 @@
     position: fixed;
     z-index: var(--z-animation);
     pointer-events: none;
-    transition:
-        left var(--transition-smooth),
-        top var(--transition-smooth),
-        width var(--transition-smooth),
-        height var(--transition-smooth),
-        transform var(--transition-smooth);
+    /* JS animation.js dynamically handles transition properties */
 }
 
 .animal-slot--flying-clone.animal-slot--flying-out {
@@ -322,15 +317,7 @@
     animation: fly-in 0.4s ease-in-out forwards;
 }
 
-/* FIX: Ensure flying clone images align exactly like the fixed Out Pen slots */
-.animal-slot--flying-clone .animal-image,
-.animal-slot--flying-clone img {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    margin: 0 !important;
-}
+/* JS animation handles inner image positioning structurally */
 
 @keyframes fly-out {
     0% {

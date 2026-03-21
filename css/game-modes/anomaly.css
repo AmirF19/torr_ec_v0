@@ -261,7 +261,7 @@
 .anomaly-layout .pen-surface--out .animal-slot .animal-image--large {
     transform: translateX(-50%) scale(1.25) !important;
     transform-origin: bottom center !important;
-    bottom: -55% !important;
+    bottom: -65% !important;
     left: 3% !important;
 }
 
@@ -283,8 +283,8 @@
 .anomaly-layout .pen-surface--out .animal-slot .animal-image--large.animal-image--cat {
     transform: translateX(-50%) scale(1.125) !important;
     transform-origin: bottom center !important;
-    bottom: -15% !important;
-    left: 50% !important;
+    bottom: -60% !important;
+    left: 14% !important;
 }
 
 /* Out Pen: Medium cats — preserve scale(0.9) + centering */

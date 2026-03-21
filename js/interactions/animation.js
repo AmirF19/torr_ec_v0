@@ -33,17 +33,27 @@ const AnimationHandler = (function () {
             'animal-slot--animating'
         );
 
-        // FIX: Lock each animal image to its current rendered pixel size
-        // so CSS rules don't resize it when the clone moves to a different context
+        // FIX: Extract the physical screen-rendered bounds of each image, 
+        // converting them directly to explicitly offset inline blocks. 
+        // This ensures they animate structurally to the destination slot's unique CSS configuration.
         const sourceImages = slot.querySelectorAll('.animal-image');
         const cloneImages = clone.querySelectorAll('.animal-image');
+
         sourceImages.forEach((srcImg, idx) => {
-            const imgRect = srcImg.getBoundingClientRect();
             if (cloneImages[idx]) {
+                const imgRect = srcImg.getBoundingClientRect();
+                
+                cloneImages[idx].style.position = 'absolute';
+                cloneImages[idx].style.left = `${imgRect.left - rect.left}px`;
+                cloneImages[idx].style.top = `${imgRect.top - rect.top}px`;
                 cloneImages[idx].style.width = `${imgRect.width}px`;
                 cloneImages[idx].style.height = `${imgRect.height}px`;
                 cloneImages[idx].style.maxWidth = 'none';
                 cloneImages[idx].style.maxHeight = 'none';
+                cloneImages[idx].style.margin = '0';
+                cloneImages[idx].style.transform = 'none';
+                cloneImages[idx].style.bottom = 'auto';
+                cloneImages[idx].style.right = 'auto';
             }
         });
 
@@ -54,7 +64,7 @@ const AnimationHandler = (function () {
     /**
      * Animate element to target position
      */
-    function animateToPosition(element, targetRect, duration = Config.animation.animalMove) {
+    function animateToPosition(element, targetRect, duration = Config.animation.animalMove, imageTargets = null) {
         return new Promise((resolve) => {
             // Force reflow before starting animation
             void element.offsetWidth;
@@ -66,6 +76,26 @@ const AnimationHandler = (function () {
                 height ${duration}ms ${Config.animation.easeInOut},
                 transform ${duration}ms ${Config.animation.bounce}
             `;
+
+            // Process deep-image offset animations structurally inside the cloned container
+            if (imageTargets) {
+                const cloneImages = element.querySelectorAll('.animal-image');
+                cloneImages.forEach((img, idx) => {
+                    if (imageTargets[idx]) {
+                        img.style.transition = `
+                            left ${duration}ms ${Config.animation.easeInOut},
+                            top ${duration}ms ${Config.animation.easeInOut},
+                            width ${duration}ms ${Config.animation.easeInOut},
+                            height ${duration}ms ${Config.animation.easeInOut},
+                            transform ${duration}ms ${Config.animation.bounce}
+                        `;
+                        img.style.left = `${imageTargets[idx].left}px`;
+                        img.style.top = `${imageTargets[idx].top}px`;
+                        img.style.width = `${imageTargets[idx].width}px`;
+                        img.style.height = `${imageTargets[idx].height}px`;
+                    }
+                });
+            }
 
             element.style.left = `${targetRect.left}px`;
             element.style.top = `${targetRect.top}px`;
@@ -94,17 +124,41 @@ const AnimationHandler = (function () {
         // Mark source as animating
         AnimalSlot.setAnimating(sourceSlot, true);
 
-        // Create flying clone
-        const clone = createFlyingClone(sourceSlot);
+        // Temporarily put animal in target slot to measure its CSS-induced offsets
+        AnimalSlot.updateContent(outPenSlot, choice);
+        outPenSlot.classList.add('animal-slot--populated');
+        outPenSlot.classList.remove('animal-slot--empty');
+        void outPenSlot.offsetWidth;
 
         // Get target position
         const targetRect = outPenSlot.getBoundingClientRect();
+        
+        // Measure target images relative to target slot
+        const targetImages = outPenSlot.querySelectorAll('.animal-image');
+        const imageTargets = [];
+        targetImages.forEach(img => {
+            const imgRect = img.getBoundingClientRect();
+            imageTargets.push({
+                left: imgRect.left - targetRect.left,
+                top: imgRect.top - targetRect.top,
+                width: imgRect.width,
+                height: imgRect.height
+            });
+        });
+
+        // Clear temporary content
+        AnimalSlot.clear(outPenSlot);
+        outPenSlot.classList.add('animal-slot--empty');
+        outPenSlot.classList.remove('animal-slot--populated');
+
+        // Create flying clone using updated metrics
+        const clone = createFlyingClone(sourceSlot);
 
         // Fade out source immediately
         sourceSlot.style.opacity = '0';
 
         // Animate clone to out pen
-        animateToPosition(clone, targetRect).then(() => {
+        animateToPosition(clone, targetRect, Config.animation.animalMove, imageTargets).then(() => {
             // Clean up clone
             clone.remove();
 
@@ -130,13 +184,52 @@ const AnimationHandler = (function () {
         AnimalSlot.setAnimating(outPenSlot, true);
         AnimalSlot.setAnimating(returnTargetSlot, true);
 
+        // --- MEASURE OUT PEN DESTINATION FOR NEW CHOICE ---
+        AnimalSlot.updateContent(outPenSlot, newChoice);
+        outPenSlot.classList.add('animal-slot--populated');
+        outPenSlot.classList.remove('animal-slot--empty');
+        void outPenSlot.offsetWidth;
+
+        const outPenRect = outPenSlot.getBoundingClientRect();
+        const outPenImages = outPenSlot.querySelectorAll('.animal-image');
+        const newCloneImgTargets = [];
+        outPenImages.forEach(img => {
+            const imgRect = img.getBoundingClientRect();
+            newCloneImgTargets.push({
+                left: imgRect.left - outPenRect.left,
+                top: imgRect.top - outPenRect.top,
+                width: imgRect.width,
+                height: imgRect.height
+            });
+        });
+
+        // --- MEASURE RETURN SLOT DESTINATION FOR RETURNING ANIMAL ---
+        AnimalSlot.updateContent(returnTargetSlot, returningAnimal);
+        returnTargetSlot.classList.add('animal-slot--populated');
+        void returnTargetSlot.offsetWidth;
+
+        const returnTargetRect = returnTargetSlot.getBoundingClientRect();
+        const returnTargetImages = returnTargetSlot.querySelectorAll('.animal-image');
+        const returnCloneImgTargets = [];
+        returnTargetImages.forEach(img => {
+            const imgRect = img.getBoundingClientRect();
+            returnCloneImgTargets.push({
+                left: imgRect.left - returnTargetRect.left,
+                top: imgRect.top - returnTargetRect.top,
+                width: imgRect.width,
+                height: imgRect.height
+            });
+        });
+
+        // --- RESTORE ORIGINAL STATES FOR ANIMATION START ---
+        AnimalSlot.updateContent(outPenSlot, returningAnimal);
+        
+        AnimalSlot.clear(returnTargetSlot);
+        returnTargetSlot.classList.remove('animal-slot--populated');
+
         // Create flying clones
         const newClone = createFlyingClone(newSourceSlot);
         const returnClone = createFlyingClone(outPenSlot);
-
-        // Get target positions
-        const outPenRect = outPenSlot.getBoundingClientRect();
-        const returnTargetRect = returnTargetSlot.getBoundingClientRect();
 
         // Fade out originals
         newSourceSlot.style.opacity = '0';
@@ -144,8 +237,8 @@ const AnimationHandler = (function () {
 
         // Animate both simultaneously
         Promise.all([
-            animateToPosition(newClone, outPenRect, duration),
-            animateToPosition(returnClone, returnTargetRect, duration)
+            animateToPosition(newClone, outPenRect, duration, newCloneImgTargets),
+            animateToPosition(returnClone, returnTargetRect, duration, returnCloneImgTargets)
         ]).then(() => {
             // Clean up clones
             newClone.remove();
@@ -174,17 +267,39 @@ const AnimationHandler = (function () {
         AnimalSlot.setAnimating(outPenSlot, true);
         AnimalSlot.setAnimating(targetSlot, true);
 
-        // Create flying clone
-        const clone = createFlyingClone(outPenSlot);
+        // Temporarily insert animal in target slot to measure specific class offsets
+        AnimalSlot.updateContent(targetSlot, animal);
+        targetSlot.classList.add('animal-slot--populated');
+        void targetSlot.offsetWidth;
 
         // Get target position
         const targetRect = targetSlot.getBoundingClientRect();
+        
+        // Extract internal image offsets for deep-CSS matching
+        const targetImages = targetSlot.querySelectorAll('.animal-image');
+        const imageTargets = [];
+        targetImages.forEach(img => {
+            const imgRect = img.getBoundingClientRect();
+            imageTargets.push({
+                left: imgRect.left - targetRect.left,
+                top: imgRect.top - targetRect.top,
+                width: imgRect.width,
+                height: imgRect.height
+            });
+        });
+
+        // Clear temporary placeholder content
+        AnimalSlot.clear(targetSlot);
+        targetSlot.classList.remove('animal-slot--populated');
+
+        // Create flying clone
+        const clone = createFlyingClone(outPenSlot);
 
         // Fade out out pen
         outPenSlot.style.opacity = '0';
 
         // Animate clone to target
-        animateToPosition(clone, targetRect).then(() => {
+        animateToPosition(clone, targetRect, Config.animation.animalMove, imageTargets).then(() => {
             // Clean up clone
             clone.remove();
 
