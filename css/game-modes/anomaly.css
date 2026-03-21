@@ -258,33 +258,41 @@
 }
 
 /* Out Pen: Large animals — preserve scale(1.25) + centering */
-.anomaly-layout .pen-surface--out .animal-image--large {
+.anomaly-layout .pen-surface--out .animal-slot .animal-image--large {
     transform: translateX(-50%) scale(1.25) !important;
     transform-origin: bottom center !important;
-    bottom: -15% !important;
+    bottom: -55% !important;
+    left: 3% !important;
 }
 
 /* Out Pen: Medium animals — centering only */
-.anomaly-layout .pen-surface--out .animal-image--medium {
+.anomaly-layout .pen-surface--out .animal-slot .animal-image--medium {
     transform: translateX(-50%) !important;
+    bottom: -30% !important;
+    left: 3% !important;
 }
 
 /* Out Pen: Small animals — centering only */
-.anomaly-layout .pen-surface--out .animal-image--small {
+.anomaly-layout .pen-surface--out .animal-slot .animal-image--small {
     transform: translateX(-50%) !important;
-    bottom: 8% !important;
+    bottom: 0% !important;
+    left: 3% !important;
 }
 
 /* Out Pen: Large cats — preserve scale(1.125) + centering */
-.anomaly-layout .pen-surface--out .animal-image--large.animal-image--cat {
+.anomaly-layout .pen-surface--out .animal-slot .animal-image--large.animal-image--cat {
     transform: translateX(-50%) scale(1.125) !important;
     transform-origin: bottom center !important;
+    bottom: -15% !important;
+    left: 50% !important;
 }
 
 /* Out Pen: Medium cats — preserve scale(0.9) + centering */
-.anomaly-layout .pen-surface--out .animal-image--medium.animal-image--cat {
+.anomaly-layout .pen-surface--out .animal-slot .animal-image--medium.animal-image--cat {
     transform: translateX(-50%) scale(0.9) !important;
     transform-origin: bottom center !important;
+    bottom: 0% !important;
+    left: 50% !important;
 }
 
 /* Align animal to bottom (baseline alignment) */
@@ -511,4 +519,3 @@
 .anomaly-layout .animal-image--cat.animal-image--medium {
     transform: translateX(-50%) scale(0.945) !important;
 }
-
