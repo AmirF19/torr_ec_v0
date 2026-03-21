@@ -284,7 +284,7 @@
     transform: translateX(-50%) scale(1.125) !important;
     transform-origin: bottom center !important;
     bottom: -60% !important;
-    left: 14% !important;
+    left: 10% !important;
 }
 
 /* Out Pen: Medium cats — preserve scale(0.9) + centering */

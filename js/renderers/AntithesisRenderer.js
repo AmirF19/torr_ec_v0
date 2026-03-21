@@ -40,27 +40,15 @@ const AntithesisRenderer = (function () {
         // Create Box 1
         const box1 = createSequenceBox('Box 1', box1Section.items[0], 1);
 
-        // Create arrow
-        const arrow1 = document.createElement('span');
-        arrow1.className = 'arrow-indicator';
-        arrow1.textContent = '→';
-
         // Create Box 2 (question mark - empty middle)
         const box2 = createQuestionMarkBox('?', 2);
-
-        // Create arrow
-        const arrow2 = document.createElement('span');
-        arrow2.className = 'arrow-indicator';
-        arrow2.textContent = '→';
 
         // Create Box 3
         const box3 = createSequenceBox('Box 3', box3Section.items[0], 3);
 
-        // Add to box row
+        // Add to box row (no arrows - hidden per user request)
         boxRow.appendChild(box1);
-        boxRow.appendChild(arrow1);
         boxRow.appendChild(box2);
-        boxRow.appendChild(arrow2);
         boxRow.appendChild(box3);
 
         // Create options pen

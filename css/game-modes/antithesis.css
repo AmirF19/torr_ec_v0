@@ -198,41 +198,72 @@
     bottom: 8% !important;
 }
 
-/* Box 1 & 3 Centering Overrides */
-.antithesis-layout .pen-surface--box .animal-image--large {
-    bottom: -5% !important;
+/* ======================================================================= */
+/* BOX MANUAL PLACEMENT OVERRIDES - Per size category (like Anomaly)        */
+/*                                                                           */
+/*   bottom: move the animal UP (higher) or DOWN (lower) off the ground     */
+/*   left:   move the animal LEFT (< 50%) or RIGHT (> 50%)                  */
+/*                                                                           */
+/* These apply to BOTH Box1 and Box3 (the sequence boxes)                   */
+/* ======================================================================= */
+
+/* BOX: Large animals — single animal questions ONLY (not group layout) */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--large {
+    transform: translateX(-50%) scale(1.25) !important;
+    transform-origin: bottom center !important;
+    bottom: -2% !important;
+    /* <-- CHANGE THIS to raise/lower large animals in boxes */
+    left: 50% !important;
+    /* <-- CHANGE THIS to shift left/right */
 }
 
-.antithesis-layout .pen-surface--box .animal-image--medium {
+/* BOX: Medium animals — single animal questions ONLY */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--medium {
+    transform: translateX(-50%) !important;
     bottom: 5% !important;
+    /* <-- CHANGE THIS to raise/lower medium animals in boxes */
+    left: 50% !important;
+    /* <-- CHANGE THIS to shift left/right */
 }
 
-/* OPTIONS PEN ANIMAL SIZING - Explicit per-size heights so all Antithesis questions
-   (including Sample and Q1, which lack .antithesis-group-layout) render at the
-   correct size. Heights mirror the values used in the group-layout section below. */
-.antithesis-layout .pen-surface--choices .animal-image--large {
-    height: 28vh !important;
-    max-height: 28vh !important;
-    /* Raised baseline to align with Box 1 & 3 baselines */
-    bottom: 10% !important;
+/* BOX: Small animals — single animal questions ONLY */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--small {
+    transform: translateX(-50%) !important;
+    bottom: 6% !important;
+    /* <-- CHANGE THIS to raise/lower small animals in boxes */
+    left: 50% !important;
+    /* <-- CHANGE THIS to shift left/right */
 }
 
-.antithesis-layout .pen-surface--choices .animal-image--medium {
-    height: 26vh !important;
-    max-height: 26vh !important;
-    /* Raised baseline to align with Box 1 & 3 baselines */
-    bottom: 18% !important;
+/* BOX: Large cats — single animal questions ONLY */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--large.animal-image--cat {
+    transform: translateX(-50%) scale(1.125) !important;
+    transform-origin: bottom center !important;
+    bottom: 7% !important;
+    /* <-- CHANGE THIS for large cats */
+    left: 37% !important;
 }
 
-.antithesis-layout .pen-surface--choices .animal-image--small {
-    height: 13vh !important;
-    max-height: 13vh !important;
-    /* Raised baseline to align with Box 1 & 3 baselines */
-    bottom: 20% !important;
+/* BOX: Medium cats — single animal questions ONLY */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--medium.animal-image--cat {
+    transform: translateX(-50%) scale(0.9) !important;
+    transform-origin: bottom center !important;
+    bottom: 5% !important;
+    /* <-- CHANGE THIS for medium cats */
+    left: 50% !important;
 }
 
+/* BOX: Small cats — single animal questions ONLY */
+.antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--small.animal-image--cat {
+    transform: translateX(-50%) scale(0.9) !important;
+    transform-origin: bottom center !important;
+    bottom: 6% !important;
+    /* <-- CHANGE THIS for small cats in boxes */
+    left: 15% !important;
+    /* <-- CHANGE THIS to shift left/right */
+}
 
-/* === CAT SPECIFIC SCALING (0.9x) === */
+/* === CAT SPECIFIC SCALING for boxes (fallback) === */
 /* Large Cats: 1.25 * 0.9 = 1.125 */
 .antithesis-layout .animal-image--large.animal-image--cat {
     transform: translateX(-50%) scale(1.125) !important;
@@ -246,7 +277,38 @@
 }
 
 
-/* Middle box (Box 2 - Question) */
+/* ======================================================================= */
+/* CHOICES PEN MANUAL PLACEMENT - Per size category                         */
+/*                                                                           */
+/*   height:  changes actual render size of the animal                      */
+/*   bottom:  moves the animal up/down off the ground                       */
+/*   left:    moves the animal left/right                                    */
+/* ======================================================================= */
+
+/* CHOICES PEN: Large animals */
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image--large {
+    height: 28vh !important;
+    max-height: 28vh !important;
+    bottom: 10% !important;
+    /* <-- CHANGE THIS to raise/lower large animals in choices */
+}
+
+/* CHOICES PEN: Medium animals */
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image--medium {
+    height: 26vh !important;
+    max-height: 26vh !important;
+    bottom: 18% !important;
+    /* <-- CHANGE THIS to raise/lower medium animals in choices */
+}
+
+/* CHOICES PEN: Small animals */
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image--small {
+    height: 13vh !important;
+    max-height: 13vh !important;
+    bottom: 20% !important;
+    /* <-- CHANGE THIS to raise/lower small animals in choices */
+}
+
 /* .antithesis-layout .pen--box2 .pen-surface--box {}  <-- Removed empty ruleset */
 
 /* QUESTION MARK SLOT - Matches Antinomy Logic */
@@ -490,10 +552,15 @@
     /* Force side-by-side */
     justify-content: center !important;
     align-items: flex-end !important;
-    gap: 2px !important;
-    /* We handle bottom lift directly on the images now */
+    /*
+     * GROUPED ANIMAL SPACING — CHANGE THIS to control gap between side-by-side animals
+     * 0px  = touching / overlapping (due to scale)
+     * 8px  = small visible gap
+     * 20px = clear separation
+     */
+    gap: 0px !important; /* <-- CHANGE THIS to adjust spacing between paired animals */
     padding-bottom: 0 !important;
-    /* Maintain Absolute Position of the GROUP container itself */
+    /* Maintain Absolute Position of the GROUP container */
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
@@ -507,8 +574,6 @@
     left: auto !important;
     right: auto !important;
     top: auto !important;
-    /* Bottom is handled by specific overrides, generally ok to keep or reset if needed */
-    /* We keep 'bottom' from global rules to lift them up, but position must be relative */
 
     /* Prevent Flexbox from shrinking them to fit container width which distorts true size */
     flex-shrink: 0 !important;
@@ -516,8 +581,12 @@
     /* Remove Global Centering Transform */
     transform: none !important;
 
-    /* Spacing: Use gap on parent instead of negative margins to prevent overlap */
     margin: 0 !important;
+}
+
+/* No trailing gap on last image */
+.antithesis-group-layout .animal-image:last-child {
+    margin-right: 0 !important;
 }
 
 /* 3. RESTORE SCALING (Without translateX -50%) */
