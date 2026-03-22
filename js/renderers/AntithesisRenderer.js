@@ -16,7 +16,9 @@ const AntithesisRenderer = (function () {
         layout.className = 'antithesis-layout';
 
         // SCOPED LAYOUT: Apply Flex Group layout for Question 2 onwards (where multi-animal groups appear)
-        if (problemData.questionIndex >= 2) {
+        // Note: questionIndex is 1-based and includes the Sample problem.
+        // Sample = 1, Question 1 = 2, Question 2 = 3. 
+        if (problemData.questionIndex >= 3) {
             layout.classList.add('antithesis-group-layout');
         }
 

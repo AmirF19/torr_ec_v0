@@ -50,6 +50,18 @@
 /* Inded to match Anomaly "Does Not Belong" Pen Size                            */
 /* ============================================================================ */
 
+/* Precise proportional absolute positioning */
+.antithesis-layout .pen--box1 {
+    /* Box 1 shifted left to create space for larger answers */
+    /* Subtracting 1.5vw to shift left and create extra post gap */
+    left: calc(clamp(23.7px, 3.58vw, 63.5px) - 1.5vw) !important;
+}
+
+.antithesis-layout .pen--box2 {
+    /* Box 2 shifted roughly equal to Box 1 */
+    /* Subtracting 1.5vw to shift left and create extra post gap */
+    left: calc(clamp(167.3px, 25.21vw, 447.1px) - 1.5vw) !important;
+}
 .antithesis-layout .pen--box1,
 .antithesis-layout .pen--box2,
 .antithesis-layout .pen--box3 {
@@ -276,16 +288,16 @@
 .antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--large.animal-image--cat {
     transform: translateX(-50%) scale(1.125) !important;
     transform-origin: bottom center !important;
-    bottom: 7% !important;
-    /* <-- CHANGE THIS for large cats */
-    left: 37% !important;
+    bottom: -4% !important;
+    /* Fixed: This will now successfully match! */
+    left: 50% !important;
 }
 
 /* BOX: Medium cats — single animal questions ONLY */
 .antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--medium.animal-image--cat {
     transform: translateX(-50%) scale(0.9) !important;
     transform-origin: bottom center !important;
-    bottom: 5% !important;
+    bottom: -5% !important;
     /* <-- CHANGE THIS for medium cats */
     left: 50% !important;
 }
@@ -294,9 +306,9 @@
 .antithesis-layout:not(.antithesis-group-layout) .pen-surface--box .animal-slot .animal-image--small.animal-image--cat {
     transform: translateX(-50%) scale(0.9) !important;
     transform-origin: bottom center !important;
-    bottom: 6% !important;
+    bottom: 4% !important;
     /* <-- CHANGE THIS for small cats in boxes */
-    left: 15% !important;
+    left: 50% !important;
     /* <-- CHANGE THIS to shift left/right */
 }
 
@@ -367,7 +379,7 @@
     /* Position absolutely like animal slots */
     position: absolute;
     /* FIX: Match animal slot lift */
-    bottom: 45% !important;
+    bottom: 54% !important;
     left: 0;
     z-index: 45;
 
@@ -586,24 +598,26 @@
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    /* Force side-by-side */
     justify-content: center !important;
     align-items: flex-end !important;
-    /*
-     * GROUPED ANIMAL SPACING — CHANGE THIS to control gap between side-by-side animals
-     * 0px  = touching / overlapping (due to scale)
-     * 8px  = small visible gap
-     * 20px = clear separation
-     */
-    /* Base gap set to 0. Use the dedicated Margin Right classes below to adjust space independently per size! */
     gap: 0px !important;
     padding-bottom: 0 !important;
-    /* Maintain Absolute Position of the GROUP container */
     position: absolute !important;
     left: 0 !important;
     right: 0 !important;
     top: 0 !important;
-    bottom: 0 !important;
+}
+
+/* INDEPENDENT BOX GROUND TRUING */
+/* Because Box 1 and Box 3 are different dimensions, their "ground" sits at a different absolute height. 
+   We lift the *entire group container* to match each box's specific dirt path. */
+.antithesis-layout.antithesis-group-layout .pen--box1 .animal-group,
+.antithesis-layout.antithesis-group-layout .pen--box2 .animal-group {
+    bottom: 0% !important; /* Drops Box 1 groups so they touch the dirt */
+}
+
+.antithesis-layout.antithesis-group-layout .pen--box3 .animal-group {
+    bottom: 10% !important; /* Box 3 is taller, so we lift the group slightly to reach its higher dirt line */
 }
 
 /* 2. MAKE CHILDREN RELATIVE (So they flow in Flex) */
@@ -612,16 +626,18 @@
     left: auto !important;
     right: auto !important;
     top: auto !important;
-    /* Strip inherited absolute offsets so animals naturally clamp to the identical floor */
-    bottom: 0% !important;
-
-    /* Prevent Flexbox from shrinking them to fit container width which distorts true size */
+    margin-bottom: 0% !important; /* Universally level all sizes perfectly with each other */
     flex-shrink: 0 !important;
-
-    /* Remove Global Centering Transform */
     transform: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+}
 
-    margin: 0 !important;
+/* CROSS-SCREEN PARITY TWEAKS: 
+   Specific adjustments requested to fix minor floating on certain sizes in Box 3 */
+.antithesis-layout.antithesis-group-layout .pen--box3 .animal-image--medium {
+    margin-bottom: -3% !important; /* Pulling medium animals down just a little so they sit perfectly on the Box 3 dirt */
 }
 
 /* No trailing gap on last image */
@@ -630,14 +646,11 @@
 }
 
 /* 3. RESTORE SCALING (Without translateX -50%) */
-
-/* Large Animals in Groups */
 .antithesis-group-layout .animal-image--large {
     transform: scale(1.25) !important;
     transform-origin: bottom center !important;
 }
 
-/* Cats in Groups */
 .antithesis-group-layout .animal-image--large.animal-image--cat {
     transform: scale(1.125) !important;
 }
@@ -652,39 +665,16 @@
 .antithesis-group-layout .animal-image--large,
 .antithesis-flying-group .animal-image--large {
     margin: 0 -10px !important;
-    /* Adjust LARGE gap here */
 }
 
 .antithesis-group-layout .animal-image--medium,
 .antithesis-flying-group .animal-image--medium {
     margin: 0 -15px !important;
-    /* Adjust MEDIUM gap here */
 }
 
 .antithesis-group-layout .animal-image--small,
 .antithesis-flying-group .animal-image--small {
-    margin: 0 -10px !important;
-    /* Adjust SMALL gap here */
-}
-
-/* ======================================================================= */
-/* GROUP VERTICAL BASELINE ADJUSTER: Manually level animals on the floor   */
-/* ======================================================================= */
-/* Adjust these negative values to push animals down physically until they  
-   are visually flush with each other. They naturally float differently due to SVG scales. */
-.antithesis-group-layout .animal-image--large {
-    bottom: -15% !important;
-    /* Pushes Large animals down to match the floor visually */
-}
-
-.antithesis-group-layout .animal-image--medium {
-    bottom: -4% !important;
-    /* Pushes Medium animals down to match visually */
-}
-
-.antithesis-group-layout .animal-image--small {
-    bottom: 0% !important;
-    /* Small animals sit perfectly flush at 0% */
+    margin: 0 -8px !important;
 }
 
 /* ======================================================================= */
