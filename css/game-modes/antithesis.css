@@ -21,7 +21,7 @@
     /* Space between box row and options */
     width: 100%;
     padding: var(--space-md) 0;
-    margin-top: 5vh;
+    margin-top: 0vh;
     /* ================== */
 
     overflow: visible;
@@ -36,11 +36,10 @@
     align-items: center;
     justify-content: center;
 
-    /* === EDIT THESE === */
-    /* Increased gap to prevent oversized fence overlays from overlapping */
-    gap: clamp(40px, 10vw, 120px);
-    /* Drop the boxes down per user request */
-    margin-top: 5vh;
+    /* Halved the visual space perfectly by mathematically compensating for the 27.5% invisible SVG overhang */
+    gap: clamp(45px, 13vw, 140px);
+    /* Dropped essentially 4vh lower per user request without moving choices pen */
+    margin-top: 4vh;
     /* ================== */
 
     width: 100%;
@@ -59,13 +58,28 @@
 
 /* BOX SIZE - Matches Anomaly "Does Not Belong" Pen */
 .antithesis-layout .pen-surface--box {
-    /* Anomaly Out Pen Size logic: width: clamp(160px, 24vw, 560px); ratio: 0.8 */
-    width: clamp(120px, 18vw, 320px);
-    /* Reduced to fit 3 boxes on iPad 11" */
-    height: auto;
-    aspect-ratio: 0.8;
+    /* Base Size Scaled +22% */
+    width: clamp(146px, 22vw, 390px);
+    /* Hardcoded height mapping to default width to ensure uniform height across Boxes 1, 2, 3 */
+    height: calc(clamp(146px, 22vw, 390px) / 0.8) !important;
     overflow: visible;
     position: relative;
+}
+
+/* Precise proportional horizontal width overrides */
+/* Added chained selectors (.box.surface) AND descendant selectors (.box .surface) to guarantee application */
+.antithesis-layout .pen--box1.pen-surface--box,
+.antithesis-layout .pen--box1 .pen-surface--box,
+.antithesis-layout .pen--box2.pen-surface--box,
+.antithesis-layout .pen--box2 .pen-surface--box {
+    /* Box 1 & 2 shrunk an additional 4% from previous state */
+    width: clamp(133.1px, 20.06vw, 355.7px) !important;
+}
+
+.antithesis-layout .pen--box3.pen-surface--box,
+.antithesis-layout .pen--box3 .pen-surface--box {
+    /* Box 3 widened by another 3% per user request */
+    width: clamp(169.1px, 25.46vw, 451.8px) !important;
 }
 
 /* BOX FENCE - Matches Anomaly "Does Not Belong" Pen style */
@@ -101,21 +115,44 @@
     object-fit: fill !important;
 }
 
-/* GROUND POSITIONING - Matches Anomaly "Does Not Belong" Pen */
+/* ======================================================================= */
+/* INDIVIDUAL GROUND SVG SHAPE AND FIT FOR BOX 1, BOX 2, AND BOX 3         */
+/* ======================================================================= */
+/* Adjust left/right % or scaleX() for each specific box below to fit its fence bounds */
+
+/* BASE GROUND LOGIC */
 .antithesis-layout .pen-surface--box .pen-ground {
-    /* Match Anomaly Out Pen Ground positioning */
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+    position: absolute;
+    transform-origin: center bottom;
+    z-index: 9;
+}
+
+/* --- BOX 1 GROUND --- */
+.antithesis-layout .pen--box1 .pen-ground {
+    top: 30%;
+    left: 5%;
+    right: 5%;
+    bottom: 18%;
+    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+}
+
+/* --- BOX 2 GROUND --- */
+.antithesis-layout .pen--box2 .pen-ground {
+    top: 30%;
+    left: 5%;
+    right: 5%;
+    bottom: 18%;
+    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+}
+
+/* --- BOX 3 GROUND --- */
+.antithesis-layout .pen--box3 .pen-ground {
     top: 29%;
     left: 5%;
     right: 5%;
-    bottom: 15%;
-
-    /* Match Anomaly Ground Scaling logic */
+    bottom: 8%;
     transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
-    transform-origin: center bottom;
-    z-index: 9;
-
-    /* Match Anomaly Ground Clip Path (Trapezoid from Anomaly.css) */
-    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
 }
 
 /* BOX CONTENT */
@@ -558,7 +595,8 @@
      * 8px  = small visible gap
      * 20px = clear separation
      */
-    gap: 0px !important; /* <-- CHANGE THIS to adjust spacing between paired animals */
+    /* Base gap set to 0. Use the dedicated Margin Right classes below to adjust space independently per size! */
+    gap: 0px !important;
     padding-bottom: 0 !important;
     /* Maintain Absolute Position of the GROUP container */
     position: absolute !important;
@@ -574,6 +612,8 @@
     left: auto !important;
     right: auto !important;
     top: auto !important;
+    /* Strip inherited absolute offsets so animals naturally clamp to the identical floor */
+    bottom: 0% !important;
 
     /* Prevent Flexbox from shrinking them to fit container width which distorts true size */
     flex-shrink: 0 !important;
@@ -604,6 +644,57 @@
 
 .antithesis-group-layout .animal-image--medium.animal-image--cat {
     transform: scale(0.9) !important;
+}
+
+/* ======================================================================= */
+/* GROUP GAP ADJUSTER: Editable independent gaps by size                   */
+/* ======================================================================= */
+.antithesis-group-layout .animal-image--large,
+.antithesis-flying-group .animal-image--large {
+    margin: 0 -10px !important;
+    /* Adjust LARGE gap here */
+}
+
+.antithesis-group-layout .animal-image--medium,
+.antithesis-flying-group .animal-image--medium {
+    margin: 0 -15px !important;
+    /* Adjust MEDIUM gap here */
+}
+
+.antithesis-group-layout .animal-image--small,
+.antithesis-flying-group .animal-image--small {
+    margin: 0 -10px !important;
+    /* Adjust SMALL gap here */
+}
+
+/* ======================================================================= */
+/* GROUP VERTICAL BASELINE ADJUSTER: Manually level animals on the floor   */
+/* ======================================================================= */
+/* Adjust these negative values to push animals down physically until they  
+   are visually flush with each other. They naturally float differently due to SVG scales. */
+.antithesis-group-layout .animal-image--large {
+    bottom: -15% !important;
+    /* Pushes Large animals down to match the floor visually */
+}
+
+.antithesis-group-layout .animal-image--medium {
+    bottom: -4% !important;
+    /* Pushes Medium animals down to match visually */
+}
+
+.antithesis-group-layout .animal-image--small {
+    bottom: 0% !important;
+    /* Small animals sit perfectly flush at 0% */
+}
+
+/* ======================================================================= */
+/* PROBLEM CHILD: LARGE PIG FIX                                            */
+/* ======================================================================= */
+/* Pig SVGs contain massive transparent canvases. When JS freezes their width 
+   to raw pixel bounds during animation, it forces them violently apart natively. 
+   We apply extremely aggressive negative margins to pull the clones back exactly. */
+.antithesis-flying-group .animal-image--pig.animal-image--large {
+    margin: 0 -35px !important;
 }
 
 /* OVERRIDE GROUP SHRINKING: Prevent animal-slot.css from shrinking grouped animals */
@@ -638,7 +729,7 @@
     flex-direction: row !important;
     justify-content: center !important;
     align-items: flex-end !important;
-    gap: 8px !important;
+    /* gap: 8px !important; Removed so group respects your custom edits above */
     /* Reset any block/fixed overrides from base class if needed, checking specificity */
 }
 
@@ -650,7 +741,7 @@
     top: auto !important;
     transform: none !important;
     /* Match Box Scale to prevent resize glitch - FIXED: Handled by JS inline sizes now */
-    margin: 0 !important;
+    /* margin: 0 !important; Removed so group respects your custom edits above */
 }
 
 /* Flying Cats - FIXED: Removed to prevent double-scaling */
