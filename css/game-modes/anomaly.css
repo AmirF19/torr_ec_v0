@@ -22,18 +22,18 @@
     /* CENTER ALIGNED - pen centers aligned horizontally */
 
     /* === EDIT THESE === */
-    gap: 10vw;
-    /* Space between main pen and out pen - Increased separation */
-    width: 99%;
+    /* Original gap 10vw. Decreased by 25% per user request */
+    gap: 7.5vw;
     /* Total width of layout - Fill the screen */
-    margin-left: 0.5%;
+    width: 99%;
     /* Left screen margin - Edge to edge */
-    margin-right: 1.5%;
+    margin-left: 0.5%;
     /* Right screen margin - slightly more to nudge pens left */
-    margin-top: 2vh;
+    margin-right: 1.5%;
     /* Distance from top of screen */
-    min-height: 70vh;
+    margin-top: 2vh;
     /* Minimum layout height */
+    min-height: 70vh;
     /* ================== */
 
     max-width: 99vw;
@@ -75,8 +75,8 @@
 
 .anomaly-layout .pen--main {
     flex: 0 0 auto;
-    /* User Request: Move entire left fence to the left (Removed rotation) */
-    transform: translateX(-1vw);
+    /* User Request: Shifted back to the right to prevent corner cutoff */
+    transform: translateX(-2vw);
     transform-origin: center bottom;
 }
 
@@ -85,7 +85,8 @@
 /* MAIN PEN SIZE */
 .anomaly-layout .pen-surface--main {
     /* Main Pen = 2/3 of logical space (~65%) - Reduced 20% */
-    width: clamp(240px, 52vw, 2000px);
+    /* Increased by another 5% per user request */
+    width: clamp(319px, 69.07vw, 2657px);
     height: auto;
     /* Height determined by scaling */
     aspect-ratio: 16 / 10;
@@ -101,7 +102,8 @@
     /* 5 columns, centered */
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
-    gap: 0.5vw;
+    /* Gap increased by another 20% per user request: 0.665 * 1.20 = 0.8vw */
+    gap: 0.8vw;
     /* Reduced gap to prevent overlap */
     justify-items: center;
     /* Center animals in cells */
@@ -142,13 +144,15 @@
 .anomaly-layout .pen--out {
     flex: 0 0 auto;
     /* Use transform to move pen down since flexbox align-items overrides margin */
-    transform: translateY(2.5vw);
+    /* User Request: Shift the Out Pen 5% left to prevent screen cut-off */
+    transform: translateY(2.5vw) translateX(-5vw);
 }
 
 /* OUT PEN SIZE */
 .anomaly-layout .pen-surface--out {
     /* Exactly 50% of the Main Pen width (52vw * 0.5 = 26vw) - Reduced 20% */
-    width: clamp(160px, 24vw, 560px);
+    /* Reduced by 15% per user request */
+    width: clamp(136px, 20.4vw, 476px);
     height: auto;
     aspect-ratio: 0.8;
     /* Taller rectangular shape to match Main Pen height */
