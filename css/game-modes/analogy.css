@@ -353,11 +353,11 @@
 .analogy-layout .pen-surface--choices .pen-content {
     position: absolute !important;
     top: 30% !important;
-    /* Decreased to pull the top UP */
-    left: 5% !important;
-    right: 5% !important;
-    bottom: 6% !important;
-    /* Increased to push the bottom UP */
+    /* Wider inset keeps animals clear of fence posts */
+    left: 15% !important;
+    right: 15% !important;
+    /* Slight floor raise — enough to clear fence rail without floating animals */
+    bottom: 5% !important;
     padding: 0 !important;
     z-index: 200 !important;
     pointer-events: none;
@@ -371,14 +371,14 @@
     transform-origin: center bottom !important;
 }
 
-/* CHOICES GRID */
+/* CHOICES GRID — always 4 equal columns, stable gap */
 .analogy-layout .pen-surface--choices .animal-grid {
     display: grid !important;
     width: 100%;
     height: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(100px, auto));
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
-    gap: 3.5vw;
+    gap: clamp(8px, 1.5vw, 24px);
     justify-items: center;
     align-items: stretch;
     justify-content: center;
@@ -462,15 +462,35 @@
     bottom: 8% !important;
 }
 
-/* Choices Pen Specific Offsets (Depth Illusion & Stagger) */
-/* (The global rules above handle the baseline now) */
+/* Choices Pen Specific Offsets */
+/* Small animals lifted extra in choices pen to clear fence floor */
+.analogy-layout .pen-surface--choices .animal-slot .animal-image--small {
+    bottom: 12% !important;
+}
+
+/* Large animals: override the global -15% sink so both staggered and
+   non-staggered slots share the same visual floor baseline */
+.analogy-layout .pen-surface--choices .animal-slot .animal-image--large {
+    bottom: -5% !important;
+}
 
 /* ============================================================================ */
-/* CHOICES PEN STAGGER - lift odd-position animals so they are not all in line  */
+/* CHOICES PEN STAGGER - per-size lift so all sizes look proportionally raised  */
+/* Using :has() so large animals (very tall) don't overshoot the fence top      */
 /* ============================================================================ */
 
-/* Simply lift the entire slot, preserving all internal scaling and baselines! */
-.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd) {
+/* Large animals: subtle lift — they're already ~35vh tall visually */
+.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd):has(.animal-image--large) {
+    transform: translateY(-10%);
+}
+
+/* Medium animals: moderate lift */
+.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd):has(.animal-image--medium) {
+    transform: translateY(-18%);
+}
+
+/* Small animals: full lift — they need more to appear raised */
+.analogy-layout .pen-surface--choices .animal-slot:nth-child(odd):has(.animal-image--small) {
     transform: translateY(-25%);
 }
 
