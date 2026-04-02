@@ -124,6 +124,15 @@ const AnalogyRenderer = (function () {
         slotElement.dataset.isAnimating = 'true';
 
         // --- ANIMATION START ---
+
+        // ── ANSWER SLOT LANDING OFFSETS (px) ─────────────────────────────────
+        // Tune where each size class lands vertically in the answer slot.
+        // Positive  = lower on screen (push animal down toward fence floor)
+        // Negative  = higher on screen (pull animal up)
+        const LANDING_OFFSET_LARGE = 0;
+        const LANDING_OFFSET_MEDIUM = -20;
+        const LANDING_OFFSET_SMALL = -30;
+        // ─────────────────────────────────────────────────────────────────────
         const targetContainer = document.querySelector('.analogy-layout .category-row .pen--c .question-mark-slot');
         const sourceImage = slotElement.querySelector('.animal-image');
 
@@ -186,27 +195,30 @@ const AnalogyRenderer = (function () {
                 ? cPenAnimal.getBoundingClientRect().bottom
                 : endRect.bottom;
 
-            const top = floorY - landingHeight;
+            // Per-size vertical offset for final landing position
+            const isLarge = sourceImage.classList.contains('animal-image--large');
+            const isMedium = sourceImage.classList.contains('animal-image--medium');
+            const landingOffset = isLarge ? LANDING_OFFSET_LARGE
+                : isMedium ? LANDING_OFFSET_MEDIUM
+                    : LANDING_OFFSET_SMALL;
+
+            const top = floorY - landingHeight + landingOffset;
 
             clone.style.left = `${left}px`;
             clone.style.top = `${top}px`;
 
             // On animation finish
             clone.addEventListener('transitionend', () => {
-                // Hide question mark span, keep container visible
+                // Hide question mark span
                 const qmSpan = targetContainer.querySelector('.question-mark-text');
                 if (qmSpan) qmSpan.style.opacity = '0';
 
-                // Reparent the clone into the slot so CSS size alignments apply natively!
-                targetContainer.appendChild(clone);
-
-                // Clear the inline inline animation styles so CSS takes over
-                clone.style.position = '';
-                clone.style.left = '';
-                clone.style.top = '';
-                clone.style.width = '';
-                clone.style.height = '';
-                clone.style.transition = '';
+                // FIX (ANAL-0-01): Do NOT reparent the clone into the slot.
+                // Reparenting shifts the positioning context from fixed (viewport)
+                // to absolute (slot), and clearing inline top/left causes a visible
+                // snap-jump as CSS takes over. Keeping the clone fixed at its final
+                // screen position eliminates the jump entirely.
+                clone.style.transition = 'none'; // freeze — prevent any further drift
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
@@ -290,7 +302,7 @@ const AnalogyRenderer = (function () {
             if (isLarge) {
                 img.style.height = '28vh';
                 img.style.maxHeight = '28vh';
-                img.style.bottom = '-15%';
+                img.style.bottom = '0%'; // tune in analogy.css .category-row .animal-slot .animal-image--large
                 if (isCat) {
                     img.style.transform = 'translateX(-50%) scale(1.125)';
                 } else {
@@ -300,7 +312,7 @@ const AnalogyRenderer = (function () {
             } else if (isMedium) {
                 img.style.height = '22vh';
                 img.style.maxHeight = '22vh';
-                img.style.bottom = '0%';
+                img.style.bottom = '32%'; // tune via .category-row .animal-slot .animal-image--medium in analogy.css
                 if (isCat) {
                     img.style.transform = 'translateX(-50%) scale(0.9)';
                     img.style.transformOrigin = 'bottom center';
@@ -310,7 +322,7 @@ const AnalogyRenderer = (function () {
             } else if (isSmall) {
                 img.style.height = '13vh';
                 img.style.maxHeight = '13vh';
-                img.style.bottom = '8%';
+                img.style.bottom = '40%'; // tune via .category-row .animal-slot .animal-image--small in analogy.css
                 img.style.transform = 'translateX(-50%)';
             }
         });

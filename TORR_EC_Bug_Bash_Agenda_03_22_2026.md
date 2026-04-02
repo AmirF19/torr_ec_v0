@@ -49,14 +49,14 @@
 - [ ] Data CSV overhaul (`state.js` + `main.js` `downloadData`): add seconds elapsed, full descriptor, total selections, total clicks, time on problem, time-from-last-selection
 
 ### Analogy
-- [ ] Fix animation jump before final lock (ANAL-0-01) — `AnalogyRenderer.js`
+- [x] Fix animation jump before final lock (ANAL-0-01) — `AnalogyRenderer.js` (removed reparenting; clone stays fixed)
 - [ ] Fix large sheep clipping out of Final Answer Box (ANAL-0-02) — `analogy.css`
-- [ ] Fix baseline misalignment for mixed-size animals (ANAL-0-03) — `analogy.css`
-- [ ] Fix choice box stagger algorithm (ANAL-0-04, ANAL-2-01) — `analogy.css`
+- [x] Fix baseline misalignment / animal overlap for mixed-size animals (ANAL-0-03) — `analogy.css` (gap 0.5vw→2.5vw)
+- [x] Fix choice box stagger algorithm (ANAL-0-04, ANAL-2-01) — `analogy.css` (per-size :has() stagger + padding/inset fix)
 - [ ] Fix Large Yellow Dog lower than Large Red Cow in right problem pen (ANAL-5-02) — `analogy.css`
 - [ ] Fix iPad overlap with Next button (layout) — `analogy.css` responsive 1194×834
 - [ ] Fix C-Box large sheep not rendering at standard large size — `AnalogyRenderer.js`
-- [ ] Increase Analogy Choices Box size ~75% — `analogy.css`
+- [x] Increase Analogy Choices Box size ~75% — `analogy.css`
 - [ ] Fix Question Mark box padding for uniform base line — `analogy.css`
 
 ### Antithesis
