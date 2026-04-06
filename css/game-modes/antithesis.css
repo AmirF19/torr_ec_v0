@@ -62,6 +62,7 @@
     /* Subtracting 1.5vw to shift left and create extra post gap */
     left: calc(clamp(167.3px, 25.21vw, 447.1px) - 1.5vw) !important;
 }
+
 .antithesis-layout .pen--box1,
 .antithesis-layout .pen--box2,
 .antithesis-layout .pen--box3 {
@@ -338,24 +339,34 @@
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--large {
     height: 28vh !important;
     max-height: 28vh !important;
-    bottom: 10% !important;
-    /* <-- CHANGE THIS to raise/lower large animals in choices */
+    bottom: 20% !important;
+    /* <-- raised/lowered large animals in choices */
 }
 
 /* CHOICES PEN: Medium animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--medium {
     height: 26vh !important;
     max-height: 26vh !important;
-    bottom: 18% !important;
-    /* <-- CHANGE THIS to raise/lower medium animals in choices */
+    bottom: 26% !important;
+    /* <-- raised/lowered medium animals in choices */
 }
 
 /* CHOICES PEN: Small animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
-    bottom: 20% !important;
-    /* <-- CHANGE THIS to raise/lower small animals in choices */
+    bottom: 30% !important;
+    /* <-- raised/lowered small animals in choices */
+}
+
+/* SPECIES-SPECIFIC SVG OFFSETS IN CHOICES PEN */
+/* Because Pig and Dog SVGs have extra transparent canvas at the bottom, pull them down */
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image--pig {
+    margin-bottom: -6% !important;
+}
+
+.antithesis-layout .pen-surface--choices .animal-slot .animal-image--dog {
+    margin-bottom: -4% !important;
 }
 
 /* .antithesis-layout .pen--box2 .pen-surface--box {}  <-- Removed empty ruleset */
@@ -378,8 +389,12 @@
 
     /* Position absolutely like animal slots */
     position: absolute;
-    /* FIX: Match animal slot lift */
-    bottom: 54% !important;
+
+    /* USER INSTRUCTION (MACRO CONTROL): 
+     * Modifying this 'bottom' percentage lifts or lowers the entire question mark container. 
+     * It is currently synced with Box 2's animal-slot height (22%) 
+     */
+    bottom: 49% !important;
     left: 0;
     z-index: 45;
 
@@ -389,6 +404,11 @@
 
 .antithesis-layout .question-mark-text {
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+
+    /* USER INSTRUCTION (MICRO CONTROL): 
+     * To nudge just the text character up or down visually without moving the container math, 
+     * adjust this negative translateY percentage (e.g., -30% to move higher).
+     */
     transform: translateY(-20%);
     display: block;
 }
@@ -473,7 +493,14 @@
     padding: 0 !important;
     z-index: 200 !important;
     pointer-events: none;
-    /* Pass clicks to slots */
+
+    /* 
+     * USER INSTRUCTION: 
+     * Modify this specific value to raise or lower ALL animals in the choices pen uniformly!
+     * Because this is a transform, it safely moves the animals without warping or tilting the ground SVG's clip-path.
+     * Increase the negative percentage (e.g., -25% or -35%) to lift the animals higher.
+     */
+    transform: translateY(-5%);
 }
 
 /* OPTIONS GRID - Matches Antinomy Logic */
@@ -609,15 +636,19 @@
 }
 
 /* INDEPENDENT BOX GROUND TRUING */
-/* Because Box 1 and Box 3 are different dimensions, their "ground" sits at a different absolute height. 
-   We lift the *entire group container* to match each box's specific dirt path. */
+/* Our global .animal-slot already correctly sets the baseline depth for Box 1 (22%) and Box 3 (30%).
+   However! Group layout shrinks animal SVG heights (e.g., 28vh -> 18vh). This compression physically shrinks
+   the invisible empty pixel padding below the animal's drawn feet. As a result, placing them exactly 
+   at 'bottom: 0%' causes them to sit slightly LOWER on the screen than their single-animal counterparts.
+   We add a structural +10% bottom lift to Box 1/2 groups to equalize the feet. */
 .antithesis-layout.antithesis-group-layout .pen--box1 .animal-group,
 .antithesis-layout.antithesis-group-layout .pen--box2 .animal-group {
-    bottom: 0% !important; /* Drops Box 1 groups so they touch the dirt */
+    bottom: 10% !important;
 }
 
 .antithesis-layout.antithesis-group-layout .pen--box3 .animal-group {
-    bottom: 10% !important; /* Box 3 is taller, so we lift the group slightly to reach its higher dirt line */
+    bottom: 0% !important;
+    /* Lowered to 0% to fully ground the Box 3 grouped animals per user request. */
 }
 
 /* 2. MAKE CHILDREN RELATIVE (So they flow in Flex) */
@@ -626,7 +657,8 @@
     left: auto !important;
     right: auto !important;
     top: auto !important;
-    margin-bottom: 0% !important; /* Universally level all sizes perfectly with each other */
+    margin-bottom: 0% !important;
+    /* Universally level all sizes perfectly with each other */
     flex-shrink: 0 !important;
     transform: none !important;
     margin-left: 0 !important;
@@ -637,7 +669,8 @@
 /* CROSS-SCREEN PARITY TWEAKS: 
    Specific adjustments requested to fix minor floating on certain sizes in Box 3 */
 .antithesis-layout.antithesis-group-layout .pen--box3 .animal-image--medium {
-    margin-bottom: -3% !important; /* Pulling medium animals down just a little so they sit perfectly on the Box 3 dirt */
+    margin-bottom: -3% !important;
+    /* Pulling medium animals down just a little so they sit perfectly on the Box 3 dirt */
 }
 
 /* No trailing gap on last image */
