@@ -65,11 +65,11 @@
 - [ ] Fix zoom-sends-selected-animal-to-top-left — `AntithesisRenderer.js`
 
 ### Antinomy
-- [ ] Resize Choices Box
-- [ ] Resize Green and Red Boxes
+- [x] Resize Choices Box
+- [x] Resize Green and Red Boxes
 - [ ] Replace red ground with regular ground color (from Alina Fork)
-- [ ] Increase animal spacing gap in green box
-- [ ] Fix stagger on all questions
+- [x] Increase animal spacing gap in green box
+- [x] Fix stagger on all questions
 
 ### Anomaly
 - [ ] Fix animals overlapping with fence svg (check each problem)
