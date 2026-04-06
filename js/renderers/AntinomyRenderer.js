@@ -208,7 +208,7 @@ const AntinomyRenderer = (function () {
             if (sourceImage.classList.contains('animal-image--large')) {
                 sizeOffset = slotHeight * 0.15;
             } else if (sourceImage.classList.contains('animal-image--small')) {
-                sizeOffset = -1 * (slotHeight * 0.08);
+                sizeOffset = -1 * (slotHeight * 0.12);
             } else {
                 // Medium or default
                 sizeOffset = 0;

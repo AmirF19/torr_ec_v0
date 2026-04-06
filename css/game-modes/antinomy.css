@@ -35,7 +35,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: clamp(8px, 1.5vw, 30px);
+    gap: clamp(25px, 4vw, 65px); /* Increased gap for more space between pens */
     width: 100%;
 }
 
@@ -104,7 +104,7 @@
     /* 1. scale(x, y) -> Increase numbers to make fence bigger. */
     /* 2. left/top -> Move fence position. */
 
-    transform: scale(2.0, 1.2) !important;
+    transform: scale(2.66, 1.6) !important;
     /* Widened X significantly to fit 4 columns */
     left: 0% !important;
     top: 20% !important;
@@ -182,9 +182,9 @@
     /* 1. scale(x, y) -> Increase numbers to make fence bigger. */
     /* 2. left/top -> Move fence position. */
 
-    transform: scale(2.0, 1.2) !important;
+    transform: scale(2.34, 1.41) !important;
     /* Widened X significantly to fit 4 columns */
-    left: 0% !important;
+    left: 5% !important;
     top: 20% !important;
 
     /* ============================= */
@@ -228,6 +228,11 @@
     align-items: flex-end !important;
 }
 
+/* Improve Green Box Spacing Per Request */
+.antinomy-layout .pen-surface--green .animal-grid {
+    gap: 5.5vw !important;
+}
+
 /* RED BOX OVERRIDE - Removed grid-template-columns as we are using Flex */
 /* .antinomy-layout .pen-surface--red .animal-grid { } -- REMOVED */
 
@@ -256,6 +261,11 @@
     /* Font style - MOVED TO SPAN */
     /* Transform REMOVED to keep container as valid Logic Target */
     cursor: default;
+
+    /* Positional adjustment per request */
+    position: relative;
+    left: -3%;
+    bottom: 3%;
 }
 
 .antinomy-layout .question-mark-slot .question-mark-text {
@@ -339,8 +349,8 @@
     /* Match Green/Red Content top */
     left: 5% !important;
     right: 5% !important;
-    bottom: -2% !important;
-    /* Lowered from 8% -> -2% per user request "too high" */
+    bottom: 1% !important;
+    /* Baseline raised slightly more */
     /* Match Green/Red Content bottom */
     padding: 0 !important;
     z-index: 200 !important;
@@ -360,8 +370,8 @@
     /* MATH: (AR 4.8 / AR 3.0) * 1.6 ~= 2.6 */
     transform: scale(2.65, 0.98) !important;
     left: 0% !important;
-    top: 15% !important;
-    /* Lowered from -15% based on feedback */
+    top: 25% !important;
+    /* Lowered slightly from 20% */
 
     /* =========================================== */
 
@@ -425,6 +435,11 @@
     /* CRITICAL FIX: Capture clicks on the image itself since it sticks out of the slot */
 }
 
+/* CHOICES STAGGER FIX */
+.antinomy-layout .pen-surface--choices .animal-slot:nth-child(odd) .animal-image {
+    margin-bottom: 25% !important;
+}
+
 /* ============================================================================ */
 /* ANIMAL BASELINE CONTROLS - ADJUST VERTICAL POSITIONS HERE                    */
 /* This is where you can shift large/medium/small animals individually           */
@@ -458,7 +473,7 @@
 
 /* Small Animals */
 .antinomy-layout .animal-slot .animal-image--small {
-    bottom: 8% !important;
+    bottom: 12% !important;
 }
 
 /* === CAT SPECIFIC SCALING (0.9x) === */
@@ -522,10 +537,10 @@
 /* GREEN BOX GROUND */
 .antinomy-layout .pen-surface--green .pen-ground {
     /* === MANUAL GROUND CONTROLS === */
-    top: 42%;
-    left: 5%;
-    right: 5%;
-    bottom: -15%;
+    top: 30%;
+    left: -8%;
+    right: -8%;
+    bottom: -27%;
     /* ============================== */
     clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
@@ -533,10 +548,10 @@
 /* RED BOX GROUND */
 .antinomy-layout .pen-surface--red .pen-ground {
     /* === MANUAL GROUND CONTROLS === */
-    top: 42%;
-    left: 5%;
-    right: 5%;
-    bottom: -15%;
+    top: 35.8%;
+    left: 4.4%;
+    right: -5.6%;
+    bottom: -21.2%;
     /* ============================== */
     clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
@@ -545,10 +560,10 @@
 .antinomy-layout .pen-surface--choices .pen-ground {
     /* === MANUAL GROUND CONTROLS === */
     /* Adjust 'top', 'left', 'right', 'bottom' to shape the dirt */
-    top: 45%;
+    top: 55%;
     left: 5%;
     right: 5%;
-    bottom: -5%;
+    bottom: -15%;
     /* ============================== */
     clip-path: polygon(12% 0%, 88% 0%, 100% 100%, 0% 100%);
 }
@@ -564,8 +579,8 @@
     top: 25%;
     left: 10%;
     right: 10%;
-    bottom: 11%;
-    /* Visual Correction: Lowered slightly from 13% -> 11% */
+    bottom: -15%;
+    /* Visual Correction: Brought down significantly to have baseline in the middle of the drawn pen */
 }
 
 /* ============================================================================ */
@@ -586,5 +601,13 @@
 
 /* Override shared content rule (11%) -> Lower entire pen content significantly */
 .antinomy-layout .pen-surface--red .pen-content {
-    bottom: -1% !important;
+    bottom: -18% !important;
+    left: 15% !important;
+    right: 5% !important;
+}
+
+/* Green pen content shift */
+.antinomy-layout .pen-surface--green .pen-content {
+    left: 13% !important;
+    right: 7% !important;
 }
