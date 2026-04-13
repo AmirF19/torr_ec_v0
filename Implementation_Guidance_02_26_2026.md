@@ -1,9 +1,8 @@
 # TORR EC: Implementation Guidance Document
 
 **Date:** February 26, 2026
-**Target Audience:** Lab Team & Researchers (Implementation Guide without AI Assistance)
 
-This document provides step-by-step instructions, file locations, and code snippets to implement the bug bash changes directly in the codebase. F  ollow the "File to Edit" paths and copy/paste or modify the specific lines shown in the "Code to Change" sections.
+This document provides step-by-step instructions, file locations, and code snippets to implement the bug bash changes directly in the codebase. Follow the "File to Edit" paths and copy/paste or modify the specific lines shown in the "Code to Change" sections.
 
 ---
 
