@@ -651,19 +651,46 @@
     /* Lowered to 0% to fully ground the Box 3 grouped animals per user request. */
 }
 
-/* 2. MAKE CHILDREN RELATIVE (So they flow in Flex) */
+/* 2. UNIVERSAL GROUPED ALIGNMENT ENGINE (Replaces percentage inherited stagger) */
+/* Moving flex padding from relative geometric percentages to explicit viewport-height (vh) 
+   adjustments guarantees the vertical separation between Large, Medium, and Small
+   remains mathematically identical whether the flex container is 30vh (Box) or 15vh (Choices pen). */
+
 .antithesis-group-layout .animal-image {
     position: relative !important;
     left: auto !important;
     right: auto !important;
     top: auto !important;
-    margin-bottom: 0% !important;
-    /* Universally level all sizes perfectly with each other */
+    margin-bottom: 0 !important;
     flex-shrink: 0 !important;
-    transform: none !important;
+    transform: none !important; /* Clears destructive translateX(-50%) so groups stay perfectly centered */
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-top: 0 !important;
+}
+
+/* Explicit VH-based pushes to visually level the different SVG paddings */
+.antithesis-group-layout .animal-image--large { 
+    bottom: -4.5vh !important;
+}
+
+.antithesis-group-layout .animal-image--medium { 
+    bottom: 0vh !important; 
+}
+
+.antithesis-group-layout .animal-image--small { 
+    bottom: 2.4vh !important; 
+}
+
+/* Anomalous Padding Species Fixes */
+/* Sheep and Horse SVGs explicitly sit much higher in their viewBox than Cows, Pigs, and Dogs.
+   These negative visual margins cleanly yank them into the dirt alignment universally. */
+.antithesis-group-layout .animal-image--sheep { 
+    margin-bottom: -4vh !important; 
+}
+
+.antithesis-group-layout .animal-image--horse { 
+    margin-bottom: -1.5vh !important; 
 }
 
 /* CROSS-SCREEN PARITY TWEAKS: 
@@ -678,19 +705,7 @@
     margin-right: 0 !important;
 }
 
-/* 3. RESTORE SCALING (Without translateX -50%) */
-.antithesis-group-layout .animal-image--large {
-    transform: scale(1.25) !important;
-    transform-origin: bottom center !important;
-}
-
-.antithesis-group-layout .animal-image--large.animal-image--cat {
-    transform: scale(1.125) !important;
-}
-
-.antithesis-group-layout .animal-image--medium.animal-image--cat {
-    transform: scale(0.9) !important;
-}
+/* Scaling rules have been relocated to the Universal Grouped Alignment Engine */
 
 /* ======================================================================= */
 /* GROUP GAP ADJUSTER: Editable independent gaps by size                   */
@@ -735,6 +750,57 @@
 .antithesis-group-layout .animal-slot--grouped .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
+}
+
+/* ========================================================================= */
+/* UNIVERSAL GROUPED ALIGNMENT ENGINE                                        */
+/* ========================================================================= */
+/* Replaces all percentage-based single-mode hacks with explicit viewport-height (vh) 
+   adjustments. This guarantees the vertical separation between Large, Medium, and Small
+   remains mathematically identical whether the flex container is 30vh (Box) or 15vh (Choices pen).
+   It completely neutralizes container-scale drift. */
+
+.antithesis-layout .animal-slot--grouped .animal-image {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    margin-bottom: 0 !important;
+    transform: none !important; /* Clears destructive translateX(-50%) so groups stay centered */
+}
+
+/* 1. Explicit VH-based pushes to visually level the different SVG paddings */
+.antithesis-layout .animal-slot--grouped .animal-image--large { 
+    bottom: -4.5vh !important;
+    transform: scale(1.25) !important;
+    transform-origin: bottom center !important;
+}
+
+.antithesis-layout .animal-slot--grouped .animal-image--medium { 
+    bottom: 0vh !important; 
+}
+
+.antithesis-layout .animal-slot--grouped .animal-image--small { 
+    bottom: 2.4vh !important; 
+}
+
+/* 2. Scale preservation overrides for cats */
+.antithesis-layout .animal-slot--grouped .animal-image--large.animal-image--cat {
+    transform: scale(1.125) !important;
+}
+
+.antithesis-layout .animal-slot--grouped .animal-image--medium.animal-image--cat {
+    transform: scale(0.9) !important;
+}
+
+/* 3. Anomalous Padding Species Fixes */
+/* Sheep and Horse SVGs explicitly sit much higher in their viewBox than Cows, Pigs, and Dogs.
+   These negative visual margins cleanly yank them into the dirt alignment universally. */
+.antithesis-layout .animal-slot--grouped .animal-image--sheep { 
+    margin-bottom: -4vh !important; 
+}
+
+.antithesis-layout .animal-slot--grouped .animal-image--horse { 
+    margin-bottom: -1.5vh !important; 
 }
 
 /* Keep the lift, but without X translation so groups align correctly */

@@ -12,9 +12,6 @@ const SelectionHandler = (function() {
      * Handle animal selection in main pen
      */
     function handleSelection(slotElement, choice, slotIndex) {
-        // Record every raw tap, even if we debounce it away
-        GameState.recordClick();
-
         // Debounce rapid clicks (min 350ms between selections on iPad)
         if (selectionDebounceTimer) {
             return;

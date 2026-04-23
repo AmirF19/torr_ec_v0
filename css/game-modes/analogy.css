@@ -187,7 +187,7 @@
 
 .analogy-layout .question-mark-slot .question-mark-text {
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-    transform: translateY(-20%);
+    transform: translateY(-25%); /* Lifted slightly for uniform baseline */
     display: block;
 }
 

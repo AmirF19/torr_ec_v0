@@ -46,7 +46,7 @@
 ## Part 2: What we have yet to do
 
 ### Global / Data
-- [ ] Data CSV overhaul (`state.js` + `main.js` `downloadData`): add seconds elapsed, full descriptor, total selections, total clicks, time on problem, time-from-last-selection
+- [x] Data CSV overhaul (`state.js` + `main.js` `downloadData`): add seconds elapsed, full descriptor, total selections, total clicks, time on problem, time-from-last-selection
 
 ### Analogy
 - [x] Fix animation jump before final lock (ANAL-0-01) — `AnalogyRenderer.js` (removed reparenting; clone stays fixed)
@@ -57,17 +57,17 @@
 - [ ] Fix iPad overlap with Next button (layout) — `analogy.css` responsive 1194×834
 - [ ] Fix C-Box large sheep not rendering at standard large size — `AnalogyRenderer.js`
 - [x] Increase Analogy Choices Box size ~75% — `analogy.css`
-- [ ] Fix Question Mark box padding for uniform base line — `analogy.css`
+- [x] Fix Question Mark box padding for uniform base line — `analogy.css`
 
 ### Antithesis
-- [ ] Fix animal duplication on double-tap (ANTITH-01-03, ANTITH-02-01) — `AntithesisRenderer.js` debounce
-- [ ] Fix screen persistence: clear flying clones + selections on test end — `main.js`
+- [x] Fix animal duplication on double-tap (ANTITH-01-03, ANTITH-02-01) — `AntithesisRenderer.js` debounce
+- [x] Fix screen persistence: clear flying clones + selections on test end — `main.js`
 - [ ] Fix zoom-sends-selected-animal-to-top-left — `AntithesisRenderer.js`
 
 ### Antinomy
 - [x] Resize Choices Box
 - [x] Resize Green and Red Boxes
-- [ ] Replace red ground with regular ground color (from Alina Fork)
+- [x] Replace red ground with regular ground color (from Alina Fork)
 - [x] Increase animal spacing gap in green box
 - [x] Fix stagger on all questions
 

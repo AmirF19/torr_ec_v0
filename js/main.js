@@ -76,6 +76,15 @@ const App = (function () {
             }
         });
 
+        // Track raw pointer-downs for data CSV (excluding context menus or right clicks)
+        document.addEventListener('pointerdown', (e) => {
+            if (e.isPrimary === false || e.button !== 0) return;
+            
+            if (GameState.getUI('currentScreen') === 'game' && GameState.get('currentProblem')) {
+                GameState.recordClick();
+            }
+        });
+
         // Subscribe to state changes
         GameState.subscribe('problemCompleted', onProblemCompleted);
     }
@@ -604,6 +613,9 @@ const App = (function () {
      * Show final report
      */
     function showFinalReport() {
+        // Clean up any remaining clones before showing celebration
+        cleanupPreviousProblem();
+
         // Show a fun all-done celebration first, then transition to report
         showWelcomeScreen(
             '🌟 Amazing Work! 🌟',

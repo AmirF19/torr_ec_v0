@@ -147,8 +147,9 @@ const AntithesisRenderer = (function () {
         slotElement.classList.add('animal-slot--selected');
 
         // Prevent double-clicks / rapid-fire triggers
-        if (slotElement.dataset.isAnimating === 'true') return;
+        if (slotElement.dataset.isAnimating === 'true' || GameState.getUI('isAnimating')) return;
         slotElement.dataset.isAnimating = 'true';
+        GameState.setUI('isAnimating', true);
 
         // --- ANIMATION START ---
         // STRICT TARGETING: Box 2 (Middle Box) Question Mark
@@ -247,6 +248,7 @@ const AntithesisRenderer = (function () {
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
+                GameState.setUI('isAnimating', false);
 
                 // Ensure the layout remains correct statically
                 clone.style.display = 'flex';
