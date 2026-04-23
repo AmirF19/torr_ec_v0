@@ -1,4 +1,4 @@
-# TORR EC: Bug Bash Agenda (Revised 03.22.2026)
+# TORR EC: Bug Bash Agenda (Revised 04.07.2026)
 
 ## Part 1: What we have done
 
