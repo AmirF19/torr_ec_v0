@@ -1,0 +1,169 @@
+diff --git a/css/game-modes/anomaly.css b/css/game-modes/anomaly.css
+index d3f20f9..c2e2a0f 100644
+--- a/css/game-modes/anomaly.css
++++ b/css/game-modes/anomaly.css
+@@ -102,9 +102,8 @@
+     /* 5 columns, centered */
+     grid-template-columns: repeat(5, 1fr);
+     grid-template-rows: 1fr;
+-    /* Gap increased by another 20% per user request: 0.665 * 1.20 = 0.8vw */
+-    gap: 0.8vw;
+-    /* Reduced gap to prevent overlap */
++    /* Gap increased to 1.5vw to prevent large animal overlap */
++    gap: 1.5vw;
+     justify-items: center;
+     /* Center animals in cells */
+     align-items: end;
+@@ -366,7 +365,7 @@
+     top: 10%;
+     left: 15%;
+     right: 15%;
+-    bottom: 31%;
++    bottom: 35%; /* Raised baseline to avoid fence overlap */
+ }
+ 
+ /* OUT PEN overrides */
+@@ -485,7 +484,7 @@
+      * Increase this percentage (e.g., 45%) for a more extreme stagger.
+      * Decrease this percentage (e.g., 20%) for a flatter stagger.
+      */
+-    margin-bottom: 75% !important;
++    margin-bottom: 90% !important; /* Increased from 75% for more stagger */
+ }
+ 
+ /* ============================================================================ */
+diff --git a/css/game-modes/antithesis.css b/css/game-modes/antithesis.css
+index 2214015..7278e72 100644
+--- a/css/game-modes/antithesis.css
++++ b/css/game-modes/antithesis.css
+@@ -161,10 +161,10 @@
+ 
+ /* --- BOX 3 GROUND --- */
+ .antithesis-layout .pen--box3 .pen-ground {
+-    top: 29%;
++    top: 30%;
+     left: 5%;
+     right: 5%;
+-    bottom: 8%;
++    bottom: 18%;
+     transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+ }
+ 
+@@ -339,24 +339,24 @@
+ .antithesis-layout .pen-surface--choices .animal-slot .animal-image--large {
+     height: 28vh !important;
+     max-height: 28vh !important;
+-    bottom: 20% !important;
+-    /* <-- raised/lowered large animals in choices */
++    bottom: 18% !important;
++    /* Aligned with Box ratios */
+ }
+ 
+ /* CHOICES PEN: Medium animals */
+ .antithesis-layout .pen-surface--choices .animal-slot .animal-image--medium {
+     height: 26vh !important;
+     max-height: 26vh !important;
+-    bottom: 26% !important;
+-    /* <-- raised/lowered medium animals in choices */
++    bottom: 25% !important;
++    /* Aligned with Box ratios */
+ }
+ 
+ /* CHOICES PEN: Small animals */
+ .antithesis-layout .pen-surface--choices .animal-slot .animal-image--small {
+     height: 13vh !important;
+     max-height: 13vh !important;
+-    bottom: 30% !important;
+-    /* <-- raised/lowered small animals in choices */
++    bottom: 26% !important;
++    /* Aligned with Box ratios */
+ }
+ 
+ /* SPECIES-SPECIFIC SVG OFFSETS IN CHOICES PEN */
+@@ -642,13 +642,9 @@
+    at 'bottom: 0%' causes them to sit slightly LOWER on the screen than their single-animal counterparts.
+    We add a structural +10% bottom lift to Box 1/2 groups to equalize the feet. */
+ .antithesis-layout.antithesis-group-layout .pen--box1 .animal-group,
+-.antithesis-layout.antithesis-group-layout .pen--box2 .animal-group {
+-    bottom: 10% !important;
+-}
+-
++.antithesis-layout.antithesis-group-layout .pen--box2 .animal-group,
+ .antithesis-layout.antithesis-group-layout .pen--box3 .animal-group {
+-    bottom: 0% !important;
+-    /* Lowered to 0% to fully ground the Box 3 grouped animals per user request. */
++    bottom: 10% !important;
+ }
+ 
+ /* 2. UNIVERSAL GROUPED ALIGNMENT ENGINE (Replaces percentage inherited stagger) */
+diff --git a/js/renderers/AnalogyRenderer.js b/js/renderers/AnalogyRenderer.js
+index 56da226..f1e0eb6 100644
+--- a/js/renderers/AnalogyRenderer.js
++++ b/js/renderers/AnalogyRenderer.js
+@@ -94,6 +94,16 @@ const AnalogyRenderer = (function () {
+                 onClick: handleAnalogySelection
+             });
+             choicesGrid.appendChild(slot);
++
++            // Optional drag-to-place (coexists with tap). Drop onto the C box.
++            if (typeof DragHandler !== 'undefined') {
++                DragHandler.makeDraggable(slot, {
++                    item,
++                    slotIndex: index,
++                    onDrop: handleAnalogySelection,
++                    getTargetEl: () => document.querySelector('.analogy-layout .pen--c')
++                });
++            }
+         });
+ 
+         // ── ASSEMBLE ───────────────────────────────────────────────────────────
+@@ -125,13 +135,12 @@ const AnalogyRenderer = (function () {
+ 
+         // --- ANIMATION START ---
+ 
+-        // ── ANSWER SLOT LANDING OFFSETS (px) ─────────────────────────────────
+-        // Tune where each size class lands vertically in the answer slot.
+-        // Positive  = lower on screen (push animal down toward fence floor)
+-        // Negative  = higher on screen (pull animal up)
+-        const LANDING_OFFSET_LARGE = 0;
+-        const LANDING_OFFSET_MEDIUM = -20;
+-        const LANDING_OFFSET_SMALL = -30;
++        // ── ANSWER SLOT LANDING OFFSETS (%) ──────────────────────────────────
++        // These MUST match the bottom percentages defined in analogy.css for .category-row
++        // Positive = lower on screen (sinks below baseline). Negative = higher on screen
++        const LANDING_OFFSET_LARGE_PCT = 0.17;  // corresponds to bottom: -17%
++        const LANDING_OFFSET_MEDIUM_PCT = -0.01; // corresponds to bottom: 1%
++        const LANDING_OFFSET_SMALL_PCT = -0.10;  // corresponds to bottom: 10%
+         // ─────────────────────────────────────────────────────────────────────
+         const targetContainer = document.querySelector('.analogy-layout .category-row .pen--c .question-mark-slot');
+         const sourceImage = slotElement.querySelector('.animal-image');
+@@ -188,19 +197,19 @@ const AnalogyRenderer = (function () {
+             // Destination: center horizontally in the question-mark-slot
+             const left = endRect.left + (endRect.width - landingWidth) / 2;
+ 
+-            // Use the existing animal in the C pen as the floor reference
+-            // Its bottom edge IS the visual floor line because it is locked by CSS bottom: 0% !important
+-            const cPenAnimal = document.querySelector('.analogy-layout .pen--c .animal-image');
+-            const floorY = cPenAnimal
+-                ? cPenAnimal.getBoundingClientRect().bottom
+-                : endRect.bottom;
++            // Use the target container's bottom edge as the strict absolute floor line
++            // This guarantees uniform landing height regardless of the C-Box animal's size
++            const floorY = endRect.bottom;
+ 
+-            // Per-size vertical offset for final landing position
++            // Calculate dynamic vertical offset based on the slot's actual rendered height
++            // to perfectly match the CSS percentages used by the static animals.
++            const slotHeight = endRect.height;
+             const isLarge = sourceImage.classList.contains('animal-image--large');
+             const isMedium = sourceImage.classList.contains('animal-image--medium');
+-            const landingOffset = isLarge ? LANDING_OFFSET_LARGE
+-                : isMedium ? LANDING_OFFSET_MEDIUM
+-                    : LANDING_OFFSET_SMALL;
++            
++            const landingOffset = isLarge ? (slotHeight * LANDING_OFFSET_LARGE_PCT)
++                : isMedium ? (slotHeight * LANDING_OFFSET_MEDIUM_PCT)
++                    : (slotHeight * LANDING_OFFSET_SMALL_PCT);
+ 
+             const top = floorY - landingHeight + landingOffset;
+ 

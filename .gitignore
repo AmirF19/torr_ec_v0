@@ -1,0 +1,24 @@
+# Cloudflare Wrangler / Pages local cache (machine-specific, can contain account info)
+.wrangler/
+
+# OS clutter
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Node (in case build tooling is added later)
+node_modules/
+npm-debug.log*
+yarn-error.log*

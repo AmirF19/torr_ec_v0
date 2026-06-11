@@ -94,6 +94,16 @@ const AnalogyRenderer = (function () {
                 onClick: handleAnalogySelection
             });
             choicesGrid.appendChild(slot);
+
+            // Optional drag-to-place (coexists with tap). Drop onto the C box.
+            if (typeof DragHandler !== 'undefined') {
+                DragHandler.makeDraggable(slot, {
+                    item,
+                    slotIndex: index,
+                    onDrop: handleAnalogySelection,
+                    getTargetEl: () => document.querySelector('.analogy-layout .pen--c')
+                });
+            }
         });
 
         // ── ASSEMBLE ───────────────────────────────────────────────────────────
@@ -125,13 +135,12 @@ const AnalogyRenderer = (function () {
 
         // --- ANIMATION START ---
 
-        // ── ANSWER SLOT LANDING OFFSETS (px) ─────────────────────────────────
-        // Tune where each size class lands vertically in the answer slot.
-        // Positive  = lower on screen (push animal down toward fence floor)
-        // Negative  = higher on screen (pull animal up)
-        const LANDING_OFFSET_LARGE = 0;
-        const LANDING_OFFSET_MEDIUM = -20;
-        const LANDING_OFFSET_SMALL = -30;
+        // ── ANSWER SLOT LANDING OFFSETS (%) ──────────────────────────────────
+        // These MUST match the bottom percentages defined in analogy.css for .category-row
+        // Positive = lower on screen (sinks below baseline). Negative = higher on screen
+        const LANDING_OFFSET_LARGE_PCT = 0.0;    // corresponds to bottom: 0%
+        const LANDING_OFFSET_MEDIUM_PCT = -0.32;  // corresponds to bottom: 32%
+        const LANDING_OFFSET_SMALL_PCT = -0.10;   // corresponds to bottom: 10%
         // ─────────────────────────────────────────────────────────────────────
         const targetContainer = document.querySelector('.analogy-layout .category-row .pen--c .question-mark-slot');
         const sourceImage = slotElement.querySelector('.animal-image');
@@ -188,19 +197,19 @@ const AnalogyRenderer = (function () {
             // Destination: center horizontally in the question-mark-slot
             const left = endRect.left + (endRect.width - landingWidth) / 2;
 
-            // Use the existing animal in the C pen as the floor reference
-            // Its bottom edge IS the visual floor line because it is locked by CSS bottom: 0% !important
-            const cPenAnimal = document.querySelector('.analogy-layout .pen--c .animal-image');
-            const floorY = cPenAnimal
-                ? cPenAnimal.getBoundingClientRect().bottom
-                : endRect.bottom;
+            // Use the target container's bottom edge as the strict absolute floor line
+            // This guarantees uniform landing height regardless of the C-Box animal's size
+            const floorY = endRect.bottom;
 
-            // Per-size vertical offset for final landing position
+            // Calculate dynamic vertical offset based on the slot's actual rendered height
+            // to perfectly match the CSS percentages used by the static animals.
+            const slotHeight = endRect.height;
             const isLarge = sourceImage.classList.contains('animal-image--large');
             const isMedium = sourceImage.classList.contains('animal-image--medium');
-            const landingOffset = isLarge ? LANDING_OFFSET_LARGE
-                : isMedium ? LANDING_OFFSET_MEDIUM
-                    : LANDING_OFFSET_SMALL;
+            
+            const landingOffset = isLarge ? (slotHeight * LANDING_OFFSET_LARGE_PCT)
+                : isMedium ? (slotHeight * LANDING_OFFSET_MEDIUM_PCT)
+                    : (slotHeight * LANDING_OFFSET_SMALL_PCT);
 
             const top = floorY - landingHeight + landingOffset;
 
@@ -322,7 +331,7 @@ const AnalogyRenderer = (function () {
             } else if (isSmall) {
                 img.style.height = '13vh';
                 img.style.maxHeight = '13vh';
-                img.style.bottom = '40%'; // tune via .category-row .animal-slot .animal-image--small in analogy.css
+                img.style.bottom = '10%'; // tune via .category-row .animal-slot .animal-image--small in analogy.css
                 img.style.transform = 'translateX(-50%)';
             }
         });

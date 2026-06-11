@@ -67,6 +67,16 @@ const AntithesisRenderer = (function () {
                 onClick: handleAntithesisSelection
             });
             optionsGrid.appendChild(slot);
+
+            // Optional drag-to-place (coexists with tap). Drop onto the middle box.
+            if (typeof DragHandler !== 'undefined') {
+                DragHandler.makeDraggable(slot, {
+                    item,
+                    slotIndex: index,
+                    onDrop: handleAntithesisSelection,
+                    getTargetEl: () => document.querySelector('.antithesis-layout .pen--box2')
+                });
+            }
         });
 
         // Add to layout

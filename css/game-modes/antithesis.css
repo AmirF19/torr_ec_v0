@@ -161,10 +161,10 @@
 
 /* --- BOX 3 GROUND --- */
 .antithesis-layout .pen--box3 .pen-ground {
-    top: 29%;
+    top: 30%;
     left: 5%;
     right: 5%;
-    bottom: 8%;
+    bottom: 18%;
     transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
 }
 
@@ -339,24 +339,24 @@
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--large {
     height: 28vh !important;
     max-height: 28vh !important;
-    bottom: 20% !important;
-    /* <-- raised/lowered large animals in choices */
+    bottom: 18% !important;
+    /* Aligned with Box ratios */
 }
 
 /* CHOICES PEN: Medium animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--medium {
     height: 26vh !important;
     max-height: 26vh !important;
-    bottom: 26% !important;
-    /* <-- raised/lowered medium animals in choices */
+    bottom: 25% !important;
+    /* Aligned with Box ratios */
 }
 
 /* CHOICES PEN: Small animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
-    bottom: 30% !important;
-    /* <-- raised/lowered small animals in choices */
+    bottom: 26% !important;
+    /* Aligned with Box ratios */
 }
 
 /* SPECIES-SPECIFIC SVG OFFSETS IN CHOICES PEN */
@@ -642,13 +642,9 @@
    at 'bottom: 0%' causes them to sit slightly LOWER on the screen than their single-animal counterparts.
    We add a structural +10% bottom lift to Box 1/2 groups to equalize the feet. */
 .antithesis-layout.antithesis-group-layout .pen--box1 .animal-group,
-.antithesis-layout.antithesis-group-layout .pen--box2 .animal-group {
-    bottom: 10% !important;
-}
-
+.antithesis-layout.antithesis-group-layout .pen--box2 .animal-group,
 .antithesis-layout.antithesis-group-layout .pen--box3 .animal-group {
-    bottom: 0% !important;
-    /* Lowered to 0% to fully ground the Box 3 grouped animals per user request. */
+    bottom: 10% !important;
 }
 
 /* 2. UNIVERSAL GROUPED ALIGNMENT ENGINE (Replaces percentage inherited stagger) */

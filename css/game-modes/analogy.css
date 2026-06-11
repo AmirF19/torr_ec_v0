@@ -197,17 +197,17 @@
 
 /* When a SMALL animal enters the question mark slot */
 .analogy-layout .animal-slot.question-mark-slot .animal-image--small {
-    bottom: 1% !important;
+    bottom: 10% !important;
 }
 
 /* When a MEDIUM animal enters the question mark slot */
 .analogy-layout .animal-slot.question-mark-slot .animal-image--medium {
-    bottom: -5% !important;
+    bottom: 32% !important;
 }
 
 /* When a LARGE animal enters the question mark slot */
 .analogy-layout .animal-slot.question-mark-slot .animal-image--large {
-    bottom: -15% !important;
+    bottom: 0% !important;
 }
 
 /* ANIMAL SLOTS inside category pens */
@@ -253,7 +253,7 @@
     transform-origin: bottom center !important;
     /* Tune this value to set large animal mud-floor depth in AB/C pens.
        0% = feet at content-area floor. Positive lifts, negative sinks. */
-    bottom: -17% !important;
+    bottom: 0% !important;
 }
 
 /* 4-class (0,4,0) — beats global .animal-slot rule (0,3,0) */
@@ -261,7 +261,7 @@
     height: 22vh !important;
     max-height: 22vh !important;
     /* Tune this to set medium animal mud-floor depth in AB/C pens */
-    bottom: 1% !important;
+    bottom: 32% !important;
 }
 
 /* 4-class (0,4,0) — beats global .animal-slot rule (0,3,0) */
@@ -283,10 +283,7 @@
     transform-origin: bottom center !important;
 }
 
-/* (duplicate kept for cascade safety — also 3-class, value must match 4-class rule above) */
-.analogy-layout .category-row .animal-image--small {
-    bottom: 40% !important;
-}
+/* NOTE: Stale 3-class duplicate removed — the 4-class rule above is authoritative */
 
 /* RELOCATED: Top-row footprint alignment moved to bottom of file to fix cascade override */
 

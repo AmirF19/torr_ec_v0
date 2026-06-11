@@ -8,6 +8,18 @@ const App = (function () {
     // Problem set instance
     let problemSet = [];
 
+    // Developer aids: the game-type switcher and the per-problem counter.
+    // Shown by default while we're building/testing. Load the page with ?dev=0
+    // to hide them for real participant sessions (so a child can't jump games).
+    const DEV_MODE = (function () {
+        try {
+            const flag = new URLSearchParams(window.location.search).get('dev');
+            if (flag === '0') return false;
+            if (flag === '1') return true;
+        } catch (_) { /* ignore */ }
+        return true;
+    })();
+
     // ==================== 
     // INITIALIZATION
     // ====================
@@ -95,6 +107,14 @@ const App = (function () {
     function setupGameSwitcher() {
         const switcher = document.getElementById('game-switcher');
         if (!switcher) return;
+
+        // The game-type switcher is a developer aid (see DEV_MODE above). Shown by
+        // default; hidden only when explicitly disabled with ?dev=0 so participants
+        // can't jump between games mid-session.
+        const panel = document.getElementById('bottom-left-panel');
+        if (panel && !DEV_MODE) {
+            panel.style.display = 'none';
+        }
 
         const buttons = switcher.querySelectorAll('.game-type-btn');
         buttons.forEach(btn => {
@@ -401,14 +421,16 @@ const App = (function () {
         const labelSuffix = problemData.label ? ` - ${problemData.label}` : '';
         const counterText = `${problemData.type}${labelSuffix} (${numberWithinType} of ${totalOfType})`;
 
-        // Store counter text on elements but keep them hidden from participants
+        // Counter text (e.g. "Antinomy - Question 3 (4 of 7)") is a developer aid
+        // (see DEV_MODE above). Shown by default; hidden only when disabled with ?dev=0.
+        const counterDisplay = DEV_MODE ? '' : 'none';
         if (headerCounter) {
             headerCounter.textContent = counterText;
-            headerCounter.style.display = 'none';
+            headerCounter.style.display = counterDisplay;
         }
         if (bottomCounter) {
             bottomCounter.textContent = counterText;
-            bottomCounter.style.display = 'none';
+            bottomCounter.style.display = counterDisplay;
         }
 
         // Update game switcher active state
@@ -449,8 +471,6 @@ const App = (function () {
                 break;
             case 'antinomy':
                 AntinomyRenderer.render(problemData, container);
-                break;
-
                 break;
             default:
                 console.warn(`Unknown problem type: ${type}`);

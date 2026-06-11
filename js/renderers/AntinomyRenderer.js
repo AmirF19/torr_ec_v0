@@ -105,6 +105,16 @@ const AntinomyRenderer = (function () {
                 onClick: handleAntinomySelection
             });
             choicesGrid.appendChild(slot);
+
+            // Optional drag-to-place (coexists with tap). Drop onto the green box.
+            if (typeof DragHandler !== 'undefined') {
+                DragHandler.makeDraggable(slot, {
+                    item,
+                    slotIndex: index,
+                    onDrop: handleAntinomySelection,
+                    getTargetEl: () => document.querySelector('.antinomy-layout .pen--green')
+                });
+            }
         });
 
         // Add to layout

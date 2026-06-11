@@ -102,9 +102,8 @@
     /* 5 columns, centered */
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
-    /* Gap increased by another 20% per user request: 0.665 * 1.20 = 0.8vw */
-    gap: 0.8vw;
-    /* Reduced gap to prevent overlap */
+    /* Gap increased to 1.5vw to prevent large animal overlap */
+    gap: 1.5vw;
     justify-items: center;
     /* Center animals in cells */
     align-items: end;
@@ -366,7 +365,7 @@
     top: 10%;
     left: 15%;
     right: 15%;
-    bottom: 31%;
+    bottom: 35%; /* Raised baseline to avoid fence overlap */
 }
 
 /* OUT PEN overrides */
@@ -485,7 +484,7 @@
      * Increase this percentage (e.g., 45%) for a more extreme stagger.
      * Decrease this percentage (e.g., 20%) for a flatter stagger.
      */
-    margin-bottom: 75% !important;
+    margin-bottom: 90% !important; /* Increased from 75% for more stagger */
 }
 
 /* ============================================================================ */
