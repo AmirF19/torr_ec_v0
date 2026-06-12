@@ -83,7 +83,7 @@ Most of these are carried over from the Apr 7 and Apr 23 bug bash sessions that 
 - [x] Global spacing pass: baselines raised, stagger increased for the taller animals, more horizontal spacing.
 - [x] Sample and Questions 2 and 3 specific perch/overlap fixes.
 - [x] Choice-box sizing, off-center selected animal, animation lag, and hitbox fixes.
-- [ ] **Final sweep for fence/animal overlap** The big fixes are pretty much done, just check to make sure that everything operates as expected.
+- [x] **Final sweep for fence/animal overlap** The big fixes are pretty much done, just check to make sure that everything operates as expected.
 
 ### Antinomy
 - [x] Animation smoothed; question mark repositioned; green/red baselines aligned; boxes and choices resized; spacing and stagger fixes.
