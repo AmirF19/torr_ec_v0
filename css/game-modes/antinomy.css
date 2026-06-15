@@ -95,6 +95,7 @@
 /* GREEN BOX SIZE */
 .antinomy-layout .pen-surface--green {
     /* width: clamp(300px, 44vw, 850px); */
+    /* NEW CHANGE  */
     width: clamp(300px, 46vw, 850px);
     height: auto;
     aspect-ratio: 3.75;

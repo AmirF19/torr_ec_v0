@@ -87,7 +87,7 @@ Most of these are carried over from the Apr 7 and Apr 23 bug bash sessions that 
 
 ### Antinomy
 - [x] Animation smoothed; question mark repositioned; green/red baselines aligned; boxes and choices resized; spacing and stagger fixes.
-- [ ] **Slight overlap on the large blue animals in the first real problem.** Minor. May just need the pens a touch larger.
+- [x] **Slight overlap on the large blue animals in the first real problem.** Minor. May just need the pens a touch larger.
 
 ### Antithesis
 - [x] Box 1 / Box 3 baseline standardization; choice alignment; pen enlarged to hold three large animals; arrows removed; double-tap duplication debounced; proportional-distortion and Chrome-centering fixes.
