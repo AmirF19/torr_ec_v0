@@ -128,7 +128,7 @@ These are developer items — they touch shared logic, so they shouldn't be a fi
 
 - [x] CSV export overhauled to the agreed columns (summary export and a detailed one-row-per-selection export both exist in `js/data/export.js`).
 - [x] Raw click tracking and selection tracking wired through `state.js` / `main.js`.
-- [ ] **Confirm where the data actually needs to go.** Right now everything is local: progress is kept in `localStorage` and the researcher downloads a CSV at the end. 
+- [x] **Confirm where the data actually needs to go.** Right now everything is local: progress is kept in `localStorage` and the researcher downloads a CSV at the end. 
 - [ ] **Add a participant/session identifier the researcher can set** (instead of the auto-generated `session_…` id), if the study design needs it for matching.
 
 ---
