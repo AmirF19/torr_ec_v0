@@ -143,5 +143,5 @@ Small, safe, and easy to hand off.
 
 ## Section 8 — Additional Bug
 Additional tasks -- updated Jun 15, 2026
-- [ ] **Downloading twice.** The download button in the result screen will download the .csv files twice. This is because the download button hsa two handlers attached to it (one in HTML and the other is JS)
+- [x] **Downloading twice.** The download button in the result screen will download the .csv files twice. This is because the download button hsa two handlers attached to it (one in HTML and the other is JS)
 - [ ] **Antinomy bug.** After choosing 1+ time for some animal options in the game, users are unable to select those option for the next time. Usually the first three options are not selectable if the users already chosen those options once. This may have something to do with the cloning logic used in a number of the games. 

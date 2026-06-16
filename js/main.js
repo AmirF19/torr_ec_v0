@@ -70,10 +70,10 @@ const App = (function () {
         }
 
         // Download button
-        const downloadBtn = document.querySelector('.download-btn, [onclick*="downloadData"]');
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', downloadData);
-        }
+        // const downloadBtn = document.querySelector('.download-btn, [onclick*="downloadData"]');
+        // if (downloadBtn) {
+        //     downloadBtn.addEventListener('click', downloadData);
+        // }
 
         // Game switcher buttons
         setupGameSwitcher();
