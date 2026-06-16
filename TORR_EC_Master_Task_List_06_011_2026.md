@@ -16,7 +16,7 @@ Live preview: https://torr-ec-test.muhammadfusenig.com/
 - [x] **Game-type switcher is visible and tappable during the task.** *(Fixed June 8.)*
   The four buttons (Analogy / Anomaly / Antinomy / Antithesis) in the top-left corner are a developer convenience that were on screen the whole time and only hidden below 480px, so on any iPad a child could tap one and jump games mid-session. They're now hidden for participants by default (`setupGameSwitcher` in `js/main.js`). **Developer mode:** add `?dev=1` to the URL to reveal both the game switcher *and* the problem-number counter ("Antinomy - Question 3 (4 of 7)") in the header and bottom-left. Live Server preserves the query string across reloads, so it's set once per session. Participants (no flag) see neither.
 
-- [ ] **Verify data export against a real run.**
+- [x] **Verify data export against a real run.**
   The CSV export (`js/data/export.js`) looks complete and matches the agreed columns (seconds elapsed, full option descriptor, total selections, total clicks, total time, time-from-last-selection, correctness). Before real collection, run a full session end to end, download the CSV, and confirm every column reads sensibly, especially `total_clicks` and `time_from_last_selection_ms`, which depend on event tracking in `main.js`.
 
 ---
@@ -91,8 +91,8 @@ Most of these are carried over from the Apr 7 and Apr 23 bug bash sessions that 
 
 ### Antithesis
 - [x] Box 1 / Box 3 baseline standardization; choice alignment; pen enlarged to hold three large animals; arrows removed; double-tap duplication debounced; proportional-distortion and Chrome-centering fixes.
-- [ ] **Replace the large blue cow with the correctly colored asset.** Carried over from Apr 23; this is an image/asset issue, not layout. Confirm which SVG under `images/website_selection_clean/cow/02_no_stripe_large/` is wrong and swap it.
-- [ ] **Pinch-zoom sends the selected animal to the top-left corner.** Edge case in `AntithesisRenderer.js` flying-clone positioning when the viewport scale changes mid-animation. Low frequency; note it but don't block on it.
+- [ ] **Replace the large blue cow with the correctly colored asset.** Carried over from Apr 23; this is an image/asset issue, not layout. Confirm which SVG under `images/website_selection_clean/cow/02_no_stripe_large/` is wrong and swap it. Update (dthieu Jun15): the SVG file name is correct, but blue.svg file is about 2.7 MB while the other colors are around 500–700 KB, which is unusual. Need to look into that.  
+- [ ] **Pinch-zoom sends the selected animal to the top-left corner.** Edge case in `AntithesisRenderer.js` flying-clone positioning when the viewport scale changes mid-animation. Low frequency; note it but don't block on it. Update for more info (dthieu Jun15): when someone pinch-zooms on an iPad during an animation, the flying animal lands in the wrong spot. This should be tested in iPad, but try to click around to find out if similar thing happens. 
 
 ---
 
@@ -140,3 +140,8 @@ Small, safe, and easy to hand off.
 - [x] **Add a `.gitignore`.** *(Fixed June 8.)* Added a `.gitignore` covering `.wrangler/`, OS junk (`.DS_Store`/`Thumbs.db`/etc.), editor folders, and `node_modules/`, and untracked the previously committed `.wrangler/cache/` (including `wrangler-account.json`) with `git rm --cached`. Staged, not yet committed.
 - [ ] **Tidy the docs.** The file named `TORR_EC_Bug_Bash_Agenda_03_22_2026.md` actually contains the April 7 revision inside it, and an `..._04_07_…` file shows up in the git history but isn't present now. Consolidate the agenda docs so the filenames match their contents. (This master list is meant to replace the scattered agendas going forward.)
 - [ ] **Audit the image assets.** There are leftover/working files in `images/elements/` (for example `pen_1 - Copy.svg`, a couple of `Gemini_Generated_Image_…png` files, and several near-duplicate fence PNGs). Confirm which are actually referenced in `js/config.js` and remove the rest so the asset folder reflects what ships.
+
+## Section 8 — Additional Bug
+Additional tasks -- updated Jun 15, 2026
+- [ ] **Downloading twice.** The download button in the result screen will download the .csv files twice. This is because the download button hsa two handlers attached to it (one in HTML and the other is JS)
+- [ ] **Antinomy bug.** After choosing 1+ time for some animal options in the game, users are unable to select those option for the next time. Usually the first three options are not selectable if the users already chosen those options once. This may have something to do with the cloning logic used in a number of the games. 
