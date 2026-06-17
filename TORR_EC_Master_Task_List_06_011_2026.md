@@ -130,6 +130,7 @@ These are developer items — they touch shared logic, so they shouldn't be a fi
 - [x] Raw click tracking and selection tracking wired through `state.js` / `main.js`.
 - [x] **Confirm where the data actually needs to go.** Right now everything is local: progress is kept in `localStorage` and the researcher downloads a CSV at the end. 
 - [ ] **Add a participant/session identifier the researcher can set** (instead of the auto-generated `session_…` id), if the study design needs it for matching.
+- [ ] **Hide the result/data screen** Hide the result screen for the game because we will not actually want the researchers or participants to see the data (from mail on Jun12).
 
 ---
 
