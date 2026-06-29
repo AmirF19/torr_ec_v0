@@ -638,7 +638,7 @@ const App = (function () {
 
         // Show a fun all-done celebration first, then transition to report
         showWelcomeScreen(
-            '🌟 Amazing Work! 🌟',
+            '🌟Super Work!🌟',
             // 'You completed all the activities! Tap the arrow to see your results.',
             'You completed all the activities!',
             () => {
