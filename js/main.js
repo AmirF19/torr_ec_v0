@@ -642,7 +642,7 @@ const App = (function () {
             // 'You completed all the activities! Tap the arrow to see your results.',
             'You completed all the activities!',
             () => {
-                // showReportScreen(); -- NEW CHANGE -- HIDE REPORT SCREEN
+
                 const completedProblems = GameState.getCompletedProblems();
                 const summary = DataExport.generateSummaryReport(completedProblems);
 
@@ -761,7 +761,7 @@ window.addEventListener('load', () => {
 });
 
 
-// NEW CHANGE -- try to make the next button in the 'AMAZING WORK' screen hidden
+// NEW CHANGE -- try to make the next button in the 'SUPER WORK' screen hidden
 const observer = new MutationObserver(() => {
     // 1. Grab the heading and the button (Change these classes/IDs to match yours)
     const pageHeading = document.querySelector('h1');
@@ -769,7 +769,7 @@ const observer = new MutationObserver(() => {
 
     if (pageHeading && nextButton) {
         // 2. Check the exact text of the page where you want the button GONE
-        if (pageHeading.textContent.trim() === "🌟 Amazing Work! 🌟") {
+        if (pageHeading.textContent.trim() === "🌟Super Work!🌟") {
             nextButton.style.setProperty('display', 'none', 'important');
         } else {
             // 3. Bring it back on other pages so it doesn't stay hidden forever

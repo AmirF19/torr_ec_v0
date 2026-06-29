@@ -146,3 +146,5 @@ Small, safe, and easy to hand off.
 Additional tasks -- updated Jun 15, 2026
 - [x] **Downloading twice.** The download button in the result screen will download the .csv files twice. This is because the download button hsa two handlers attached to it (one in HTML and the other is JS)
 - [ ] **Antinomy bug.** After choosing 1+ time for some animal options in the game, users are unable to select those option for the next time. Usually the first three options are not selectable if the users already chosen those options once. This may have something to do with the cloning logic used in a number of the games. 
+- [x] **Antithesis bug.** In the last question (7/7) of the Antithesis game, the blue cow in the rightmost group of animals sits partially outside of the pen. 
+- [x] **Amazing Work Screen.** Both the star emojies suppose to be on the same line. I have change "Amazing" to "Super" to shorten the title. 
