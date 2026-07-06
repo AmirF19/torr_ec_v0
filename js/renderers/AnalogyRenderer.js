@@ -116,11 +116,18 @@ const AnalogyRenderer = (function () {
      */
     function alignCategoryBaselines(layout) {
         layout.querySelectorAll('.category-row .animal-slot .animal-image').forEach(img => {
+            // Hidden until aligned, and aligned inside the image's own load
+            // event: the animal appears once, already in place — never
+            // painted at the CSS fallback position and moved.
+            img.style.visibility = 'hidden';
             AnimalBaseline.whenLoaded(img, () => {
                 const pen = img.closest('.pen--ab, .pen--c');
                 const ground = pen ? pen.querySelector('.pen-ground') : null;
                 const slot = img.closest('.animal-slot');
-                if (!ground || !slot) return;
+                if (!ground || !slot) {
+                    img.style.visibility = '';
+                    return;
+                }
 
                 const groundRect = ground.getBoundingClientRect();
                 const slotRect = slot.getBoundingClientRect();
@@ -129,7 +136,9 @@ const AnalogyRenderer = (function () {
                 // Lift so the drawn feet (box bottom minus intrinsic padding)
                 // sit exactly on the mid-ground line
                 const bottomPx = (slotRect.bottom - groundMid) - AnimalBaseline.padPx(img);
+                img.style.transition = 'none'; // the base .animal-image transition:all would animate this
                 img.style.setProperty('bottom', `${Math.round(bottomPx * 10) / 10}px`, 'important');
+                img.style.visibility = '';
             });
         });
     }

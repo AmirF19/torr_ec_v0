@@ -76,8 +76,35 @@ const AntithesisRenderer = (function () {
         container.appendChild(layout);
 
         // Runs after attach so rects are measurable
-        alignBoxBaselines(layout);
-        levelGroupBaselines(layout);
+        finalizeBaselines(layout);
+    }
+
+    /**
+     * Align all baselines once every image is loaded, then reveal the
+     * animals together. A late-loading image changes its intrinsic width and
+     * reflows the content-sized Antithesis pens, which would visibly move
+     * already-placed animals — so nothing is shown until the layout is final.
+     * (The other games use fixed-width slots and don't reflow on load.)
+     */
+    function finalizeBaselines(layout) {
+        const imgs = [...layout.querySelectorAll('.animal-image')];
+        if (!imgs.length) return;
+        imgs.forEach(img => { img.style.visibility = 'hidden'; });
+
+        let pending = imgs.length;
+        let finished = false;
+        const done = () => {
+            if (finished) return;
+            finished = true;
+            alignBoxBaselines(layout);
+            levelGroupBaselines(layout);
+            imgs.forEach(img => { img.style.visibility = ''; });
+        };
+        imgs.forEach(img => AnimalBaseline.whenLoaded(img, () => {
+            if (--pending === 0) done();
+        }));
+        // Safety net: never leave the problem hidden if an image fails to load
+        setTimeout(done, 4000);
     }
 
     /**
@@ -92,25 +119,19 @@ const AntithesisRenderer = (function () {
             const pen = layout.querySelector(penSel);
             const ground = pen ? pen.querySelector('.pen-ground') : null;
             if (!ground) return;
-            const imgs = [...pen.querySelectorAll('.animal-image')];
-            if (!imgs.length) return;
-
-            let pending = imgs.length;
-            imgs.forEach(img => AnimalBaseline.whenLoaded(img, () => {
-                if (--pending > 0) return;
-                const gRect = ground.getBoundingClientRect();
-                const groundMid = gRect.top + gRect.height / 2;
-                imgs.forEach(im => {
-                    const feet = im.getBoundingClientRect().bottom - AnimalBaseline.padPx(im);
-                    const current = parseFloat(getComputedStyle(im).bottom) || 0;
-                    // positive delta = feet currently below the line
-                    im.style.setProperty(
-                        'bottom',
-                        `${Math.round((current + (feet - groundMid)) * 10) / 10}px`,
-                        'important'
-                    );
-                });
-            }));
+            const gRect = ground.getBoundingClientRect();
+            const groundMid = gRect.top + gRect.height / 2;
+            pen.querySelectorAll('.animal-image').forEach(img => {
+                const feet = img.getBoundingClientRect().bottom - AnimalBaseline.padPx(img);
+                const current = parseFloat(getComputedStyle(img).bottom) || 0;
+                img.style.transition = 'none'; // the base .animal-image transition:all would animate this
+                // positive delta = feet currently below the line
+                img.style.setProperty(
+                    'bottom',
+                    `${Math.round((current + (feet - groundMid)) * 10) / 10}px`,
+                    'important'
+                );
+            });
         });
     }
 
@@ -127,12 +148,7 @@ const AntithesisRenderer = (function () {
         layout.querySelectorAll('.pen--options .animal-group').forEach(group => {
             const imgs = [...group.querySelectorAll('.animal-image')];
             if (imgs.length < 2) return;
-
-            let pending = imgs.length;
-            imgs.forEach(img => AnimalBaseline.whenLoaded(img, () => {
-                if (--pending > 0) return;
-                levelGroup(imgs);
-            }));
+            levelGroup(imgs);
         });
     }
 
@@ -152,6 +168,7 @@ const AntithesisRenderer = (function () {
             const current = parseFloat(getComputedStyle(im).bottom) || 0;
             // positive lift = feet currently below the target line
             const lift = feet[i] - target;
+            im.style.transition = 'none'; // the base .animal-image transition:all would animate this
             im.style.setProperty(
                 'bottom',
                 `${Math.round((current + lift) * 10) / 10}px`,
