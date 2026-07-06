@@ -75,6 +75,22 @@ const App = (function () {
         //     downloadBtn.addEventListener('click', downloadData);
         // }
 
+        // Hidden researcher control (bottom-right corner). Triple-tap within
+        // 1.5s to auto-fill the current problem with the correct choice.
+        const populateBtn = document.getElementById('hidden-populate-btn');
+        if (populateBtn) {
+            let tapCount = 0;
+            let tapTimer = null;
+            populateBtn.addEventListener('click', () => {
+                tapCount++;
+                clearTimeout(tapTimer);
+                tapTimer = setTimeout(() => { tapCount = 0; }, 1500);
+                if (tapCount < 3) return;
+                tapCount = 0;
+                populateCorrectChoice();
+            });
+        }
+
         // Game switcher buttons
         setupGameSwitcher();
 
@@ -87,6 +103,16 @@ const App = (function () {
                 e.preventDefault();
             }
         });
+
+        // Block pinch-zoom. Safari on iPad ignores user-scalable=no in the
+        // viewport meta, and touch-action: manipulation on the slots still
+        // permits pinch gestures. A zoomed viewport breaks the fixed-position
+        // flying-clone coordinates (animal lands in the top-left corner).
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+        document.addEventListener('gesturechange', (e) => e.preventDefault());
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
 
         // Track raw pointer-downs for data CSV (excluding context menus or right clicks)
         document.addEventListener('pointerdown', (e) => {
@@ -188,6 +214,11 @@ const App = (function () {
      * Show welcome/interstitial screen
      */
     function showWelcomeScreen(title, instruction, onStartAction) {
+        // Landed flying clones are fixed-position children of <body>, so they
+        // would float over this screen (seen when finishing a game and moving
+        // to the next game's interstitial). Sweep them out first.
+        cleanupPreviousProblem();
+
         const titleEl = document.querySelector('.start-container .game-title');
         const instructionEl = document.querySelector('.start-container .game-instruction');
         const startBtn = document.querySelector('.start-container .arrow-btn');
@@ -686,6 +717,26 @@ const App = (function () {
     }
 
     /**
+     * Researcher shortcut: select the correct choice for the current problem.
+     * Goes through the same click path a participant tap uses, so state,
+     * logging, and the next button behave exactly as in a real selection.
+     */
+    function populateCorrectChoice() {
+        const problem = GameState.get('currentProblem');
+        if (!problem || GameState.getUI('currentScreen') !== 'game') return;
+        if (GameState.getUI('isAnimating')) return;
+
+        const slots = document.querySelectorAll('.animal-slot--selectable');
+        for (const slot of slots) {
+            if (String(slot.dataset.choiceId) === String(problem.correctChoiceId)) {
+                slot.click();
+                return;
+            }
+        }
+        console.warn('Populate: correct choice not found among selectable slots');
+    }
+
+    /**
      * Download experiment data
      */
     function downloadData() {
@@ -696,7 +747,7 @@ const App = (function () {
             return;
         }
 
-        DataExport.exportGameData(completedProblems, false);
+        DataExport.exportGameData(completedProblems, false, GameState.get('sessionId'));
     }
 
     /**
@@ -710,7 +761,7 @@ const App = (function () {
             return;
         }
 
-        DataExport.exportGameData(completedProblems, true);
+        DataExport.exportGameData(completedProblems, true, GameState.get('sessionId'));
     }
 
     /**

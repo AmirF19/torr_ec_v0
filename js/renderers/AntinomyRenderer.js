@@ -105,16 +105,6 @@ const AntinomyRenderer = (function () {
                 onClick: handleAntinomySelection
             });
             choicesGrid.appendChild(slot);
-
-            // Optional drag-to-place (coexists with tap). Drop onto the green box.
-            if (typeof DragHandler !== 'undefined') {
-                DragHandler.makeDraggable(slot, {
-                    item,
-                    slotIndex: index,
-                    onDrop: handleAntinomySelection,
-                    getTargetEl: () => document.querySelector('.antinomy-layout .pen--green')
-                });
-            }
         });
 
         // Add to layout
@@ -128,12 +118,10 @@ const AntinomyRenderer = (function () {
      * Handle selection in Antinomy mode
      */
     function handleAntinomySelection(slotElement, choice, slotIndex) {
-        // Clear previous selections
+        // Clear previous selections. Visibility of the deselected animal is
+        // restored by the clone handling below (fly-back or instant cleanup).
         document.querySelectorAll('.pen--choices .animal-slot--selected').forEach(slot => {
             slot.classList.remove('animal-slot--selected');
-            // Restore visibility of deselected item
-            const image = slot.querySelector('.animal-image');
-            if (image) image.style.opacity = '';
         });
 
         // Mark this slot as selected
@@ -149,40 +137,61 @@ const AntinomyRenderer = (function () {
         const sourceImage = slotElement.querySelector('.animal-image');
 
         if (sourceImage && targetContainer) {
-            // CRITICAL FIX: Remove ALL existing animated clones to prevent duplication piles
-            document.querySelectorAll('.antinomy-flying-animal').forEach(el => el.remove());
+            // Send any previously placed animal back to its choice slot.
+            // Landed clones fly back (mirrors Anomaly's swap animation);
+            // mid-flight clones are cleaned up instantly, restoring their source.
+            document.querySelectorAll('.antinomy-flying-animal').forEach(el => {
+                if (el.dataset.landed === 'true') {
+                    targetContainer.style.opacity = '1';
+                    AnimationHandler.flyCloneBack(el);
+                } else {
+                    if (el._returnInfo) {
+                        el._returnInfo.sourceEl.style.opacity = '';
+                        el._returnInfo.slotEl.dataset.isAnimating = 'false';
+                    }
+                    el.remove();
+                }
+            });
 
             // Hide original immediately
             sourceImage.style.opacity = '0';
+
+            // Measure BEFORE the clone enters the document. An in-flow clone
+            // appended to <body> shifts the vertically centered game layout,
+            // which skews every rect measured while it is attached.
+            const startRect = sourceImage.getBoundingClientRect();
+            const endRect = targetContainer.getBoundingClientRect();
 
             // Create clone
             const clone = sourceImage.cloneNode(true);
             clone.style.opacity = ''; // Ensure clone is visible
             clone.classList.add('antinomy-flying-animal');
 
-            // FIX: Lock animal image to its current rendered pixel size
-            // so CSS rules don't resize it when the clone moves to a different context
-            const imgRect = sourceImage.getBoundingClientRect();
-            clone.style.width = `${imgRect.width}px`;
-            clone.style.height = `${imgRect.height}px`;
+            // Lock the clone to its rendered pixel size so CSS rules don't
+            // resize it when it moves to a different context
+            clone.style.width = `${startRect.width}px`;
+            clone.style.height = `${startRect.height}px`;
             clone.style.maxWidth = 'none';
             clone.style.maxHeight = 'none';
 
-            document.body.appendChild(clone);
-
-            // Get positions
-            const startRect = sourceImage.getBoundingClientRect();
-            const endRect = targetContainer.getBoundingClientRect();
-
-            // Initial Position (Absolute on screen)
+            // Fixed at the start position BEFORE appending, so the clone
+            // never participates in layout
             clone.style.position = 'fixed';
             clone.style.left = `${startRect.left}px`;
             clone.style.top = `${startRect.top}px`;
-            clone.style.width = `${startRect.width}px`;
-            clone.style.height = `${startRect.height}px`;
             clone.style.zIndex = '99999'; /* Ensure on top of everything */
             clone.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Bouncy ease
             clone.style.pointerEvents = 'none';
+
+            // Remember where the clone came from so it can fly back on undo/switch
+            clone._returnInfo = {
+                sourceEl: sourceImage,
+                slotEl: slotElement,
+                startLeft: startRect.left,
+                startTop: startRect.top
+            };
+
+            document.body.appendChild(clone);
 
             // Force reflow
             void clone.offsetWidth;
@@ -269,6 +278,7 @@ const AntinomyRenderer = (function () {
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
+                clone.dataset.landed = 'true';
 
                 // === INTERACTION: CLICK TO RETURN ===
                 clone.style.pointerEvents = 'auto'; // Enable clicking
@@ -278,20 +288,17 @@ const AntinomyRenderer = (function () {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    // 1. Show original again
-                    sourceImage.style.opacity = '1';
-
-                    // 2. Show Question Mark again
+                    // Show Question Mark again and clear the selection state
                     targetContainer.style.opacity = '1';
-
-                    // 3. Remove selection state
                     slotElement.classList.remove('animal-slot--selected');
-
-                    // 4. Remove clone
-                    clone.remove();
-
-                    // 5. Disable Next Button
                     SelectionHandler.disableNextButton();
+
+                    // Fly the animal back to its choice slot (matches Anomaly's
+                    // animated return); visibility is restored when it lands.
+                    GameState.setUI('isAnimating', true);
+                    AnimationHandler.flyCloneBack(clone, () => {
+                        GameState.setUI('isAnimating', false);
+                    });
                 };
 
                 clone.addEventListener('click', returnHandler, { once: true });

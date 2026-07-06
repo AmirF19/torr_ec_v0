@@ -67,16 +67,6 @@ const AntithesisRenderer = (function () {
                 onClick: handleAntithesisSelection
             });
             optionsGrid.appendChild(slot);
-
-            // Optional drag-to-place (coexists with tap). Drop onto the middle box.
-            if (typeof DragHandler !== 'undefined') {
-                DragHandler.makeDraggable(slot, {
-                    item,
-                    slotIndex: index,
-                    onDrop: handleAntithesisSelection,
-                    getTargetEl: () => document.querySelector('.antithesis-layout .pen--box2')
-                });
-            }
         });
 
         // Add to layout
@@ -84,6 +74,54 @@ const AntithesisRenderer = (function () {
         layout.appendChild(optionsPen);
 
         container.appendChild(layout);
+
+        // Runs after attach so rects are measurable
+        levelGroupBaselines(layout);
+    }
+
+    /**
+     * Level the drawn feet of every multi-animal group. Aligning the image
+     * boxes (flex-end) is not enough: each SVG carries a different amount of
+     * empty space below the drawn feet, so box alignment leaves visible steps
+     * between group members. This measures each member's actual feet line
+     * (AnimalBaseline) and equalizes the group at its average line, composing
+     * with whatever offsets the CSS already applies.
+     */
+    function levelGroupBaselines(layout) {
+        layout.querySelectorAll('.animal-group').forEach(group => {
+            const imgs = [...group.querySelectorAll('.animal-image')];
+            if (imgs.length < 2) return;
+
+            let pending = imgs.length;
+            imgs.forEach(img => AnimalBaseline.whenLoaded(img, () => {
+                if (--pending > 0) return;
+                levelGroup(imgs);
+            }));
+        });
+    }
+
+    /**
+     * Equalize the drawn-feet line of a set of sibling images in place.
+     * Also used on the flying clone: offsets tuned for the options-pen
+     * context don't transfer 1:1 into the clone's flex context, so the clone
+     * is re-leveled after it is attached.
+     */
+    function levelGroup(imgs) {
+        const feet = imgs.map(im =>
+            im.getBoundingClientRect().bottom - AnimalBaseline.padPx(im)
+        );
+        const target = feet.reduce((a, b) => a + b, 0) / feet.length;
+
+        imgs.forEach((im, i) => {
+            const current = parseFloat(getComputedStyle(im).bottom) || 0;
+            // positive lift = feet currently below the target line
+            const lift = feet[i] - target;
+            im.style.setProperty(
+                'bottom',
+                `${Math.round((current + lift) * 10) / 10}px`,
+                'important'
+            );
+        });
     }
 
     /**
@@ -145,12 +183,10 @@ const AntithesisRenderer = (function () {
      * ADAPTED FROM ANTINOMY RENDERER
      */
     function handleAntithesisSelection(slotElement, choice, slotIndex) {
-        // Clear previous selections
+        // Clear previous selections. Visibility of the deselected animal is
+        // restored by the clone handling below (fly-back or instant cleanup).
         document.querySelectorAll('.pen--options .animal-slot--selected').forEach(slot => {
             slot.classList.remove('animal-slot--selected');
-            // Restore visibility of deselected item
-            const group = slot.querySelector('.animal-group');
-            if (group) group.style.opacity = '';
         });
 
         // Mark this slot as selected
@@ -167,8 +203,21 @@ const AntithesisRenderer = (function () {
         const sourceGroup = slotElement.querySelector('.animal-group');
 
         if (sourceGroup && targetContainer) {
-            // Remove ALL existing animated clones
-            document.querySelectorAll('.antinomy-flying-animal').forEach(el => el.remove());
+            // Send any previously placed animal back to its option slot.
+            // Landed clones fly back (mirrors Anomaly's swap animation);
+            // mid-flight clones are cleaned up instantly, restoring their source.
+            document.querySelectorAll('.antinomy-flying-animal').forEach(el => {
+                if (el.dataset.landed === 'true') {
+                    targetContainer.style.opacity = '1';
+                    AnimationHandler.flyCloneBack(el);
+                } else {
+                    if (el._returnInfo) {
+                        el._returnInfo.sourceEl.style.opacity = '';
+                        el._returnInfo.slotEl.dataset.isAnimating = 'false';
+                    }
+                    el.remove();
+                }
+            });
 
             // Hide original immediately
             sourceGroup.style.opacity = '0';
@@ -223,6 +272,14 @@ const AntithesisRenderer = (function () {
             clone.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Bouncy ease
             clone.style.pointerEvents = 'none';
 
+            // Remember where the clone came from so it can fly back on undo/switch
+            clone._returnInfo = {
+                sourceEl: sourceGroup,
+                slotEl: slotElement,
+                startLeft: startRect.left,
+                startTop: startRect.top
+            };
+
             document.body.appendChild(clone);
 
             // Get END positions
@@ -230,6 +287,13 @@ const AntithesisRenderer = (function () {
 
             // Force reflow
             void clone.offsetWidth;
+
+            // Re-level the group inside the clone's own flex context — the
+            // relative offsets copied from the options pen don't transfer 1:1
+            const cloneImgList = [...clone.querySelectorAll('.animal-image')];
+            if (cloneImgList.length > 1) {
+                levelGroup(cloneImgList);
+            }
 
             // Move to Target
             const targetWidth = endRect.width;
@@ -259,6 +323,7 @@ const AntithesisRenderer = (function () {
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
                 GameState.setUI('isAnimating', false);
+                clone.dataset.landed = 'true';
 
                 // Ensure the layout remains correct statically
                 clone.style.display = 'flex';
@@ -275,20 +340,17 @@ const AntithesisRenderer = (function () {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    // 1. Show original again
-                    sourceGroup.style.opacity = '1';
-
-                    // 2. Show Question Mark again
+                    // Show Question Mark again and clear the selection state
                     targetContainer.style.opacity = '1';
-
-                    // 3. Remove selection state
                     slotElement.classList.remove('animal-slot--selected');
-
-                    // 4. Remove clone
-                    clone.remove();
-
-                    // 5. Disable Next Button
                     SelectionHandler.disableNextButton();
+
+                    // Fly the animal back to its option slot (matches Anomaly's
+                    // animated return); visibility is restored when it lands.
+                    GameState.setUI('isAnimating', true);
+                    AnimationHandler.flyCloneBack(clone, () => {
+                        GameState.setUI('isAnimating', false);
+                    });
                 };
 
                 clone.addEventListener('click', returnHandler, { once: true });

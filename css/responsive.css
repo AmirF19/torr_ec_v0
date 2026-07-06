@@ -274,9 +274,11 @@
         border-color: transparent;
     }
 
+    /* Press feedback is the scale only — no background, so the rectangular
+       slot box never flashes visibly around the animal */
     .animal-slot--selectable:active {
         transform: scale(0.95);
-        background: var(--hover-glow);
+        background: transparent;
     }
 
     /* Larger touch targets */

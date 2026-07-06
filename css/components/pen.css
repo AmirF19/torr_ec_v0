@@ -103,15 +103,3 @@
     z-index: calc(var(--z-ground) - 1);
     filter: blur(4px);
 }
-
-/* ==================== */
-/* DRAG-AND-DROP TARGET  */
-/* ==================== */
-
-/* Applied to a pen while an animal is dragged over it (see js/interactions/drag.js). */
-.drop-target--active .pen-surface {
-    box-shadow: 0 0 0 5px rgba(102, 187, 106, 0.55),
-                0 0 22px rgba(102, 187, 106, 0.45);
-    border-radius: 16px;
-    transition: box-shadow 0.12s ease;
-}

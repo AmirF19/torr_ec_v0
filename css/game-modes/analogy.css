@@ -195,19 +195,12 @@
 /* QUESTION MARK SLOT - ANIMAL PADDING / OFFSETS                                */
 /* ============================================================================ */
 
-/* When a SMALL animal enters the question mark slot */
-.analogy-layout .animal-slot.question-mark-slot .animal-image--small {
-    bottom: 10% !important;
-}
-
-/* When a MEDIUM animal enters the question mark slot */
-.analogy-layout .animal-slot.question-mark-slot .animal-image--medium {
-    bottom: 32% !important;
-}
-
-/* When a LARGE animal enters the question mark slot */
+/* Animals placed in the question mark slot share the pen baseline
+   (mid-ground) — same value for every size, matching the rules below */
+.analogy-layout .animal-slot.question-mark-slot .animal-image--small,
+.analogy-layout .animal-slot.question-mark-slot .animal-image--medium,
 .analogy-layout .animal-slot.question-mark-slot .animal-image--large {
-    bottom: 0% !important;
+    bottom: 22.3% !important;
 }
 
 /* ANIMAL SLOTS inside category pens */
@@ -245,31 +238,36 @@
     max-height: none !important;
 }
 
+/* BASELINE: every animal's DRAWN feet sit on the same line — the vertical
+   middle of the pen ground. The exact per-image offset is measured and set
+   inline (with priority "important") by alignCategoryBaselines() in
+   AnalogyRenderer.js, which accounts for the empty space below the feet in
+   each SVG. The values here are first-paint fallbacks only:
+   22.3% puts the image BOX bottom at mid-ground; subtracting the typical
+   below-feet padding (~17% of rendered height) drops the box so the drawn
+   feet land near the line. */
+
 /* 4-class selector (0,4,0) beats global .animal-slot rule (0,3,0) */
 .analogy-layout .category-row .animal-slot .animal-image--large {
     height: 28vh !important;
     max-height: 28vh !important;
     transform: translateX(-50%) scale(1.25) !important;
     transform-origin: bottom center !important;
-    /* Tune this value to set large animal mud-floor depth in AB/C pens.
-       0% = feet at content-area floor. Positive lifts, negative sinks. */
-    bottom: 0% !important;
+    bottom: calc(22.3% - 6vh) !important;
 }
 
 /* 4-class (0,4,0) — beats global .animal-slot rule (0,3,0) */
 .analogy-layout .category-row .animal-slot .animal-image--medium {
     height: 22vh !important;
     max-height: 22vh !important;
-    /* Tune this to set medium animal mud-floor depth in AB/C pens */
-    bottom: 32% !important;
+    bottom: calc(22.3% - 3.7vh) !important;
 }
 
 /* 4-class (0,4,0) — beats global .animal-slot rule (0,3,0) */
 .analogy-layout .category-row .animal-slot .animal-image--small {
     height: 13vh !important;
     max-height: 13vh !important;
-    /* Tune this to set small animal mud-floor depth in AB/C pens */
-    bottom: 10% !important;
+    bottom: calc(22.3% - 2.3vh) !important;
 }
 
 /* Category pen large cats — scale(1.125) */

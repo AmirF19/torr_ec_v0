@@ -94,16 +94,6 @@ const AnalogyRenderer = (function () {
                 onClick: handleAnalogySelection
             });
             choicesGrid.appendChild(slot);
-
-            // Optional drag-to-place (coexists with tap). Drop onto the C box.
-            if (typeof DragHandler !== 'undefined') {
-                DragHandler.makeDraggable(slot, {
-                    item,
-                    slotIndex: index,
-                    onDrop: handleAnalogySelection,
-                    getTargetEl: () => document.querySelector('.analogy-layout .pen--c')
-                });
-            }
         });
 
         // ── ASSEMBLE ───────────────────────────────────────────────────────────
@@ -111,6 +101,37 @@ const AnalogyRenderer = (function () {
         layout.appendChild(choicesPen);
 
         container.appendChild(layout);
+
+        // Runs after attach so rects are measurable
+        alignCategoryBaselines(layout);
+    }
+
+    /**
+     * Pin every AB/C pen animal's drawn feet to the pen baseline (the
+     * vertical middle of the ground). Aligning image boxes is not enough:
+     * the SVGs carry 15-20% empty space below the drawn feet, and that
+     * padding scales with the rendered size, so per-size CSS constants leave
+     * large animals' feet higher than small animals'. This measures each
+     * asset (AnimalBaseline) and sets an exact inline offset.
+     */
+    function alignCategoryBaselines(layout) {
+        layout.querySelectorAll('.category-row .animal-slot .animal-image').forEach(img => {
+            AnimalBaseline.whenLoaded(img, () => {
+                const pen = img.closest('.pen--ab, .pen--c');
+                const ground = pen ? pen.querySelector('.pen-ground') : null;
+                const slot = img.closest('.animal-slot');
+                if (!ground || !slot) return;
+
+                const groundRect = ground.getBoundingClientRect();
+                const slotRect = slot.getBoundingClientRect();
+                const groundMid = groundRect.top + groundRect.height / 2;
+
+                // Lift so the drawn feet (box bottom minus intrinsic padding)
+                // sit exactly on the mid-ground line
+                const bottomPx = (slotRect.bottom - groundMid) - AnimalBaseline.padPx(img);
+                img.style.setProperty('bottom', `${Math.round(bottomPx * 10) / 10}px`, 'important');
+            });
+        });
     }
 
     /**
@@ -119,11 +140,10 @@ const AnalogyRenderer = (function () {
      * targeting pen--c .question-mark-slot instead of pen--green.
      */
     function handleAnalogySelection(slotElement, choice, slotIndex) {
-        // Clear previous selections
+        // Clear previous selections. Visibility of the deselected animal is
+        // restored by the clone handling below (fly-back or instant cleanup).
         document.querySelectorAll('.pen--choices .animal-slot--selected').forEach(slot => {
             slot.classList.remove('animal-slot--selected');
-            const image = slot.querySelector('.animal-image');
-            if (image) image.style.opacity = '';
         });
 
         // Mark this slot as selected
@@ -134,84 +154,85 @@ const AnalogyRenderer = (function () {
         slotElement.dataset.isAnimating = 'true';
 
         // --- ANIMATION START ---
-
-        // ── ANSWER SLOT LANDING OFFSETS (%) ──────────────────────────────────
-        // These MUST match the bottom percentages defined in analogy.css for .category-row
-        // Positive = lower on screen (sinks below baseline). Negative = higher on screen
-        const LANDING_OFFSET_LARGE_PCT = 0.0;    // corresponds to bottom: 0%
-        const LANDING_OFFSET_MEDIUM_PCT = -0.32;  // corresponds to bottom: 32%
-        const LANDING_OFFSET_SMALL_PCT = -0.10;   // corresponds to bottom: 10%
-        // ─────────────────────────────────────────────────────────────────────
         const targetContainer = document.querySelector('.analogy-layout .category-row .pen--c .question-mark-slot');
         const sourceImage = slotElement.querySelector('.animal-image');
 
         if (sourceImage && targetContainer) {
-            // Remove any existing clones
-            document.querySelectorAll('.analogy-flying-animal').forEach(el => el.remove());
+            // Send any previously placed animal back to its choice slot.
+            // Landed clones fly back (mirrors Anomaly's swap animation);
+            // mid-flight clones are cleaned up instantly, restoring their source.
+            document.querySelectorAll('.analogy-flying-animal').forEach(el => {
+                if (el.dataset.landed === 'true') {
+                    const qm = targetContainer.querySelector('.question-mark-text');
+                    if (qm) qm.style.opacity = '1';
+                    AnimationHandler.flyCloneBack(el);
+                } else {
+                    if (el._returnInfo) {
+                        el._returnInfo.sourceEl.style.opacity = '';
+                        el._returnInfo.slotEl.dataset.isAnimating = 'false';
+                    }
+                    el.remove();
+                }
+            });
 
             // Hide original immediately
             sourceImage.style.opacity = '0';
+
+            // Measure BEFORE the clone enters the document. An in-flow clone
+            // appended to <body> shifts the vertically centered game layout,
+            // which skews every rect measured while it is attached (this was
+            // the "animal lands far above the pen" bug).
+            const startRect = sourceImage.getBoundingClientRect();
 
             // Create clone
             const clone = sourceImage.cloneNode(true);
             clone.style.opacity = '';
             clone.classList.add('analogy-flying-animal');
 
-            // FIX: Lock animal image to its current rendered pixel size
-            // so CSS rules don't resize it when the clone moves to a different context
-            const imgRect = sourceImage.getBoundingClientRect();
-            clone.style.width = `${imgRect.width}px`;
-            clone.style.height = `${imgRect.height}px`;
+            // Lock the clone to its rendered pixel size so CSS rules don't
+            // resize it outside the choices-pen context
+            clone.style.width = `${startRect.width}px`;
+            clone.style.height = `${startRect.height}px`;
             clone.style.maxWidth = 'none';
             clone.style.maxHeight = 'none';
 
-            document.body.appendChild(clone);
-
-            // Get positions
-            const startRect = sourceImage.getBoundingClientRect();
-            const endRect = targetContainer.getBoundingClientRect();
-
-            // Initial position — top-based, mirrors AntinomyRenderer exactly
+            // Fixed at the start position BEFORE appending, so the clone
+            // never participates in layout
             clone.style.position = 'fixed';
             clone.style.left = `${startRect.left}px`;
             clone.style.top = `${startRect.top}px`;
-            clone.style.width = `${startRect.width}px`;
-            clone.style.height = `${startRect.height}px`;
             clone.style.zIndex = '99999';
             clone.style.pointerEvents = 'none';
+
+            // Remember where the clone came from so it can fly back on undo/switch
+            clone._returnInfo = {
+                sourceEl: sourceImage,
+                slotEl: slotElement,
+                startLeft: startRect.left,
+                startTop: startRect.top
+            };
+
+            document.body.appendChild(clone);
 
             // Force reflow to lock in start position
             void clone.offsetWidth;
 
-            // No cap — use the animal's full natural rendered size from the choices pen
-            const landingHeight = startRect.height;
-            const landingWidth = startRect.width;
-
-            // Set explicit dimensions to the natural values
-            clone.style.width = `${landingWidth}px`;
-            clone.style.height = `${landingHeight}px`;
-
             // NOW enable transition and set destination
             clone.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
 
+            const endRect = targetContainer.getBoundingClientRect();
+
             // Destination: center horizontally in the question-mark-slot
-            const left = endRect.left + (endRect.width - landingWidth) / 2;
+            const left = endRect.left + (endRect.width - startRect.width) / 2;
 
-            // Use the target container's bottom edge as the strict absolute floor line
-            // This guarantees uniform landing height regardless of the C-Box animal's size
-            const floorY = endRect.bottom;
-
-            // Calculate dynamic vertical offset based on the slot's actual rendered height
-            // to perfectly match the CSS percentages used by the static animals.
-            const slotHeight = endRect.height;
-            const isLarge = sourceImage.classList.contains('animal-image--large');
-            const isMedium = sourceImage.classList.contains('animal-image--medium');
-            
-            const landingOffset = isLarge ? (slotHeight * LANDING_OFFSET_LARGE_PCT)
-                : isMedium ? (slotHeight * LANDING_OFFSET_MEDIUM_PCT)
-                    : (slotHeight * LANDING_OFFSET_SMALL_PCT);
-
-            const top = floorY - landingHeight + landingOffset;
+            // Land the DRAWN feet on the shared baseline: the vertical middle
+            // of the C pen's ground. AnimalBaseline accounts for the empty
+            // space below the feet in the SVG, matching alignCategoryBaselines.
+            const groundRect = document
+                .querySelector('.analogy-layout .pen--c .pen-ground')
+                .getBoundingClientRect();
+            const groundMid = groundRect.top + groundRect.height / 2;
+            const top = groundMid + AnimalBaseline.padPx(sourceImage) - startRect.height;
 
             clone.style.left = `${left}px`;
             clone.style.top = `${top}px`;
@@ -231,6 +252,7 @@ const AnalogyRenderer = (function () {
 
                 // Unlock animation lock
                 slotElement.dataset.isAnimating = 'false';
+                clone.dataset.landed = 'true';
 
                 // Enable clicking clone to return animal
                 clone.style.pointerEvents = 'auto';
@@ -240,20 +262,17 @@ const AnalogyRenderer = (function () {
                     e.stopPropagation();
                     e.preventDefault();
 
-                    // Show original again
-                    sourceImage.style.opacity = '1';
-
-                    // Show question mark again
+                    // Show question mark again and clear the selection state
                     if (qmSpan) qmSpan.style.opacity = '1';
-
-                    // Remove selection state
                     slotElement.classList.remove('animal-slot--selected');
-
-                    // Remove clone
-                    clone.remove();
-
-                    // Disable Next button
                     SelectionHandler.disableNextButton();
+
+                    // Fly the animal back to its choice slot (matches Anomaly's
+                    // animated return); visibility is restored when it lands.
+                    GameState.setUI('isAnimating', true);
+                    AnimationHandler.flyCloneBack(clone, () => {
+                        GameState.setUI('isAnimating', false);
+                    });
                 };
 
                 clone.addEventListener('click', returnHandler, { once: true });
@@ -308,10 +327,13 @@ const AnalogyRenderer = (function () {
             img.style.maxHeight = 'none';
             img.style.display = 'block';
 
+            // Baseline offsets here are first-paint fallbacks; the exact
+            // per-image value is set by alignCategoryBaselines() once the
+            // image is measurable.
             if (isLarge) {
                 img.style.height = '28vh';
                 img.style.maxHeight = '28vh';
-                img.style.bottom = '0%'; // tune in analogy.css .category-row .animal-slot .animal-image--large
+                img.style.bottom = '22.3%';
                 if (isCat) {
                     img.style.transform = 'translateX(-50%) scale(1.125)';
                 } else {
@@ -321,7 +343,7 @@ const AnalogyRenderer = (function () {
             } else if (isMedium) {
                 img.style.height = '22vh';
                 img.style.maxHeight = '22vh';
-                img.style.bottom = '32%'; // tune via .category-row .animal-slot .animal-image--medium in analogy.css
+                img.style.bottom = '22.3%';
                 if (isCat) {
                     img.style.transform = 'translateX(-50%) scale(0.9)';
                     img.style.transformOrigin = 'bottom center';
@@ -331,7 +353,7 @@ const AnalogyRenderer = (function () {
             } else if (isSmall) {
                 img.style.height = '13vh';
                 img.style.maxHeight = '13vh';
-                img.style.bottom = '10%'; // tune via .category-row .animal-slot .animal-image--small in analogy.css
+                img.style.bottom = '22.3%';
                 img.style.transform = 'translateX(-50%)';
             }
         });

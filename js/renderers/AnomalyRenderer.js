@@ -91,7 +91,10 @@ const AnomalyRenderer = (function() {
         
         // Set animating state
         GameState.setUI('isAnimating', true);
-        
+
+        // Disable next immediately (matches the undo behavior in the other games)
+        SelectionHandler.disableNextButton();
+
         // Animate return
         AnimationHandler.returnToOriginal(outSlot, originalSlot, currentOutAnimal, () => {
             // Update original slot with returning animal
@@ -116,10 +119,7 @@ const AnomalyRenderer = (function() {
             
             // Clear out pen animal from state
             GameState.setOutPenAnimal(null, null);
-            
-            // Disable next button since no selection
-            SelectionHandler.disableNextButton();
-            
+
             // Update data panel
             SelectionHandler.updateDataPanel();
             

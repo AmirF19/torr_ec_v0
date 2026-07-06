@@ -17,17 +17,18 @@ const DataExport = (function() {
 
     /**
      * Generate CSV content from completed problems.
-     * Columns: problem_number, game_type, problem_label, question_index,
+     * Columns: session_id, problem_number, game_type, problem_label, question_index,
      *          seconds_elapsed, option_chosen, option_chosen_id,
      *          total_animals_selected, total_clicks, total_time_on_problem_ms,
      *          time_from_last_selection_ms, is_correct
      */
-    function generateCSV(completedProblems) {
+    function generateCSV(completedProblems, sessionId) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
 
         const headers = [
+            'session_id',
             'problem_number',
             'game_type',
             'problem_label',
@@ -64,6 +65,7 @@ const DataExport = (function() {
             }
 
             const row = [
+                escapeCSV(sessionId || ''),
                 index + 1,
                 escapeCSV(problem.type),
                 escapeCSV(problem.label),
@@ -86,18 +88,19 @@ const DataExport = (function() {
     
     /**
      * Generate detailed CSV with one row per selection.
-     * Columns: problem_number, game_type, problem_label, question_index,
+     * Columns: session_id, problem_number, game_type, problem_label, question_index,
      *          selection_number, selection_time_from_start_ms,
      *          option_chosen, option_chosen_id, is_final_selection,
      *          total_clicks, total_time_on_problem_ms,
      *          time_from_last_selection_ms, is_correct
      */
-    function generateDetailedCSV(completedProblems) {
+    function generateDetailedCSV(completedProblems, sessionId) {
         if (!completedProblems || completedProblems.length === 0) {
             return null;
         }
 
         const headers = [
+            'session_id',
             'problem_number',
             'game_type',
             'problem_label',
@@ -134,6 +137,7 @@ const DataExport = (function() {
                 const optionChosen = animals.map(a => buildAnimalDescriptor(a)).join(' + ');
 
                 const row = [
+                    escapeCSV(sessionId || ''),
                     problemIndex + 1,
                     escapeCSV(problem.type),
                     escapeCSV(problem.label),
@@ -211,28 +215,31 @@ const DataExport = (function() {
     /**
      * Generate default filename
      */
-    function generateFilename(prefix = 'rr_experiment') {
+    function generateFilename(prefix = 'rr_experiment', sessionId = null) {
+        if (sessionId) {
+            return `${prefix}_${sessionId}.csv`;
+        }
         const date = new Date();
         const dateStr = date.toISOString().split('T')[0];
         const timeStr = date.toTimeString().split(' ')[0].replace(/:/g, '-');
         return `${prefix}_${dateStr}_${timeStr}.csv`;
     }
-    
+
     /**
      * Export game data to CSV
      */
-    function exportGameData(completedProblems, detailed = false) {
-        const csv = detailed ? 
-            generateDetailedCSV(completedProblems) : 
-            generateCSV(completedProblems);
-        
+    function exportGameData(completedProblems, detailed = false, sessionId = null) {
+        const csv = detailed ?
+            generateDetailedCSV(completedProblems, sessionId) :
+            generateCSV(completedProblems, sessionId);
+
         if (!csv) {
             console.warn('No data to export');
             return false;
         }
-        
+
         const prefix = detailed ? 'rr_detailed_data' : 'rr_experiment_data';
-        return downloadCSV(csv, generateFilename(prefix));
+        return downloadCSV(csv, generateFilename(prefix, sessionId));
     }
     
     /**

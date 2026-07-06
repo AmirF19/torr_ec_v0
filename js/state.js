@@ -51,7 +51,19 @@ const GameState = (function() {
     // ====================
     
     function generateSessionId() {
-        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        // Format: YYYY-MM-DD_HH-MM-SS_XXXX (date, time, random identifier).
+        // The random block avoids ambiguous characters (0/O, 1/I/L) so it can
+        // be read aloud or transcribed without errors.
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        const time = `${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+        const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+        let rand = '';
+        for (let i = 0; i < 4; i++) {
+            rand += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return `${date}_${time}_${rand}`;
     }
     
     function deepClone(obj) {

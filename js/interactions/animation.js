@@ -316,6 +316,47 @@ const AnimationHandler = (function () {
     }
 
     /**
+     * Fly a landed selection clone back to the choice slot it came from,
+     * then restore the original's visibility and remove the clone.
+     * Used by the clone-based games (Antinomy, Antithesis, Analogy) so the
+     * return-to-choices interaction matches Anomaly's animated return.
+     * Expects clone._returnInfo = { sourceEl, slotEl, startLeft, startTop },
+     * set by the renderer when the clone is created.
+     */
+    function flyCloneBack(clone, onComplete) {
+        const info = clone._returnInfo;
+        if (!info) {
+            clone.remove();
+            if (onComplete) onComplete();
+            return;
+        }
+
+        let finished = false;
+        const finish = () => {
+            if (finished) return;
+            finished = true;
+            info.sourceEl.style.opacity = '';
+            if (info.slotEl) info.slotEl.dataset.isAnimating = 'false';
+            clone.remove();
+            if (onComplete) onComplete();
+        };
+
+        // Block re-tapping the (invisible) source slot while the animal flies back
+        if (info.slotEl) info.slotEl.dataset.isAnimating = 'true';
+
+        clone.style.pointerEvents = 'none';
+        clone.style.cursor = '';
+        clone.style.transition = 'left 0.45s cubic-bezier(0.25, 0.9, 0.4, 1), top 0.45s cubic-bezier(0.25, 0.9, 0.4, 1)';
+        void clone.offsetWidth;
+        clone.style.left = `${info.startLeft}px`;
+        clone.style.top = `${info.startTop}px`;
+
+        clone.addEventListener('transitionend', finish, { once: true });
+        // Safety net in case transitionend never fires (element hidden, etc.)
+        setTimeout(finish, 520);
+    }
+
+    /**
      * Simple fade in animation
      */
     function fadeIn(element, duration = Config.animation.fadeIn) {
@@ -394,6 +435,7 @@ const AnimationHandler = (function () {
         moveToOutPen,
         swapAnimals,
         returnToOriginal,
+        flyCloneBack,
         fadeIn,
         fadeOut,
         pop,
