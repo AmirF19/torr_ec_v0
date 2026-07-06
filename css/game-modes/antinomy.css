@@ -35,7 +35,8 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: clamp(25px, 4vw, 65px); /* Increased gap for more space between pens */
+    /* NEW CHANGE */
+    gap: clamp(25px, 3vw, 65px); /*Decreaes gap since green pen need to be enlarged*/
     width: 100%;
 }
 
@@ -92,7 +93,8 @@
 
 /* GREEN BOX SIZE */
 .antinomy-layout .pen-surface--green {
-    width: clamp(300px, 44vw, 850px);
+    /* NEW CHANGE  */
+    width: clamp(300px, 46vw, 850px);
     height: auto;
     aspect-ratio: 3.75;
     /* Reduced from 53vw to fit both boxes on iPad 11" */
@@ -230,7 +232,8 @@
 
 /* Improve Green Box Spacing Per Request */
 .antinomy-layout .pen-surface--green .animal-grid {
-    gap: 5.5vw !important;
+    /* NEW CHANGE */
+    gap: 6.2vw !important;
 }
 
 /* RED BOX OVERRIDE - Removed grid-template-columns as we are using Flex */

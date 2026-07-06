@@ -70,10 +70,10 @@ const App = (function () {
         }
 
         // Download button
-        const downloadBtn = document.querySelector('.download-btn, [onclick*="downloadData"]');
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', downloadData);
-        }
+        // const downloadBtn = document.querySelector('.download-btn, [onclick*="downloadData"]');
+        // if (downloadBtn) {
+        //     downloadBtn.addEventListener('click', downloadData);
+        // }
 
         // Game switcher buttons
         setupGameSwitcher();
@@ -638,10 +638,11 @@ const App = (function () {
 
         // Show a fun all-done celebration first, then transition to report
         showWelcomeScreen(
-            '🌟 Amazing Work! 🌟',
-            'You completed all the activities! Tap the arrow to see your results.',
+            '🌟Super Work!🌟',
+            // 'You completed all the activities! Tap the arrow to see your results.',
+            'You completed all the activities!',
             () => {
-                showReportScreen();
+
                 const completedProblems = GameState.getCompletedProblems();
                 const summary = DataExport.generateSummaryReport(completedProblems);
 
@@ -758,3 +759,24 @@ window.addEventListener('load', () => {
         App.init();
     }
 });
+
+
+// NEW CHANGE -- try to make the next button in the 'SUPER WORK' screen hidden
+const observer = new MutationObserver(() => {
+    // 1. Grab the heading and the button (Change these classes/IDs to match yours)
+    const pageHeading = document.querySelector('h1');
+    const nextButton = document.querySelector('button');
+
+    if (pageHeading && nextButton) {
+        // 2. Check the exact text of the page where you want the button GONE
+        if (pageHeading.textContent.trim() === "🌟Super Work!🌟") {
+            nextButton.style.setProperty('display', 'none', 'important');
+        } else {
+            // 3. Bring it back on other pages so it doesn't stay hidden forever
+            nextButton.style.removeProperty('display'); 
+        }
+    }
+});
+
+// 4. Tell the browser to watch the whole page for content changes
+observer.observe(document.body, { childList: true, subtree: true, characterData: true });

@@ -16,7 +16,7 @@ Live preview: https://torr-ec-test.muhammadfusenig.com/
 - [x] **Game-type switcher is visible and tappable during the task.** *(Fixed June 8.)*
   The four buttons (Analogy / Anomaly / Antinomy / Antithesis) in the top-left corner are a developer convenience that were on screen the whole time and only hidden below 480px, so on any iPad a child could tap one and jump games mid-session. They're now hidden for participants by default (`setupGameSwitcher` in `js/main.js`). **Developer mode:** add `?dev=1` to the URL to reveal both the game switcher *and* the problem-number counter ("Antinomy - Question 3 (4 of 7)") in the header and bottom-left. Live Server preserves the query string across reloads, so it's set once per session. Participants (no flag) see neither.
 
-- [ ] **Verify data export against a real run.**
+- [x] **Verify data export against a real run.**
   The CSV export (`js/data/export.js`) looks complete and matches the agreed columns (seconds elapsed, full option descriptor, total selections, total clicks, total time, time-from-last-selection, correctness). Before real collection, run a full session end to end, download the CSV, and confirm every column reads sensibly, especially `total_clicks` and `time_from_last_selection_ms`, which depend on event tracking in `main.js`.
 
 ---
@@ -83,16 +83,16 @@ Most of these are carried over from the Apr 7 and Apr 23 bug bash sessions that 
 - [x] Global spacing pass: baselines raised, stagger increased for the taller animals, more horizontal spacing.
 - [x] Sample and Questions 2 and 3 specific perch/overlap fixes.
 - [x] Choice-box sizing, off-center selected animal, animation lag, and hitbox fixes.
-- [ ] **Final sweep for fence/animal overlap** The big fixes are pretty much done, just check to make sure that everything operates as expected.
+- [x] **Final sweep for fence/animal overlap** The big fixes are pretty much done, just check to make sure that everything operates as expected.
 
 ### Antinomy
 - [x] Animation smoothed; question mark repositioned; green/red baselines aligned; boxes and choices resized; spacing and stagger fixes.
-- [ ] **Slight overlap on the large blue animals in the first real problem.** Minor. May just need the pens a touch larger.
+- [x] **Slight overlap on the large blue animals in the first real problem.** Minor. May just need the pens a touch larger.
 
 ### Antithesis
 - [x] Box 1 / Box 3 baseline standardization; choice alignment; pen enlarged to hold three large animals; arrows removed; double-tap duplication debounced; proportional-distortion and Chrome-centering fixes.
-- [ ] **Replace the large blue cow with the correctly colored asset.** Carried over from Apr 23; this is an image/asset issue, not layout. Confirm which SVG under `images/website_selection_clean/cow/02_no_stripe_large/` is wrong and swap it.
-- [ ] **Pinch-zoom sends the selected animal to the top-left corner.** Edge case in `AntithesisRenderer.js` flying-clone positioning when the viewport scale changes mid-animation. Low frequency; note it but don't block on it.
+- [ ] **Replace the large blue cow with the correctly colored asset.** Carried over from Apr 23; this is an image/asset issue, not layout. Confirm which SVG under `images/website_selection_clean/cow/02_no_stripe_large/` is wrong and swap it. Update (dthieu Jun15): the SVG file name is correct, but blue.svg file is about 2.7 MB while the other colors are around 500–700 KB, which is unusual. Need to look into that.  
+- [ ] **Pinch-zoom sends the selected animal to the top-left corner.** Edge case in `AntithesisRenderer.js` flying-clone positioning when the viewport scale changes mid-animation. Low frequency; note it but don't block on it. Update for more info (dthieu Jun15): when someone pinch-zooms on an iPad during an animation, the flying animal lands in the wrong spot. This should be tested in iPad, but try to click around to find out if similar thing happens. 
 
 ---
 
@@ -128,8 +128,9 @@ These are developer items — they touch shared logic, so they shouldn't be a fi
 
 - [x] CSV export overhauled to the agreed columns (summary export and a detailed one-row-per-selection export both exist in `js/data/export.js`).
 - [x] Raw click tracking and selection tracking wired through `state.js` / `main.js`.
-- [ ] **Confirm where the data actually needs to go.** Right now everything is local: progress is kept in `localStorage` and the researcher downloads a CSV at the end. 
+- [x] **Confirm where the data actually needs to go.** Right now everything is local: progress is kept in `localStorage` and the researcher downloads a CSV at the end. 
 - [ ] **Add a participant/session identifier the researcher can set** (instead of the auto-generated `session_…` id), if the study design needs it for matching.
+- [x] **Hide the result/data screen** Hide the result screen for the game because we will not actually want the researchers or participants to see the data (from mail on Jun12).
 
 ---
 
@@ -140,3 +141,11 @@ Small, safe, and easy to hand off.
 - [x] **Add a `.gitignore`.** *(Fixed June 8.)* Added a `.gitignore` covering `.wrangler/`, OS junk (`.DS_Store`/`Thumbs.db`/etc.), editor folders, and `node_modules/`, and untracked the previously committed `.wrangler/cache/` (including `wrangler-account.json`) with `git rm --cached`. Staged, not yet committed.
 - [ ] **Tidy the docs.** The file named `TORR_EC_Bug_Bash_Agenda_03_22_2026.md` actually contains the April 7 revision inside it, and an `..._04_07_…` file shows up in the git history but isn't present now. Consolidate the agenda docs so the filenames match their contents. (This master list is meant to replace the scattered agendas going forward.)
 - [ ] **Audit the image assets.** There are leftover/working files in `images/elements/` (for example `pen_1 - Copy.svg`, a couple of `Gemini_Generated_Image_…png` files, and several near-duplicate fence PNGs). Confirm which are actually referenced in `js/config.js` and remove the rest so the asset folder reflects what ships.
+
+## Section 8 — Additional Bugs
+Additional tasks -- updated Jun 15, 2026
+- [x] **Downloading twice.** The download button in the result screen will download the .csv files twice. This is because the download button hsa two handlers attached to it (one in HTML and the other is JS)
+- [ ] **Antinomy + Analogy bug?** After choosing 1+ time for some animal options in the game, users are unable to select those option for the next time. Usually the first three options are not selectable if the users already chosen those options once. [From mail] This may have something to do with the cloning logic used in a number of the games. **Update on July 01** After trying to understand the bug + the code, I have found that the problem occurs because I chose each answer option too fast. It seems like if I slow down and allow a time of ~ 1 second between each option, then both game run smoothly without any problem. For research purpose, this might not be a problem (since I guess participant will take their time to choose the answer), but I want to add extra information here for you to determine if we need to address this problem. 
+- [ ] **Antithesis bug?** Similar to the Antinomy + Analogy bug? above, problem arise when I click too fast between options. In the Antithesis game, however, if user clicking too fast, the options not frozen. It seem like when the cloning object are "flying" you are unable to choose another option (i.e you must wait until an option clone finish flying before another animal can be selected into the middle/question mark pen). Still, if you click another option while one clone is flying then you will have both image of one option, one in the selection/option pen, and the other in the middle/question mark pen. Again, if participant take ~1 second or more to choose between option, the game will run smoothly. Therefore, I'm not too sure if this problem is consider a bug either.
+- [x] **Antithesis bug.** In the last question (7/7) of the Antithesis game, the blue cow in the rightmost group of animals sits partially outside of the pen. 
+- [x] **Amazing Work Screen.** Both the star emojies suppose to be on the same line. I have changed "Amazing" to "Super" to shorten the title. 

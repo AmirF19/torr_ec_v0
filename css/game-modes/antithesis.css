@@ -54,7 +54,7 @@
 .antithesis-layout .pen--box1 {
     /* Box 1 shifted left to create space for larger answers */
     /* Subtracting 1.5vw to shift left and create extra post gap */
-    left: calc(clamp(23.7px, 3.58vw, 63.5px) - 1.5vw) !important;
+    left: calc(clamp(23.7px, 3.58vw, 63.5px) - 1.5vw) !important; 
 }
 
 .antithesis-layout .pen--box2 {
@@ -488,7 +488,7 @@
     position: absolute !important;
     top: -32% !important;
     left: 5% !important;
-    right: 5% !important;
+    right: 10% !important;
     bottom: 30% !important;
     padding: 0 !important;
     z-index: 200 !important;
