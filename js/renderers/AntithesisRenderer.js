@@ -76,7 +76,42 @@ const AntithesisRenderer = (function () {
         container.appendChild(layout);
 
         // Runs after attach so rects are measurable
+        alignBoxBaselines(layout);
         levelGroupBaselines(layout);
+    }
+
+    /**
+     * Pin every box-pen animal's drawn feet to the pen baseline (the
+     * vertical middle of the ground), matching the Analogy pens. The offset
+     * is applied as a delta on top of whatever the CSS already positions, so
+     * both the absolute single-animal context and the relative flex group
+     * context land on the same line.
+     */
+    function alignBoxBaselines(layout) {
+        ['.pen--box1', '.pen--box2', '.pen--box3'].forEach(penSel => {
+            const pen = layout.querySelector(penSel);
+            const ground = pen ? pen.querySelector('.pen-ground') : null;
+            if (!ground) return;
+            const imgs = [...pen.querySelectorAll('.animal-image')];
+            if (!imgs.length) return;
+
+            let pending = imgs.length;
+            imgs.forEach(img => AnimalBaseline.whenLoaded(img, () => {
+                if (--pending > 0) return;
+                const gRect = ground.getBoundingClientRect();
+                const groundMid = gRect.top + gRect.height / 2;
+                imgs.forEach(im => {
+                    const feet = im.getBoundingClientRect().bottom - AnimalBaseline.padPx(im);
+                    const current = parseFloat(getComputedStyle(im).bottom) || 0;
+                    // positive delta = feet currently below the line
+                    im.style.setProperty(
+                        'bottom',
+                        `${Math.round((current + (feet - groundMid)) * 10) / 10}px`,
+                        'important'
+                    );
+                });
+            }));
+        });
     }
 
     /**
@@ -88,7 +123,8 @@ const AntithesisRenderer = (function () {
      * with whatever offsets the CSS already applies.
      */
     function levelGroupBaselines(layout) {
-        layout.querySelectorAll('.animal-group').forEach(group => {
+        // Options pen only — the box pens are pinned by alignBoxBaselines
+        layout.querySelectorAll('.pen--options .animal-group').forEach(group => {
             const imgs = [...group.querySelectorAll('.animal-image')];
             if (imgs.length < 2) return;
 
@@ -297,16 +333,23 @@ const AntithesisRenderer = (function () {
 
             // Move to Target
             const targetWidth = endRect.width;
-            const targetHeight = endRect.height;
 
             // Center the group horizontally in the target
             const left = endRect.left + (targetWidth - startRect.width) / 2;
 
-            // BOTTOM-ALIGNED: Match the Box 1 & Box 3 baseline by aligning
-            // the clone's bottom edge with the target container's bottom edge.
-            // The question-mark-slot has bottom: 45% (same as Box 1/3 animal slots),
-            // so its bottom edge IS the ground line.
-            const top = endRect.bottom - startRect.height;
+            // Land the DRAWN feet on the Box 2 baseline: the vertical middle
+            // of its ground (the same line alignBoxBaselines pins the Box 1
+            // and Box 3 animals to). The feet line is measured on the clone
+            // at its start position; after levelGroup all members share it.
+            const cloneRect = clone.getBoundingClientRect();
+            const feetY = Math.max(...cloneImgList.map(im =>
+                im.getBoundingClientRect().bottom - AnimalBaseline.padPx(im)
+            ));
+            const feetOffsetFromTop = feetY - cloneRect.top;
+            const box2Ground = document
+                .querySelector('.antithesis-layout .pen--box2 .pen-ground')
+                .getBoundingClientRect();
+            const top = (box2Ground.top + box2Ground.height / 2) - feetOffsetFromTop;
 
             // Enforce final dimensions to prevent stacking or squishing in the new container
             clone.style.width = `${startRect.width}px`;
