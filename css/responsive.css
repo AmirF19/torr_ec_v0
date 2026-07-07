@@ -274,8 +274,8 @@
         border-color: transparent;
     }
 
-    /* Press feedback is the scale only — no background, so the rectangular
-       slot box never flashes visibly around the animal */
+    /* Press feedback is the scale only; no background, so the rectangular
+       slot box never flashes around the animal */
     .animal-slot--selectable:active {
         transform: scale(0.95);
         background: transparent;

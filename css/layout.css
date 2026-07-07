@@ -25,13 +25,23 @@
     min-height: 95vh;
 }
 
+/* Splash/report card: cream with a faint dot pattern, tan border and a
+   white ring, like a storybook sign */
 .start-container {
     width: 100%;
     max-width: 700px;
     padding: var(--space-xl);
-    background: var(--panel-bg);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
+    background:
+        radial-gradient(rgba(209, 174, 111, 0.16) 2.5px, transparent 3px),
+        radial-gradient(rgba(209, 174, 111, 0.10) 2.5px, transparent 3px),
+        #FFF7E0;
+    background-size: 36px 36px, 36px 36px, auto;
+    background-position: 0 0, 18px 18px, 0 0;
+    border: 5px solid #F0D9A2;
+    border-radius: 36px;
+    box-shadow:
+        0 0 0 5px rgba(255, 255, 255, 0.85),
+        0 14px 30px rgba(90, 62, 27, 0.30);
     text-align: center;
     position: relative;
     z-index: var(--z-background);
@@ -42,9 +52,17 @@
     max-width: 900px;
     margin: var(--space-xl) auto;
     padding: var(--space-xl);
-    background: var(--panel-bg);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
+    background:
+        radial-gradient(rgba(209, 174, 111, 0.16) 2.5px, transparent 3px),
+        radial-gradient(rgba(209, 174, 111, 0.10) 2.5px, transparent 3px),
+        #FFF7E0;
+    background-size: 36px 36px, 36px 36px, auto;
+    background-position: 0 0, 18px 18px, 0 0;
+    border: 5px solid #F0D9A2;
+    border-radius: 36px;
+    box-shadow:
+        0 0 0 5px rgba(255, 255, 255, 0.85),
+        0 14px 30px rgba(90, 62, 27, 0.30);
     text-align: center;
 }
 

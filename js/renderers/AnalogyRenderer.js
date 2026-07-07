@@ -107,18 +107,15 @@ const AnalogyRenderer = (function () {
     }
 
     /**
-     * Pin every AB/C pen animal's drawn feet to the pen baseline (the
-     * vertical middle of the ground). Aligning image boxes is not enough:
-     * the SVGs carry 15-20% empty space below the drawn feet, and that
-     * padding scales with the rendered size, so per-size CSS constants leave
-     * large animals' feet higher than small animals'. This measures each
-     * asset (AnimalBaseline) and sets an exact inline offset.
+     * Pin every AB/C pen animal's drawn feet to the vertical middle of the
+     * pen ground. Box alignment is not enough: the SVGs have 15-20% empty
+     * space below the feet and it scales with rendered size, so per-size
+     * CSS constants leave large animals higher than small ones.
      */
     function alignCategoryBaselines(layout) {
         layout.querySelectorAll('.category-row .animal-slot .animal-image').forEach(img => {
-            // Hidden until aligned, and aligned inside the image's own load
-            // event: the animal appears once, already in place — never
-            // painted at the CSS fallback position and moved.
+            // Hidden until aligned in its own load event, so it never paints
+            // at the CSS fallback position and then moves
             img.style.visibility = 'hidden';
             AnimalBaseline.whenLoaded(img, () => {
                 const pen = img.closest('.pen--ab, .pen--c');
@@ -187,10 +184,9 @@ const AnalogyRenderer = (function () {
             // Hide original immediately
             sourceImage.style.opacity = '0';
 
-            // Measure BEFORE the clone enters the document. An in-flow clone
-            // appended to <body> shifts the vertically centered game layout,
-            // which skews every rect measured while it is attached (this was
-            // the "animal lands far above the pen" bug).
+            // Measure before the clone enters the document: an in-flow
+            // clone at the end of body shifts the centered layout and skews
+            // every rect measured while it is attached
             const startRect = sourceImage.getBoundingClientRect();
 
             // Create clone
@@ -205,7 +201,7 @@ const AnalogyRenderer = (function () {
             clone.style.maxWidth = 'none';
             clone.style.maxHeight = 'none';
 
-            // Fixed at the start position BEFORE appending, so the clone
+            // Fixed at the start position before appending, so the clone
             // never participates in layout
             clone.style.position = 'fixed';
             clone.style.left = `${startRect.left}px`;
@@ -234,9 +230,8 @@ const AnalogyRenderer = (function () {
             // Destination: center horizontally in the question-mark-slot
             const left = endRect.left + (endRect.width - startRect.width) / 2;
 
-            // Land the DRAWN feet on the shared baseline: the vertical middle
-            // of the C pen's ground. AnimalBaseline accounts for the empty
-            // space below the feet in the SVG, matching alignCategoryBaselines.
+            // Land the drawn feet on the C pen baseline (mid-ground), the
+            // same line alignCategoryBaselines uses
             const groundRect = document
                 .querySelector('.analogy-layout .pen--c .pen-ground')
                 .getBoundingClientRect();
@@ -336,9 +331,8 @@ const AnalogyRenderer = (function () {
             img.style.maxHeight = 'none';
             img.style.display = 'block';
 
-            // Baseline offsets here are first-paint fallbacks; the exact
-            // per-image value is set by alignCategoryBaselines() once the
-            // image is measurable.
+            // Baseline offsets here are first-paint fallbacks; the real
+            // per-image value comes from alignCategoryBaselines()
             if (isLarge) {
                 img.style.height = '28vh';
                 img.style.maxHeight = '28vh';

@@ -104,10 +104,8 @@ const App = (function () {
             }
         });
 
-        // Block pinch-zoom. Safari on iPad ignores user-scalable=no in the
-        // viewport meta, and touch-action: manipulation on the slots still
-        // permits pinch gestures. A zoomed viewport breaks the fixed-position
-        // flying-clone coordinates (animal lands in the top-left corner).
+        // Block pinch-zoom. Safari on iPad ignores user-scalable=no, and a
+        // zoomed viewport breaks the fixed-position flying-clone coordinates.
         document.addEventListener('gesturestart', (e) => e.preventDefault());
         document.addEventListener('gesturechange', (e) => e.preventDefault());
         document.addEventListener('touchmove', (e) => {
@@ -214,9 +212,8 @@ const App = (function () {
      * Show welcome/interstitial screen
      */
     function showWelcomeScreen(title, instruction, onStartAction) {
-        // Landed flying clones are fixed-position children of <body>, so they
-        // would float over this screen (seen when finishing a game and moving
-        // to the next game's interstitial). Sweep them out first.
+        // Landed flying clones are fixed-position children of <body> and
+        // would float over this screen, so sweep them out first
         cleanupPreviousProblem();
 
         const titleEl = document.querySelector('.start-container .game-title');
@@ -717,9 +714,8 @@ const App = (function () {
     }
 
     /**
-     * Researcher shortcut: select the correct choice for the current problem.
-     * Goes through the same click path a participant tap uses, so state,
-     * logging, and the next button behave exactly as in a real selection.
+     * Researcher shortcut: select the correct choice for the current
+     * problem through the same click path a participant tap uses.
      */
     function populateCorrectChoice() {
         const problem = GameState.get('currentProblem');

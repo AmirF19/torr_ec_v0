@@ -156,9 +156,9 @@ const AntinomyRenderer = (function () {
             // Hide original immediately
             sourceImage.style.opacity = '0';
 
-            // Measure BEFORE the clone enters the document. An in-flow clone
-            // appended to <body> shifts the vertically centered game layout,
-            // which skews every rect measured while it is attached.
+            // Measure before the clone enters the document: an in-flow
+            // clone at the end of body shifts the centered layout and skews
+            // every rect measured while it is attached
             const startRect = sourceImage.getBoundingClientRect();
             const endRect = targetContainer.getBoundingClientRect();
 
@@ -174,7 +174,7 @@ const AntinomyRenderer = (function () {
             clone.style.maxWidth = 'none';
             clone.style.maxHeight = 'none';
 
-            // Fixed at the start position BEFORE appending, so the clone
+            // Fixed at the start position before appending, so the clone
             // never participates in layout
             clone.style.position = 'fixed';
             clone.style.left = `${startRect.left}px`;

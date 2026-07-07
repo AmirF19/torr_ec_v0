@@ -81,10 +81,9 @@ const AntithesisRenderer = (function () {
 
     /**
      * Align all baselines once every image is loaded, then reveal the
-     * animals together. A late-loading image changes its intrinsic width and
-     * reflows the content-sized Antithesis pens, which would visibly move
-     * already-placed animals — so nothing is shown until the layout is final.
-     * (The other games use fixed-width slots and don't reflow on load.)
+     * animals together. A late-loading image reflows the content-sized pens
+     * and moves animals that are already visible, so nothing is shown until
+     * the layout is final.
      */
     function finalizeBaselines(layout) {
         const imgs = [...layout.querySelectorAll('.animal-image')];
@@ -108,11 +107,10 @@ const AntithesisRenderer = (function () {
     }
 
     /**
-     * Pin every box-pen animal's drawn feet to the pen baseline (the
-     * vertical middle of the ground), matching the Analogy pens. The offset
-     * is applied as a delta on top of whatever the CSS already positions, so
-     * both the absolute single-animal context and the relative flex group
-     * context land on the same line.
+     * Pin every box-pen animal's drawn feet to the vertical middle of the
+     * pen ground, same as the Analogy pens. Applied as a delta on top of the
+     * CSS position so it works in both the absolute single-animal context
+     * and the relative flex group context.
      */
     function alignBoxBaselines(layout) {
         ['.pen--box1', '.pen--box2', '.pen--box3'].forEach(penSel => {
@@ -144,7 +142,7 @@ const AntithesisRenderer = (function () {
      * with whatever offsets the CSS already applies.
      */
     function levelGroupBaselines(layout) {
-        // Options pen only — the box pens are pinned by alignBoxBaselines
+        // Options pen only; the box pens are pinned by alignBoxBaselines
         layout.querySelectorAll('.pen--options .animal-group').forEach(group => {
             const imgs = [...group.querySelectorAll('.animal-image')];
             if (imgs.length < 2) return;
@@ -154,9 +152,8 @@ const AntithesisRenderer = (function () {
 
     /**
      * Equalize the drawn-feet line of a set of sibling images in place.
-     * Also used on the flying clone: offsets tuned for the options-pen
-     * context don't transfer 1:1 into the clone's flex context, so the clone
-     * is re-leveled after it is attached.
+     * Also run on the flying clone, whose flex context differs from the
+     * options pen the offsets were computed in.
      */
     function levelGroup(imgs) {
         const feet = imgs.map(im =>
@@ -341,8 +338,8 @@ const AntithesisRenderer = (function () {
             // Force reflow
             void clone.offsetWidth;
 
-            // Re-level the group inside the clone's own flex context — the
-            // relative offsets copied from the options pen don't transfer 1:1
+            // Re-level inside the clone's own flex context; the offsets
+            // copied from the options pen don't transfer 1:1
             const cloneImgList = [...clone.querySelectorAll('.animal-image')];
             if (cloneImgList.length > 1) {
                 levelGroup(cloneImgList);

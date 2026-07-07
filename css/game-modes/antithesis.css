@@ -678,12 +678,10 @@
     bottom: 2.4vh !important; 
 }
 
-/* NOTE: The former sheep/horse "anomalous padding" yanks (-4vh / -1.5vh)
-   are gone. Canvas-measured bottom padding of the current SVGs is nearly
-   identical across species (sheep 17-19.5% of height vs cow 17.4-19.8%,
-   pig 17.1-18.8%, dog 15.4-16%), so the yank sank every sheep ~4vh below
-   its group. Do not reintroduce a species offset without re-measuring the
-   assets. */
+/* NOTE: the old sheep/horse margin yanks (-4vh / -1.5vh) are gone. The
+   current SVGs have near-identical bottom padding across species (15-20%
+   of height), so the yank sank every sheep ~4vh below its group. Re-measure
+   the assets before adding any species offset back. */
 
 /* CROSS-SCREEN PARITY TWEAKS: 
    Specific adjustments requested to fix minor floating on certain sizes in Box 3 */
@@ -784,8 +782,7 @@
     transform: scale(0.9) !important;
 }
 
-/* 3. Species offsets removed — see the measurement note above. The current
-   SVG assets share near-identical bottom padding across species. */
+/* 3. Species offsets removed, see the measurement note above */
 
 /* Keep the lift, but without X translation so groups align correctly */
 .antithesis-group-layout .pen-surface--choices .animal-slot:nth-child(even) {

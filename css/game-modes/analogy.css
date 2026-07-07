@@ -238,14 +238,11 @@
     max-height: none !important;
 }
 
-/* BASELINE: every animal's DRAWN feet sit on the same line — the vertical
-   middle of the pen ground. The exact per-image offset is measured and set
-   inline (with priority "important") by alignCategoryBaselines() in
-   AnalogyRenderer.js, which accounts for the empty space below the feet in
-   each SVG. The values here are first-paint fallbacks only:
-   22.3% puts the image BOX bottom at mid-ground; subtracting the typical
-   below-feet padding (~17% of rendered height) drops the box so the drawn
-   feet land near the line. */
+/* BASELINE: every animal's drawn feet sit on the vertical middle of the pen
+   ground. The exact per-image offset is set inline (!important) by
+   alignCategoryBaselines() in AnalogyRenderer.js. The values below are
+   first-paint fallbacks: 22.3% puts the image box bottom at mid-ground,
+   minus roughly the SVG's below-feet padding (~17% of rendered height). */
 
 /* 4-class selector (0,4,0) beats global .animal-slot rule (0,3,0) */
 .analogy-layout .category-row .animal-slot .animal-image--large {

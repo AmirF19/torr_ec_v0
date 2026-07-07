@@ -113,4 +113,6 @@
 
 .start-container .game-instruction {
     margin-bottom: var(--space-xl);
+    color: var(--text-primary);
+    font-size: calc(var(--instruction-size) * 1.1);
 }

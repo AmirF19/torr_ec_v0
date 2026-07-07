@@ -1,12 +1,10 @@
 /**
  * AnimalBaseline Component
- * Measures where an animal's drawn feet actually are inside its image.
+ * Finds where an animal's drawn feet are inside its image.
  *
- * The animal SVGs carry 15-20% of empty space below the drawn feet, and the
- * exact amount differs per species/size asset. Because that padding scales
- * with the rendered size, aligning image boxes leaves large animals' feet
- * visibly higher than small animals'. Renderers use this helper to align the
- * drawn feet themselves to a shared ground line.
+ * The animal SVGs have 15-20% empty space below the feet, and the amount
+ * varies per asset and scales with rendered size. Renderers use this to
+ * align drawn feet to a ground line instead of aligning image boxes.
  */
 const AnimalBaseline = (function () {
 
@@ -15,9 +13,9 @@ const AnimalBaseline = (function () {
     const FALLBACK_RATIO = 0.17; // typical for these assets
 
     /**
-     * Ratio of the image's height that is empty space below the drawn feet.
-     * Returns the fallback if the image isn't loaded yet; measured values are
-     * cached per src.
+     * Ratio of image height that is empty space below the drawn feet.
+     * Cached per src. Falls back to a typical value if the image isn't
+     * loaded yet.
      */
     function padRatio(img) {
         const src = img.currentSrc || img.src;
@@ -49,15 +47,15 @@ const AnimalBaseline = (function () {
                 ratio = 1 - (lowest + 1) / H;
             }
         } catch (e) {
-            // Canvas unavailable or tainted — keep the fallback
+            // canvas unavailable or tainted, keep the fallback
         }
         cache.set(src, ratio);
         return ratio;
     }
 
     /**
-     * Pixels of empty space below the drawn feet at the image's current
-     * rendered size (getBoundingClientRect, so CSS transforms are included).
+     * Pixels of empty space below the drawn feet at the current rendered
+     * size (rect-based, so transforms are included).
      */
     function padPx(img) {
         return img.getBoundingClientRect().height * padRatio(img);
