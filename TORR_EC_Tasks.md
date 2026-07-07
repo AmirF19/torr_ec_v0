@@ -47,16 +47,14 @@ Running record of what has been done and roughly when, pulled from the bug bash 
 - Started the IT compliance conversation with UMD (domain, hosting, data security).
 
 **March 2026** (through the 04.07 agenda revision)
-- Test order changed to Analogy, Anomaly, Antinomy, Antithesis.
-- Test name and item number removed from the participant view.
+- Test order set to Analogy, Anomaly, Antinomy, Antithesis.
 - Medium animals scaled up; Antinomy large sizing standardized to match the other games.
-- Between-game confetti screens and the end-of-test celebration screen added.
-- Scrolling and long-press highlight suppressed for the iPad.
-- Anomaly - choices box sizing and spacing, off-center selected animal, animation lag and overshoot rebuilt, staggered load fixed, per-size landing positions, answer pen sizing, selection hitboxes.
-- Antithesis - fence perching, scrollable background, pens enlarged to hold three large animals, arrows removed, group spacing and baselines, proportional distortion, Chrome centering.
+- Between-game celebration screens and end-of-test screen added.
+- Anomaly - choices box sizing and spacing, off-center selected animal, animation lag and overshoot rebuilt. Additionally addressed staggered load, per-size landing positions, answer pen sizing, selection boundary boxes.
+- Antithesis - fence perching, scrollable background, pens enlarged to hold three large animals, arrows removed, group spacing, and baselines.
 - Antinomy - animation smoothing, question mark position, green/red baseline alignment.
 - Analogy - choices box enlarged ~75%, mixed-size baseline and overlap fixes, choice-box stagger, question mark padding, animation jump before final lock removed.
-- CSV overhauled to the agreed columns (summary + one-row-per-selection exports).
+- CSV overhaul (summary + one-row-per-selection exports).
 
 **April 2026**
 - Second bug bash (04.23). Anomaly global spacing pass: baselines raised, stagger increased, more horizontal room between large animals. Sample and Questions 2-3 perch/overlap fixes.
@@ -64,11 +62,10 @@ Running record of what has been done and roughly when, pulled from the bug bash 
 - Antithesis Box 1 and 3 baselines re-standardized.
 
 **June 2026**
-- Duplicate Antinomy block removed from the problem set.
-- Game switcher hidden from participants (dev flag ?dev=1 shows it).
-- Double CSV download fixed (two handlers on one button).
-- Data export verified against a real run.
-- Results screen hidden from participants (Jun 12 mail).
+- Duplicate Antinomy block removed.
+- Game switcher hidden from participants.
+- Double CSV download fixed.
+- Results screen hidden from participants.
 - .gitignore added, wrangler cache untracked.
 - Antithesis 7/7 blue cow overlap fixed; Super Work screen title fixed.
 
@@ -77,13 +74,11 @@ Running record of what has been done and roughly when, pulled from the bug bash 
 - Tap-only: the drag implementation removed.
 - Session ids automatic (date + time + short code), written into the CSV rows and filename.
 - Hidden populate button (triple tap, bottom right corner).
-- Undo unified across all four games - the animal flies back to its slot on undo and on switching choices.
-- Pinch zoom blocked at the document level.
-- Flying clone landing bug fixed (clones were measured while sitting in the page layout, which skewed every landing).
-- Baselines rebuilt around measured feet: AnimalBaseline reads where the drawn feet are in each image; Analogy AB/C pens and Antithesis boxes pin feet to the middle of the ground, Antithesis groups are leveled exactly, Antinomy choices stagger on two clean lines.
-- Yellow flash on tap removed; leftover animal on the interstitial fixed; Antithesis animals no longer settle/move after render.
-- Splash and report cards restyled (cream, dots, tan border).
-- Researcher script written (TORR_EC_Researcher_Script.md).
+- Undo unified across all four games (the animal flies back to its slot on undo and on switching choices).
+- Pinch zoom blocked.
+- Flying clone landing bug fixed.
+- Baselines restructed.
+- Leftover animal on the interstitial fixed.
+- Splash and report cards restyled.
+- Researcher script written.
 - Performance audit: a full run downloads ~208 MB, images are the whole problem. Re-export plan is in Thuy's list.
-
-
