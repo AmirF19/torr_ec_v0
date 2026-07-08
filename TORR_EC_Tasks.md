@@ -1,6 +1,6 @@
 # TORR EC Tasks
 
-Updated 07.07.2026
+Updated 07.08.2026
 Live: https://torr-ec-test.muhammadfusenig.com/
 
 
@@ -23,11 +23,11 @@ Previous open tasks can be found here: TORR_EC_Tasks_v0.md in previous commits.
 
 ## Thuy
 
-- [ ] Re-export the animal images as PNGs around 600 px tall - Same folder, same name, .png instead of .svg. Compress each export (tinypng.com or squoosh.app), target under 60 KB per animal. This also replaces the broken blue cow file.
+- [ ] Re-export the animal images as PNGs around 600 px tall. Make sure to keep the following unchanged: folder, same name, but the files should be .png instead of .svg. Compress each file (using either tinypng.com or squoosh.app), target under 60 KB per animal.
 - [ ] Re-export images/background_images and images/elements at roughly on-screen size - Largest offenders are tree_1.png (13 MB), barn.png (9 MB), and white_gate.png (8 MB).
 - [ ] Message Muhammad once the new files are in so the code can be switched to .png.
 
-- [ ] Fix animal overlap in Antithesis question 3 (4 of 7) and question 6 (7 of 7) - options pen. Horizontal spacing only (slot gaps, grid gaps, content insets in the game css). Vertical placement is set by the renderers now, leave it alone. Same applies to the two bullets below.
+- [ ] Fix animal overlap in Antithesis question 3 (4 of 7) and question 6 (7 of 7) in the options pen.
 - [ ] Fix animal overlap in Anomaly questions 2 through 5 - main pen.
 - [ ] Antinomy - The 4th choice sits close to the right fence post. Check spacing everywhere after the overlap fixes above.
 - [ ] Analogy - Large sheep clips out of the answer box (analogy.css).
