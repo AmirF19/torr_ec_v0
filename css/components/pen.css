@@ -32,7 +32,7 @@
     z-index: var(--z-ground);
 
     /* Default ground image - games can override */
-    background-image: url('../../images/elements/ground_1.svg');
+    background-image: url('../../images/elements/ground_1.png');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

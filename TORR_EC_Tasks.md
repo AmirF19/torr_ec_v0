@@ -82,3 +82,4 @@ Running record of what has been done and roughly when, pulled from the bug bash 
 - Splash and report cards restyled.
 - Researcher script written.
 - Performance audit: a full run downloads ~208 MB, images are the whole problem. Re-export plan is in Thuy's list.
+- Animals and backgrounds re-exported and compressed (Thuy). Code switched from .svg to .png; a full run now downloads ~14 MB, down from 208. This also fixed the Anomaly flying-clone bug (the old .svg paths were 404ing and limping through an error fallback the animation couldn't handle).

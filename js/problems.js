@@ -23,7 +23,7 @@ const ProblemSet = (function () {
         // Build image path
         const sizeFolder = Config.animals.sizeFolderMap[normalizedSize]?.[normalizedPattern];
         const image = sizeFolder
-            ? `${Config.images.animalsBase}/${normalizedSpecies}/${sizeFolder}/${normalizedColor}.svg`
+            ? `${Config.images.animalsBase}/${normalizedSpecies}/${sizeFolder}/${normalizedColor}.png`
             : '';
 
         return {

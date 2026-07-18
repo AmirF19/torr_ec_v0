@@ -7,6 +7,8 @@
 Thumbs.db
 ehthumbs.db
 desktop.ini
+# Windows "downloaded from the internet" tag on files
+*Zone.Identifier
 
 # Editor / IDE
 .vscode/

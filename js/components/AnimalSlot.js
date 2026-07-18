@@ -104,13 +104,13 @@ const AnimalSlot = (function () {
         img.className = `animal-image animal-image--${animal.size} animal-image--${animal.species}`;
         img.draggable = false;
 
-        // Handle load errors
+        // Handle load errors: animals are PNG now; fall back to the old SVG
+        // if a PNG is missing (covers a half-converted asset folder).
         img.onerror = function () {
             console.warn('Failed to load animal image:', animal.image);
-            // Try PNG fallback
-            const pngPath = animal.image.replace('.svg', '.png');
-            if (this.src !== pngPath) {
-                this.src = pngPath;
+            const svgPath = animal.image.replace('.png', '.svg');
+            if (this.src !== svgPath && animal.image.endsWith('.png')) {
+                this.src = svgPath;
             }
         };
 
