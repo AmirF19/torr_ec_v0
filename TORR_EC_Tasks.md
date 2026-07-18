@@ -23,8 +23,8 @@ Previous open tasks can be found here: TORR_EC_Tasks_v0.md in previous commits.
 
 ## Thuy
 
-- [ ] Re-export the animal images as PNGs around 600 px tall. Make sure to keep the following unchanged: folder, same name, but the files should be .png instead of .svg. Compress each file (using either tinypng.com or squoosh.app), target under 60 KB per animal.
-- [ ] Re-export images/background_images and images/elements at roughly on-screen size - Largest offenders are tree_1.png (13 MB), barn.png (9 MB), and white_gate.png (8 MB).
+- [ ] Re-export the animal images as PNGs around 600 px tall. Make sure to keep the following unchanged: folder, same name, but the files should be .png instead of .svg. Compress each file (using either tinypng.com or squoosh.app), target under 60 KB per animal. ----- How about the imageedit.png files?
+- [ ] Re-export images/background_images and images/elements at roughly on-screen size - Largest offenders are tree_1.png (13 MB), barn.png (9 MB), and white_gate.png (8 MB). ----- Compressed, but the compressed objs look weird/don't follow old scale? Need to fix something?  
 - [ ] Message Muhammad once the new files are in so the code can be switched to .png.
 
 - [ ] Fix animal overlap in Antithesis question 3 (4 of 7) and question 6 (7 of 7) in the options pen.
