@@ -21,15 +21,15 @@ const Config = {
 
         // Pen/fence elements
         elements: {
-            penMain: 'images/elements/pen_1.svg',
-            penGreen: 'images/elements/pen_1a_green.svg',
-            penRed: 'images/elements/pen_1a_red.svg',
-            penAnalogy: 'images/elements/analogy_pen.svg',
+            penMain: 'images/elements/pen_1.png',
+            penGreen: 'images/elements/pen_1a_green.png',
+            penRed: 'images/elements/pen_1a_red.png',
+            penAnalogy: 'images/elements/analogy_pen.png',
             penSmall: 'images/elements/pen_2.png',
             gateRight: 'images/elements/white_fencing_entrance_rightwards.png',
             gateLeft: 'images/elements/white_fencing_entrance_leftwards.png',
-            fenceLong: 'images/elements/pen_1.svg',
-            ground: 'images/elements/ground_1.svg'
+            fenceLong: 'images/elements/pen_1.png',
+            ground: 'images/elements/ground_1.png'
         },
 
         // Animal SVG base path
