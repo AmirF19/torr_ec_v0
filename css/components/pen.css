@@ -78,12 +78,19 @@
     display: block;
 }
 
-.pen-fence img[src$=".svg"] {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: fill;
-    max-width: none;
-    max-height: none;
+/*
+ * The pen artwork was originally SVG with preserveAspectRatio="xMidYMid meet",
+ * which letterboxes inside the box instead of stretching — even against the
+ * per-game "object-fit: fill !important" rules, which were no-ops for SVG. The
+ * game layouts were designed around that. The PNG replacements must use
+ * object-fit: contain to reproduce it; the doubled [src] attribute plus
+ * !important is required to outrank those per-game rules. pen_2 and the gate
+ * images were always PNG and always stretched, so they keep the default fill.
+ */
+html body .pen-fence img[src*="pen_1."][src],
+html body .pen-fence img[src*="pen_1a_"][src],
+html body .pen-fence img[src*="analogy_pen"][src] {
+    object-fit: contain !important;
 }
 
 /* ==================== */

@@ -127,7 +127,8 @@ const AntinomyRenderer = (function () {
         const pen = layout.querySelector('.pen-surface--choices');
         const ground = pen ? pen.querySelector('.pen-ground') : null;
         if (!ground) return;
-        [...pen.querySelectorAll('.animal-slot')].forEach((slot, i) => {
+        const slots = [...pen.querySelectorAll('.animal-slot')];
+        slots.forEach((slot, i) => {
             const img = slot.querySelector('.animal-image');
             if (!img) return;
             // Hidden until aligned in its own load event, so it never paints
@@ -135,8 +136,13 @@ const AntinomyRenderer = (function () {
             img.style.visibility = 'hidden';
             AnimalBaseline.whenLoaded(img, () => {
                 const g = ground.getBoundingClientRect();
-                // 1st, 3rd, ... slot on the back line; 2nd, 4th, ... in front
-                const line = g.top + g.height * (i % 2 === 0 ? 0.38 : 0.66);
+                // 1st, 3rd, ... slot on the back line; 2nd, 4th, ... in front.
+                // The dirt is drawn in perspective and its front edge rises
+                // toward the right corner, so the last (far-right) slot uses a
+                // higher front line to stay on the dirt instead of the fence.
+                let frac = i % 2 === 0 ? 0.38 : 0.66;
+                if (i === slots.length - 1 && frac === 0.66) frac = 0.5;
+                const line = g.top + g.height * frac;
                 const feet = img.getBoundingClientRect().bottom - AnimalBaseline.padPx(img);
                 const current = parseFloat(getComputedStyle(img).bottom) || 0;
                 img.style.transition = 'none'; // the base .animal-image transition:all would animate this
