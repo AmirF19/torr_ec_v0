@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #87CEEB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 40px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        a {
+            color: #2b6cb0;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+        Keep this file.
+
+        This file prevents the website from infinitely loading images that it may not have.
+        The switch from svg to png was causing loading issues, and this file helps to
+        prevent the website from crashing. We will have to find a long term fix, but for now this seems to work.
+        Below is an explanation from Claude that goes more in depth.
+
+        """By default Cloudflare Pages runs in "single-page app" mode: when a
+        request comes in for a path that has no matching file, instead of
+        returning a real 404 it hands back index.html with a 200 OK. That is
+        handy for apps that do their own client-side routing, but it breaks the site.
+        A missing image would receive an HTML page in place of image bytes, so
+        the browser rejects it as net::ERR_FAILED, and our .png -> .svg
+        fallback in AnimalSlot.js could never tell that a file was truly gone.
+
+        Dropping a 404.html at the site root switches that off: Cloudflare Pages
+        serves this page (with a correct 404 status) for anything it cannot
+        find, so missing assets fail cleanly and the fallback logic works. The
+        contents below only ever show if a person visits a dead URL directly;
+        the game itself never requests a missing page. Note this behavior only
+        applies on the deployed host, not on local dev servers."""
+    -->
+    <div class="card">
+        <h1>Page not found</h1>
+        <p><a href="/">Go to the Relational Reasoning Study</a></p>
+    </div>
+</body>
+
+</html>

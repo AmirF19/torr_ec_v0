@@ -105,12 +105,11 @@ const AnimalSlot = (function () {
         img.draggable = false;
 
         // Handle load errors: animals are PNG now; fall back to the old SVG
-        // if a PNG is missing (covers a half-converted asset folder).
         img.onerror = function () {
-            console.warn('Failed to load animal image:', animal.image);
-            const svgPath = animal.image.replace('.png', '.svg');
-            if (this.src !== svgPath && animal.image.endsWith('.png')) {
-                this.src = svgPath;
+            console.warn('Failed to load animal image:', this.src);
+            this.onerror = null;
+            if (animal.image.endsWith('.png')) {
+                this.src = animal.image.replace('.png', '.svg');
             }
         };
 
@@ -118,7 +117,7 @@ const AnimalSlot = (function () {
     }
 
     /**
-     * Generate aria label for accessibility
+     * Generate label for accessibility
      */
     function getAriaLabel(animals) {
         if (animals.length === 0) return 'Empty slot';
