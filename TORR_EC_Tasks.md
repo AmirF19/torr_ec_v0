@@ -26,7 +26,7 @@ Previous open tasks can be found here: TORR_EC_Tasks_v0.md in previous commits.
 - [x] Re-export the animal images as PNGs around 600 px tall (folder + name unchanged, .png instead of .svg, compressed under 60 KB each). Done.
 - [x] Re-export images/background_images and images/elements at roughly on-screen size (tree_1.png, barn.png, white_gate.png were the offenders). Done. The "compressed objs look weird/don't follow old scale" worry was NOT the exports - it was a code bug uncovered by the PNG switch, fixed 07.18 (see the July record).
 - [x] Message Muhammad once the new files are in so the code can be switched to .png. Done.
-- [ ] Delete the unused imageedit_*.png files (~90 of them across the animal folders). They are editor leftovers - nothing in js/css/index.html references them, so the game never loads them; they only bloat the repo. Do NOT compress them, just delete. (This answers the "How about the imageedit.png files?" question.)
+- [x] Delete the unused imageedit_*.png files (~90 of them across the animal folders). They are editor leftovers - nothing in js/css/index.html references them, so the game never loads them; they only bloat the repo. Do NOT compress them, just delete. (This answers the "How about the imageedit.png files?" question.)
 
 Overlap items below were re-audited in code on 07.28 (drawn-pixel overlap measured on every
 problem in all four games at 1194x834). Screen numbers are the on-screen "Question N (M of 7)"
