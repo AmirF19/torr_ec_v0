@@ -1,6 +1,6 @@
 # TORR EC Tasks
 
-Updated 07.18.2026
+Updated 07.28.2026
 Live: https://torr-ec-test.muhammadfusenig.com/
 
 
@@ -14,18 +14,19 @@ Previous open tasks can be found here: TORR_EC_Tasks_v0.md in previous commits.
 - [ ] Test on the actual iPad - Pinch zoom, downloaded CSV, yellow flash, and placeholders.
 - [ ] Preload the full animal set on the welcome screen (feasible now that the compressed PNGs are in - the .svg to .png switch itself is done, see the July record).
 - [ ] Remove the MutationObserver at the bottom of main.js.
-- [ ] Check the cache headers on the host to address website loading issues on the iPad. If we're on GitHub Pages, assets expire every 10 minutes and the iPad re-downloads them between sessions.
-- [ ] Analogy - C-box large sheep doesn't render at the standard large size. Related to the 28vh cap in forceAnimalSizes in AnalogyRenderer.js.
+- [ ] Check the cache headers on the host to address website loading issues on the iPad. (Confirmed: host is Cloudflare Pages, NOT GitHub Pages - so the "10-minute GitHub Pages expiry" theory is moot. Current index.html sends Cache-Control: max-age=0, must-revalidate and the page has no-cache meta tags left over from development. Consider adding a _headers file to cache the static images/CSS/JS so the iPad stops re-downloading them every session.)
+- [ ] Analogy - C-box large sheep doesn't render at the standard large size. Related to the 28vh cap in forceAnimalSizes in AnalogyRenderer.js (confirmed present, AnalogyRenderer.js:337). NOTE: likely the same root cause as Thuy's "Large sheep clips out of the answer box" item below - the 28vh cap and the answer-box clipping may be one bug. Worth investigating together / possibly a code task rather than a visual-tweak task.
 - [ ] Next button overlaps animals on the iPad - Spacing pass in analogy.css / responsive.css.
-- [ ] Add the global isAnimating check to the Antinomy and Analogy selection handlers - Copy the pattern from Antithesis.
+- [ ] Add the global isAnimating check to the Antinomy and Analogy selection handlers - Copy the pattern from Antithesis. (PARTIALLY done: both already guard on the per-slot dataset.isAnimating, but unlike Antithesis they do NOT also check GameState.getUI('isAnimating') at the entry gate - AntinomyRenderer.js:173, AnalogyRenderer.js:159 vs AntithesisRenderer.js:246. Add the global OR clause to both.)
 - [ ] Retest the two rapid-clicking bugs on the iPad (options going unselectable, duplicate images in Antithesis) - The July fixes should have killed both. If they're gone, close them out.
-- [ ] Delete the unused images - copies (fence and pen files). Check js/config.js before deleting anything.
+- [x] Delete the unused images - copies (fence and pen files). (Done by Thuy: images/elements is down to 8 referenced files, and barn.png/tree_1.png/white_gate.png now live only in the original_*/unused archive folders. The ~90 unused imageedit_*.png files still sit in the animal folders - see the note under Thuy's list.)
 
 ## Thuy
 
-- [ ] Re-export the animal images as PNGs around 600 px tall. Make sure to keep the following unchanged: folder, same name, but the files should be .png instead of .svg. Compress each file (using either tinypng.com or squoosh.app), target under 60 KB per animal. ----- How about the imageedit.png files?
-- [ ] Re-export images/background_images and images/elements at roughly on-screen size - Largest offenders are tree_1.png (13 MB), barn.png (9 MB), and white_gate.png (8 MB). ----- Compressed. The "compressed objs look weird/don't follow old scale" issue was NOT the exports - it was a code bug uncovered by the PNG switch, fixed 07.18 (see the July record).
-- [ ] Message Muhammad once the new files are in so the code can be switched to .png.
+- [x] Re-export the animal images as PNGs around 600 px tall (folder + name unchanged, .png instead of .svg, compressed under 60 KB each). Done.
+- [x] Re-export images/background_images and images/elements at roughly on-screen size (tree_1.png, barn.png, white_gate.png were the offenders). Done. The "compressed objs look weird/don't follow old scale" worry was NOT the exports - it was a code bug uncovered by the PNG switch, fixed 07.18 (see the July record).
+- [x] Message Muhammad once the new files are in so the code can be switched to .png. Done.
+- [ ] Delete the unused imageedit_*.png files (~90 of them across the animal folders). They are editor leftovers - nothing in js/css/index.html references them, so the game never loads them; they only bloat the repo. Do NOT compress them, just delete. (This answers the "How about the imageedit.png files?" question.)
 
 - [ ] Fix animal overlap in Antithesis question 3 (4 of 7) and question 6 (7 of 7) in the options pen.
 - [ ] Fix animal overlap in Anomaly questions 2 through 5 - main pen.
@@ -86,3 +87,4 @@ Running record of what has been done and roughly when, pulled from the bug bash 
 - Pens no longer fit the ground after the PNG switch (all four games). Root cause: the pen SVGs carried preserveAspectRatio="xMidYMid meet" internally, so they letterboxed themselves and silently ignored the object-fit: fill !important rules in the game CSS - the layouts were unknowingly built on that. PNGs obey fill and stretched edge-to-edge. Fixed with a high-specificity object-fit: contain override in pen.css for the formerly-svg pen images (pen_1, pen_1a_*, analogy_pen); pen_2 and the gate images keep fill because they were always PNG. Verified pixel-equivalent to the old SVG rendering in all four games. Note: the fill !important rules in analogy.css, antinomy.css, and antithesis.css are now dead weight that the override outranks - a future cleanup could flip them to contain and drop the override.
 - Antinomy far-right choice perched on the fence. The choices stagger put front-line animals 66% down the dirt, but the dirt's perspective front edge rises toward the right corner, so the last slot landed on the fence artwork. The last slot now uses a 50% line (AntinomyRenderer.js staggerChoiceBaselines).
 - A committed Zone.Identifier file removed and the pattern gitignored - the colon in those filenames breaks git checkout/pull on Windows.
+- Live-site slowness + fan + intermittent crashing (Thuy: ~70% of sessions). Two compounding causes, both invisible on local dev servers. (1) The animal-image onerror fallback had a broken guard: it compared the img's absolute src against a relative path, which is never equal, so a failing .svg fallback re-fired onerror forever - one simulated network blip produced 805 requests in 4 seconds. Fixed by nulling onerror after the first retry (AnimalSlot.js). (2) Cloudflare Pages was in SPA-fallback mode, returning index.html with a 200 for every missing path - missing images got HTML (browser ERR_FAILED), the .png->.svg fallback could never see a true failure, and opening a folder URL like /images/elements/ produced the nested-path errors in Thuy's console screenshot. Fixed by adding a root 404.html, which switches Cloudflare Pages to real 404s. Both only take effect once deployed.
