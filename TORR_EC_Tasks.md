@@ -28,10 +28,15 @@ Previous open tasks can be found here: TORR_EC_Tasks_v0.md in previous commits.
 - [x] Message Muhammad once the new files are in so the code can be switched to .png. Done.
 - [ ] Delete the unused imageedit_*.png files (~90 of them across the animal folders). They are editor leftovers - nothing in js/css/index.html references them, so the game never loads them; they only bloat the repo. Do NOT compress them, just delete. (This answers the "How about the imageedit.png files?" question.)
 
-- [ ] Fix animal overlap in Antithesis question 3 (4 of 7) and question 6 (7 of 7) in the options pen.
-- [ ] Fix animal overlap in Anomaly questions 2 through 5 - main pen.
-- [ ] Antinomy - Check spacing everywhere after the overlap fixes above. (The 4th choice perching on the right fence was fixed in code 07.18 - see the July record.)
-- [ ] Analogy - Large sheep clips out of the answer box (analogy.css).
+Overlap items below were re-audited in code on 07.28 (drawn-pixel overlap measured on every
+problem in all four games at 1194x834). Screen numbers are the on-screen "Question N (M of 7)"
+labels. Results replace the older, partly stale descriptions:
+
+- [ ] Antithesis overlaps - CONFIRMED and worse than previously listed. Present on 5 of 7 screens, not 2: Question 2 (3 of 7), Question 3 (4 of 7), Question 4 (5 of 7), Question 5 (6 of 7), Question 6 (7 of 7). Affects BOTH the top boxes and the choices pen. Worst cases ~20% overlap on Question 5 (6 of 7).
+- [ ] Anomaly overlaps - CONFIRMED but the range in the old note was wrong. Clean on screens 1-2; overlaps on Question 2 (3 of 7), Question 3 (4 of 7), Question 4 (5 of 7), Question 5 (6 of 7), Question 6 (7 of 7). All in the main pen. Worst ~17%.
+- [ ] Antinomy overlaps - NEW, was not on the list. The red pen has large animals touching on Question 1 (2 of 7) through Question 4 (5 of 7); the choices pen touches on Question 2 (3 of 7). Worst ~11%. Most visible with three large animals in the red pen.
+- [x] Analogy overlaps - none found on any screen. The earlier Analogy overlap concerns appear resolved by the March/April baseline work.
+- [ ] Analogy - Large sheep clips out of the answer box (analogy.css). Not an overlap; still open, and likely the same root cause as the 28vh cap item in Muhammad's list.
 
 ## Data, storage, and management
 

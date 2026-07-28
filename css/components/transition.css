@@ -1,0 +1,39 @@
+/**
+ * Screen Transition Veil
+ * Sits above everything, including the flying-clone animation layer (1000) and
+ * the report overlay (99999).
+ */
+
+:root {
+    --veil-fade-out: 370ms;
+    --veil-fade-in: 520ms;
+    --veil-hold: 120ms;
+    --veil-color: #0d1b2a;
+}
+
+#screen-veil {
+    position: fixed;
+    inset: 0;
+    background: var(--veil-color);
+    z-index: 2147483000;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--veil-fade-in) cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Covering the screen: opaque, and swallowing taps so kids cannot
+   click a button while the next screen is being assembled. */
+#screen-veil.is-covering {
+    opacity: 1;
+    transition: opacity var(--veil-fade-out) cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    #screen-veil,
+    #screen-veil.is-covering {
+        transition: none;
+    }
+}

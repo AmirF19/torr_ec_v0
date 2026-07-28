@@ -50,6 +50,18 @@ const App = (function () {
         // Update data panel
         SelectionHandler.updateDataPanel();
 
+        // The welcome screen is the one moment nobody is waiting on us, so use
+        // it to pull down what the first board needs. Animals go first and the
+        // heavy scenery second: chaining them the other way meant the multi-MB
+        // backgrounds hogged the connection and the animals - the things that
+        // visibly pop in - were still unfetched when the start button was hit.
+        if (window.ScreenTransition) {
+            ScreenTransition.preload(
+                ScreenTransition.imagesForGameType(problemSet, problemSet[0]?.type)
+            );
+            ScreenTransition.preload(ScreenTransition.sceneryImages());
+        }
+
         console.log('Application initialized');
     }
 
@@ -259,6 +271,15 @@ const App = (function () {
             'Click the arrow to start.',
             () => loadProblem(true)
         );
+
+        // While the participant reads this screen, quietly fetch everything the
+        // first problem of this game needs, so tapping the arrow lands on a
+        // fully drawn board instead of one that assembles itself.
+        if (window.ScreenTransition) {
+            ScreenTransition.preload(
+                ScreenTransition.imagesForGameType(problemSet, gameType)
+            );
+        }
     }
 
     /**
@@ -371,44 +392,61 @@ const App = (function () {
             }
         }
 
-        // Ensure we are on the game screen (in case coming from interstitial)
-        showGameScreen();
+        // Build the whole board behind a black veil, so the participant never
+        // watches animals pop in one at a time as their images decode.
+        const buildProblem = () => {
+            // Ensure we are on the game screen (in case coming from interstitial)
+            showGameScreen();
 
-        // Disable next button
-        SelectionHandler.disableNextButton();
+            // Disable next button
+            SelectionHandler.disableNextButton();
 
-        // Update game title based on type
-        updateGameTitle(problemData.type);
+            // Update game title based on type
+            updateGameTitle(problemData.type);
 
-        // Update problem counter (per game type)
-        updateProblemCounter(problemData, currentIndex);
+            // Update problem counter (per game type)
+            updateProblemCounter(problemData, currentIndex);
 
-        // Update instruction
-        updateInstruction(problemData.type);
+            // Update instruction
+            updateInstruction(problemData.type);
 
-        // Calculate Question Index (1-based within type) for scoped layout logic
-        let questionIndex = 0;
-        const currentType = problemData.type.toLowerCase();
-        for (let i = 0; i <= currentIndex; i++) {
-            if (problemSet[i].type.toLowerCase() === currentType) {
-                questionIndex++;
+            // Calculate Question Index (1-based within type) for scoped layout logic
+            let questionIndex = 0;
+            const currentType = problemData.type.toLowerCase();
+            for (let i = 0; i <= currentIndex; i++) {
+                if (problemSet[i].type.toLowerCase() === currentType) {
+                    questionIndex++;
+                }
             }
+            problemData.questionIndex = questionIndex;
+
+            // Start problem in state
+            GameState.startProblem({
+                ...problemData,
+                animals: ProblemSet.collectProblemAnimals(problemData)
+            });
+
+            // Render problem
+            renderProblem(problemData);
+
+            // Update data panel
+            SelectionHandler.updateDataPanel();
+
+            console.log(`Loaded problem ${currentIndex + 1}: ${problemData.type} - ${problemData.label} (Q${questionIndex})`);
+        };
+
+        if (window.ScreenTransition) {
+            ScreenTransition.run(buildProblem, {
+                preload: ScreenTransition.imagesForProblem(problemData)
+            }).then(() => {
+                // With this board on screen, fetch the next one in the
+                // background so the following tap is instant too.
+                const next = problemSet[currentIndex + 1];
+                if (next) ScreenTransition.preload(ScreenTransition.imagesForProblem(next));
+            });
+        } else {
+            buildProblem();
         }
-        problemData.questionIndex = questionIndex;
-
-        // Start problem in state
-        GameState.startProblem({
-            ...problemData,
-            animals: ProblemSet.collectProblemAnimals(problemData)
-        });
-
-        // Render problem
-        renderProblem(problemData);
-
-        // Update data panel
-        SelectionHandler.updateDataPanel();
-
-        console.log(`Loaded problem ${currentIndex + 1}: ${problemData.type} - ${problemData.label} (Q${questionIndex})`);
     }
 
     /**
