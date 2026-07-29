@@ -86,13 +86,13 @@
 .antithesis-layout .pen--box2.pen-surface--box,
 .antithesis-layout .pen--box2 .pen-surface--box {
     /* Box 1 & 2 shrunk an additional 4% from previous state */
-    width: clamp(133.1px, 20.06vw, 355.7px) !important;
+    width: clamp(133.1px, 20.56vw, 355.7px) !important;
 }
 
 .antithesis-layout .pen--box3.pen-surface--box,
 .antithesis-layout .pen--box3 .pen-surface--box {
     /* Box 3 widened by another 3% per user request */
-    width: clamp(169.1px, 25.46vw, 451.8px) !important;
+    width: clamp(169.1px, 26.5vw, 451.8px) !important;
 }
 
 /* BOX FENCE - Matches Anomaly "Does Not Belong" Pen style */
@@ -165,7 +165,7 @@
     left: 5%;
     right: 5%;
     bottom: 18%;
-    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
+    transform: scaleX(1.6) scaleY(1.05) translateY(-30%);
 }
 
 /* BOX CONTENT */
@@ -433,7 +433,7 @@
 
 /* OPTIONS PEN SIZE - Fits within iPad 11" viewport */
 .antithesis-layout .pen-surface--choices {
-    width: clamp(540px, 88vw, 1200px);
+    width: clamp(540px, 92vw, 1200px);
     height: auto;
     aspect-ratio: 4.8;
     position: relative;
@@ -511,7 +511,7 @@
     /* Base grid: Force 4 columns to distribute width evenly across the enlarged pen */
     grid-template-columns: repeat(4, 1fr) !important;
     grid-template-rows: 1fr;
-    gap: 1.5vw;
+    gap: 7vw;
     justify-items: center;
     align-items: stretch;
     justify-content: center;
@@ -702,17 +702,17 @@
 /* ======================================================================= */
 .antithesis-group-layout .animal-image--large,
 .antithesis-flying-group .animal-image--large {
-    margin: 0 -10px !important;
+    margin: 0 -5px !important;
 }
 
 .antithesis-group-layout .animal-image--medium,
 .antithesis-flying-group .animal-image--medium {
-    margin: 0 -15px !important;
+    margin: 0 -12px !important;
 }
 
 .antithesis-group-layout .animal-image--small,
 .antithesis-flying-group .animal-image--small {
-    margin: 0 -8px !important;
+    margin: 0 -2px !important;
 }
 
 /* ======================================================================= */
