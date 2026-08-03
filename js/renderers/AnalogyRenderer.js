@@ -146,6 +146,16 @@ const AnalogyRenderer = (function () {
      * targeting pen--c .question-mark-slot instead of pen--green.
      */
     function handleAnalogySelection(slotElement, choice, slotIndex) {
+        // A placed option's slot stays in the DOM invisibly (opacity 0) and
+        // still receives clicks; re-selecting it would fly the placed clone
+        // back while launching a duplicate. Ignore clicks on it - the undo
+        // affordance is clicking the placed animal in the box.
+        if (slotElement.classList.contains('animal-slot--selected')) return;
+
+        // Prevent double-clicks. Checked before any class changes so an
+        // ignored click can't leave a stale selection.
+        if (slotElement.dataset.isAnimating === 'true') return;
+
         // Clear previous selections. Visibility of the deselected animal is
         // restored by the clone handling below (fly-back or instant cleanup).
         document.querySelectorAll('.pen--choices .animal-slot--selected').forEach(slot => {
@@ -155,8 +165,6 @@ const AnalogyRenderer = (function () {
         // Mark this slot as selected
         slotElement.classList.add('animal-slot--selected');
 
-        // Prevent double-clicks
-        if (slotElement.dataset.isAnimating === 'true') return;
         slotElement.dataset.isAnimating = 'true';
 
         // --- ANIMATION START ---

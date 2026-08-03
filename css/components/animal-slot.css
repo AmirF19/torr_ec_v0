@@ -170,7 +170,7 @@
 }
 
 .animal-image--medium {
-    /* MEDIUM: 22vh fixed height (scaled up from 20vh per user task) */
+    /* MEDIUM: 22vh fixed height (scaled up from 20vh) */
     width: auto;
     height: 22vh;
     max-width: none;

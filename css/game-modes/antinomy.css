@@ -22,7 +22,7 @@
     width: 100%;
     padding: var(--space-md) 0;
     margin-top: 6.5vh;
-    /* Increased to 8vh per user request */
+    /* Increased to 8vh */
     /* Added to push layout down after header text removal */
     overflow: visible;
 }
@@ -131,7 +131,7 @@
     pointer-events: none;
 }
 
-/* RED TINT OVERLAY - Removed per user request to match regular ground color */
+/* RED TINT OVERLAY - Removed to match the regular ground color */
 /* .antinomy-layout .pen-surface--red .pen-ground::after {
     content: '';
     position: absolute;
@@ -230,13 +230,13 @@
     align-items: flex-end !important;
 }
 
-/* Improve Green Box Spacing Per Request */
+/* Improve green box spacing */
 .antinomy-layout .pen-surface--green .animal-grid {
     /* NEW CHANGE */
     gap: 6.2vw !important;
 }
 
-/* RED BOX OVERRIDE - Removed grid-template-columns as we are using Flex */
+/* RED BOX OVERRIDE - grid-template-columns removed; the red box lays out with flex */
 /* .antinomy-layout .pen-surface--red .animal-grid { } -- REMOVED */
 
 
@@ -265,7 +265,7 @@
     /* Transform REMOVED to keep container as valid Logic Target */
     cursor: default;
 
-    /* Positional adjustment per request */
+    /* Positional adjustment */
     position: relative;
     left: -3%;
     bottom: 3%;
@@ -313,9 +313,7 @@
     pointer-events: none;
 }
 
-/* STAGGERED ALIGNMENT (User Request) */
-/* Lift every even-numbered animal by 35% to create a zig-zag */
-/* STAGGERED ALIGNMENT (User Request: Reversed Order) */
+/* STAGGERED ALIGNMENT (reversed order) */
 /* Lift every ODD-numbered animal by 35% so the even ones (incl. Q-Mark) stay low */
 .antinomy-layout .pen-surface--green .animal-slot:nth-child(odd) .animal-image,
 .antinomy-layout .pen-surface--red .animal-slot:nth-child(odd) .animal-image {
@@ -364,7 +362,7 @@
 
 /* CHOICES FENCE IMAGE - EDIT THESE VALUES */
 .antinomy-layout .pen-surface--choices .pen-fence img {
-    /* === MANUAL FENCE CONTROLS (USER REQUEST) === */
+    /* === MANUAL FENCE CONTROLS === */
     /* instructions: */
     /* 1. scale(x, y) -> Increase numbers to make fence bigger. */
     /* 2. left/top -> Move fence position. */
@@ -445,7 +443,7 @@
 
 /* ============================================================================ */
 /* ANIMAL BASELINE CONTROLS - ADJUST VERTICAL POSITIONS HERE                    */
-/* This is where you can shift large/medium/small animals individually           */
+/* Shift large/medium/small animals individually here                            */
 /* ============================================================================ */
 
 /* ============================================================================ */
@@ -530,7 +528,7 @@
 
 .antinomy-layout .vs-indicator {
     display: none !important;
-    /* USER REQUEST: Remove VS element */
+    /* VS element intentionally removed */
 }
 
 /* ============================================================================ */
@@ -592,8 +590,7 @@
 
 /* Decrease stagger lift for Red Pen because 3-col slots are wider */
 /* 4 cols (25%) -> 35% margin. 3 cols (33%) -> ~26% margin to equal same px height */
-/* User requested "another magnitude or two" lower -> trying 12% */
-/* REVERT: Restoring stagger to 26% (proportional to 3-col width) */
+/* Stagger restored to 26% (proportional to 3-col width) after testing lower values */
 .antinomy-layout .pen-surface--red .animal-slot:nth-child(odd) .animal-image {
     margin-bottom: 26% !important;
 }

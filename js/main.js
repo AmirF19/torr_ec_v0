@@ -43,7 +43,7 @@ const App = (function () {
         // Show main welcome screen
         showWelcomeScreen(
             'Test of Relational Reasoning – Early Childhood',
-            'Click the start button to begin!',
+            'Press to start!',
             startExperiment
         );
 
@@ -848,12 +848,12 @@ window.addEventListener('load', () => {
 
 // NEW CHANGE -- try to make the next button in the 'SUPER WORK' screen hidden
 const observer = new MutationObserver(() => {
-    // 1. Grab the heading and the button (Change these classes/IDs to match yours)
+    // 1. Grab the heading and the button (adjust these selectors if the markup changes)
     const pageHeading = document.querySelector('h1');
     const nextButton = document.querySelector('button');
 
     if (pageHeading && nextButton) {
-        // 2. Check the exact text of the page where you want the button GONE
+        // 2. Match the exact heading text of the page where the button should be hidden
         if (pageHeading.textContent.trim() === "🌟Super Work!🌟") {
             nextButton.style.setProperty('display', 'none', 'important');
         } else {

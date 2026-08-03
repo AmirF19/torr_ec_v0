@@ -38,7 +38,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    /* Barely any space per user request */
+    /* Kept to barely any space */
     gap: clamp(5px, 1vw, 15px);
     width: 100%;
 }

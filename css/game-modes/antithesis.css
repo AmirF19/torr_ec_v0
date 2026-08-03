@@ -38,11 +38,19 @@
 
     /* Halved the visual space perfectly by mathematically compensating for the 27.5% invisible SVG overhang */
     gap: clamp(45px, 13vw, 140px);
-    /* Dropped essentially 4vh lower per user request without moving choices pen */
+    /* Drops the box row 4vh lower without moving the choices pen */
     margin-top: 4vh;
     /* ================== */
 
     width: 100%;
+
+    /*
+     * TUNING: shift all three top pens together left/right here.
+     * The Box 3 fence art overhangs its right edge (the fence img spans 155%
+     * of the box), so the row is nudged left to keep every post on screen.
+     * More negative = further left.
+     */
+    transform: translateX(-.8vw);
 }
 
 /* ============================================================================ */
@@ -50,18 +58,10 @@
 /* Inded to match Anomaly "Does Not Belong" Pen Size                            */
 /* ============================================================================ */
 
-/* Precise proportional absolute positioning */
-.antithesis-layout .pen--box1 {
-    /* Box 1 shifted left to create space for larger answers */
-    /* Subtracting 1.5vw to shift left and create extra post gap */
-    left: calc(clamp(23.7px, 3.58vw, 63.5px) - 1.5vw) !important; 
-}
-
-.antithesis-layout .pen--box2 {
-    /* Box 2 shifted roughly equal to Box 1 */
-    /* Subtracting 1.5vw to shift left and create extra post gap */
-    left: calc(clamp(167.3px, 25.21vw, 447.1px) - 1.5vw) !important;
-}
+/* NOTE: earlier `left: ...` shift rules on .pen--box1/.pen--box2 were removed.
+   They had no effect: .pen is position: static, so `left` was ignored. Do not
+   add `position: relative` to the pens without deleting such rules first, or
+   the boxes will jump. Row-level shifting lives on .box-row's transform. */
 
 .antithesis-layout .pen--box1,
 .antithesis-layout .pen--box2,
@@ -82,17 +82,21 @@
 /* Precise proportional horizontal width overrides */
 /* Added chained selectors (.box.surface) AND descendant selectors (.box .surface) to guarantee application */
 .antithesis-layout .pen--box1.pen-surface--box,
-.antithesis-layout .pen--box1 .pen-surface--box,
+.antithesis-layout .pen--box1 .pen-surface--box {
+    /* Box 1 narrowed 2% from the shared 20.06vw base */
+    width: clamp(130.4px, 19.66vw, 348.6px) !important;
+}
+
 .antithesis-layout .pen--box2.pen-surface--box,
 .antithesis-layout .pen--box2 .pen-surface--box {
-    /* Box 1 & 2 shrunk an additional 4% from previous state */
-    width: clamp(133.1px, 20.56vw, 355.7px) !important;
+    /* Box 2 (middle) widened 3% from the shared 20.06vw base */
+    width: clamp(137.1px, 20.66vw, 366.4px) !important;
 }
 
 .antithesis-layout .pen--box3.pen-surface--box,
 .antithesis-layout .pen--box3 .pen-surface--box {
-    /* Box 3 widened by another 3% per user request */
-    width: clamp(169.1px, 26.5vw, 451.8px) !important;
+    /* Box 3 widened by another 3% */
+    width: clamp(169.1px, 25.46vw, 451.8px) !important;
 }
 
 /* BOX FENCE - Matches Anomaly "Does Not Belong" Pen style */
@@ -126,6 +130,14 @@
     /* Reset existing transforms */
 
     object-fit: fill !important;
+}
+
+.antithesis-layout .pen--box3 .pen-fence img {
+    width: 155% !important;
+    left: -27.5% !important;
+    height: 100% !important;
+    top: -18% !important;
+    object-fit: cover !important;
 }
 
 /* ======================================================================= */
@@ -164,8 +176,8 @@
     top: 30%;
     left: 5%;
     right: 5%;
-    bottom: 18%;
-    transform: scaleX(1.6) scaleY(1.05) translateY(-30%);
+    bottom: 12%;
+    transform: scaleX(1.6) scaleY(0.8) translateY(-58%);
 }
 
 /* BOX CONTENT */
@@ -336,25 +348,27 @@
 /* ======================================================================= */
 
 /* CHOICES PEN: Large animals */
+/* All Antithesis animal sizes reduced 5% (28 -> 26.6 etc.) to limit overlap
+   without changing any pen dimensions */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--large {
-    height: 28vh !important;
-    max-height: 28vh !important;
+    height: 26.6vh !important;
+    max-height: 26.6vh !important;
     bottom: 18% !important;
     /* Aligned with Box ratios */
 }
 
 /* CHOICES PEN: Medium animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--medium {
-    height: 26vh !important;
-    max-height: 26vh !important;
+    height: 24.7vh !important;
+    max-height: 24.7vh !important;
     bottom: 25% !important;
     /* Aligned with Box ratios */
 }
 
 /* CHOICES PEN: Small animals */
 .antithesis-layout .pen-surface--choices .animal-slot .animal-image--small {
-    height: 13vh !important;
-    max-height: 13vh !important;
+    height: 12.35vh !important;
+    max-height: 12.35vh !important;
     bottom: 26% !important;
     /* Aligned with Box ratios */
 }
@@ -390,8 +404,8 @@
     /* Position absolutely like animal slots */
     position: absolute;
 
-    /* USER INSTRUCTION (MACRO CONTROL): 
-     * Modifying this 'bottom' percentage lifts or lowers the entire question mark container. 
+    /* TUNING (MACRO):
+     * Modifying this 'bottom' percentage lifts or lowers the entire question mark container.
      * It is currently synced with Box 2's animal-slot height (22%) 
      */
     bottom: 49% !important;
@@ -405,8 +419,8 @@
 .antithesis-layout .question-mark-text {
     font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
 
-    /* USER INSTRUCTION (MICRO CONTROL): 
-     * To nudge just the text character up or down visually without moving the container math, 
+    /* TUNING (MICRO):
+     * To nudge just the text character up or down visually without moving the container math,
      * adjust this negative translateY percentage (e.g., -30% to move higher).
      */
     transform: translateY(-20%);
@@ -419,7 +433,7 @@
 /* ============================================================================ */
 
 .antithesis-layout .arrow-indicator {
-    /* HIDDEN per user request */
+    /* Intentionally hidden */
     display: none !important;
 }
 
@@ -433,7 +447,7 @@
 
 /* OPTIONS PEN SIZE - Fits within iPad 11" viewport */
 .antithesis-layout .pen-surface--choices {
-    width: clamp(540px, 92vw, 1200px);
+    width: clamp(540px, 88vw, 1200px);
     height: auto;
     aspect-ratio: 4.8;
     position: relative;
@@ -461,7 +475,7 @@
     max-height: none !important;
 
     /* 
-     * USER INSTRUCTION: You can personally modify the width and height of the pen SVG here.
+     * TUNING: adjust the width and height of the pen SVG here.
      * transform: scale(WIDTH_MULTIPLIER, HEIGHT_MULTIPLIER)
      * e.g., scale(3.18, 1.35) makes it 3.18x wider and 1.35x taller.
      */
@@ -494,9 +508,9 @@
     z-index: 200 !important;
     pointer-events: none;
 
-    /* 
-     * USER INSTRUCTION: 
-     * Modify this specific value to raise or lower ALL animals in the choices pen uniformly!
+    /*
+     * TUNING:
+     * Modify this specific value to raise or lower ALL animals in the choices pen uniformly.
      * Because this is a transform, it safely moves the animals without warping or tilting the ground SVG's clip-path.
      * Increase the negative percentage (e.g., -25% or -35%) to lift the animals higher.
      */
@@ -511,7 +525,7 @@
     /* Base grid: Force 4 columns to distribute width evenly across the enlarged pen */
     grid-template-columns: repeat(4, 1fr) !important;
     grid-template-rows: 1fr;
-    gap: 7vw;
+    gap: 1.5vw;
     justify-items: center;
     align-items: stretch;
     justify-content: center;
@@ -659,23 +673,24 @@
     top: auto !important;
     margin-bottom: 0 !important;
     flex-shrink: 0 !important;
-    transform: none !important; /* Clears destructive translateX(-50%) so groups stay perfectly centered */
+    transform: none !important;
+    /* Clears destructive translateX(-50%) so groups stay perfectly centered */
     margin-left: 0 !important;
     margin-right: 0 !important;
     margin-top: 0 !important;
 }
 
 /* Explicit VH-based pushes to visually level the different SVG paddings */
-.antithesis-group-layout .animal-image--large { 
+.antithesis-group-layout .animal-image--large {
     bottom: -4.5vh !important;
 }
 
-.antithesis-group-layout .animal-image--medium { 
-    bottom: 0vh !important; 
+.antithesis-group-layout .animal-image--medium {
+    bottom: 0vh !important;
 }
 
-.antithesis-group-layout .animal-image--small { 
-    bottom: 2.4vh !important; 
+.antithesis-group-layout .animal-image--small {
+    bottom: 2.4vh !important;
 }
 
 /* NOTE: the old sheep/horse margin yanks (-4vh / -1.5vh) are gone. The
@@ -726,20 +741,39 @@
 }
 
 /* OVERRIDE GROUP SHRINKING: Prevent animal-slot.css from shrinking grouped animals */
+/* Sizes carry the same 5% overlap reduction as the choices pen (28 -> 26.6 etc.) */
 .antithesis-group-layout .animal-slot--grouped .animal-image--large {
-    height: 28vh !important;
-    max-height: 28vh !important;
+    height: 26.6vh !important;
+    max-height: 26.6vh !important;
 }
 
 .antithesis-group-layout .animal-slot--grouped .animal-image--medium {
     /* Increased medium size */
-    height: 26vh !important;
-    max-height: 26vh !important;
+    height: 24.7vh !important;
+    max-height: 24.7vh !important;
 }
 
 .antithesis-group-layout .animal-slot--grouped .animal-image--small {
-    height: 13vh !important;
-    max-height: 13vh !important;
+    height: 12.35vh !important;
+    max-height: 12.35vh !important;
+}
+
+/* Single animals in Boxes 1-3 (Sample - Q2 layout) size from animal-slot.css
+   base rules (28/22/13vh); this applies the same 5% reduction to them. The
+   grouped and choices-pen rules above win via !important where they apply. */
+.antithesis-layout .pen-surface--box .animal-slot .animal-image--large {
+    height: 26.6vh;
+    max-height: 26.6vh;
+}
+
+.antithesis-layout .pen-surface--box .animal-slot .animal-image--medium {
+    height: 20.9vh;
+    max-height: 20.9vh;
+}
+
+.antithesis-layout .pen-surface--box .animal-slot .animal-image--small {
+    height: 12.35vh;
+    max-height: 12.35vh;
 }
 
 /* ========================================================================= */
@@ -755,22 +789,23 @@
     left: auto !important;
     right: auto !important;
     margin-bottom: 0 !important;
-    transform: none !important; /* Clears destructive translateX(-50%) so groups stay centered */
+    transform: none !important;
+    /* Clears destructive translateX(-50%) so groups stay centered */
 }
 
 /* 1. Explicit VH-based pushes to visually level the different SVG paddings */
-.antithesis-layout .animal-slot--grouped .animal-image--large { 
+.antithesis-layout .animal-slot--grouped .animal-image--large {
     bottom: -4.5vh !important;
     transform: scale(1.25) !important;
     transform-origin: bottom center !important;
 }
 
-.antithesis-layout .animal-slot--grouped .animal-image--medium { 
-    bottom: 0vh !important; 
+.antithesis-layout .animal-slot--grouped .animal-image--medium {
+    bottom: 0vh !important;
 }
 
-.antithesis-layout .animal-slot--grouped .animal-image--small { 
-    bottom: 2.4vh !important; 
+.antithesis-layout .animal-slot--grouped .animal-image--small {
+    bottom: 2.4vh !important;
 }
 
 /* 2. Scale preservation overrides for cats */
@@ -787,7 +822,7 @@
 /* Keep the lift, but without X translation so groups align correctly */
 .antithesis-group-layout .pen-surface--choices .animal-slot:nth-child(even) {
     /* 
-     * USER INSTRUCTION: This controls the vertical stagger for alternating choice groups.
+     * TUNING: this controls the vertical stagger for alternating choice groups.
      * modify the translateY percentage. A larger negative number (e.g. -40%) increases the stagger height.
      */
     transform: translateY(-40.0%) !important;
@@ -799,7 +834,7 @@
     flex-direction: row !important;
     justify-content: center !important;
     align-items: flex-end !important;
-    /* gap: 8px !important; Removed so group respects your custom edits above */
+    /* gap: 8px !important; Removed so the group respects the per-size margin rules above */
     /* Reset any block/fixed overrides from base class if needed, checking specificity */
 }
 
@@ -811,7 +846,7 @@
     top: auto !important;
     transform: none !important;
     /* Match Box Scale to prevent resize glitch - FIXED: Handled by JS inline sizes now */
-    /* margin: 0 !important; Removed so group respects your custom edits above */
+    /* margin: 0 !important; Removed so the group respects the per-size margin rules above */
 }
 
 /* Flying Cats - FIXED: Removed to prevent double-scaling */

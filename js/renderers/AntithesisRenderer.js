@@ -48,7 +48,7 @@ const AntithesisRenderer = (function () {
         // Create Box 3
         const box3 = createSequenceBox('Box 3', box3Section.items[0], 3);
 
-        // Add to box row (no arrows - hidden per user request)
+        // Add to box row (arrow indicators are intentionally hidden)
         boxRow.appendChild(box1);
         boxRow.appendChild(box2);
         boxRow.appendChild(box3);
@@ -233,6 +233,16 @@ const AntithesisRenderer = (function () {
      * ADAPTED FROM ANTINOMY RENDERER
      */
     function handleAntithesisSelection(slotElement, choice, slotIndex) {
+        // A placed option's slot stays in the DOM invisibly (opacity 0) and
+        // still receives clicks; re-selecting it would fly the placed clone
+        // back while launching a duplicate. Ignore clicks on it - the undo
+        // affordance is clicking the placed animal in the box.
+        if (slotElement.classList.contains('animal-slot--selected')) return;
+
+        // Prevent double-clicks / rapid-fire triggers. Checked before any
+        // class changes so an ignored click can't leave a stale selection.
+        if (slotElement.dataset.isAnimating === 'true' || GameState.getUI('isAnimating')) return;
+
         // Clear previous selections. Visibility of the deselected animal is
         // restored by the clone handling below (fly-back or instant cleanup).
         document.querySelectorAll('.pen--options .animal-slot--selected').forEach(slot => {
@@ -242,8 +252,6 @@ const AntithesisRenderer = (function () {
         // Mark this slot as selected
         slotElement.classList.add('animal-slot--selected');
 
-        // Prevent double-clicks / rapid-fire triggers
-        if (slotElement.dataset.isAnimating === 'true' || GameState.getUI('isAnimating')) return;
         slotElement.dataset.isAnimating = 'true';
         GameState.setUI('isAnimating', true);
 
