@@ -103,7 +103,7 @@
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr;
     /* Gap increased to 1.5vw to prevent large animal overlap */
-    gap: 1.5vw;
+    gap: 6vw;
     justify-items: center;
     /* Center animals in cells */
     align-items: end;
